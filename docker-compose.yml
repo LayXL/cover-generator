@@ -1,0 +1,28 @@
+version: "3.5"
+name: five-letters
+services:
+  bot:
+    restart: always
+    network_mode: host
+    build:
+      context: .
+      dockerfile: bot.Dockerfile
+    env_file:
+      - .env
+  server:
+    restart: always
+    network_mode: host
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    env_file:
+      - .env
+  db:
+    restart: always
+    image: postgres:16.1-bullseye
+    env_file:
+      - .env
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5444:5432"
