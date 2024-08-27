@@ -1,5 +1,5 @@
 {
-  "name": "five-letters",
+  "name": "cover-generator",
   "module": "index.ts",
   "type": "module",
   "workspaces": [
