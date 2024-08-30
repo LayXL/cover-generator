@@ -18,10 +18,6 @@ function componentToHex(c: number) {
   return hex.length == 1 ? "0" + hex : hex
 }
 
-function rgbToHex(r: number, g: number, b: number) {
-  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b)
-}
-
 export function ThemeConfig({ children }: { children?: ReactNode }) {
   useEffect(() => {
     toggle(isMobile, "mobile")
@@ -32,6 +28,8 @@ export function ThemeConfig({ children }: { children?: ReactNode }) {
     toggle(isAndroid, "android")
     toggle(isVK, "vk")
     toggle(isTelegram, "telegram")
+
+    toggle(true, "dark")
   }, [])
 
   return children
