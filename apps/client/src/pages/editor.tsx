@@ -1,15 +1,23 @@
+import { Icon24FullscreenExit } from "@vkontakte/icons"
+import { IconButton } from "@vkontakte/vkui"
 import { motion } from "framer-motion"
 import { useState } from "react"
+import { CoverCarousel } from "../entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "../entities/cover/ui/cover-renderer"
 
 enum Trans {
   GRID,
-  TO_GRID,
-  EDITOR,
   TO_EDITOR,
+  EDITOR,
+  TO_GRID,
 }
 
 const defaultColors = ["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5"]
+
+const covers = Array.from({ length: 5 }).map((_, i) => ({
+  bg: defaultColors[i % 5],
+  text: `Cover ${i + 1}`,
+}))
 
 export const Editor = () => {
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
@@ -17,14 +25,14 @@ export const Editor = () => {
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
 
   return (
-    <div>
+    <>
       <div className="h-screen overflow-scroll">
-        <div className="p-4 grid gap-1 grid-cols-[repeat(auto-fit,_minmax(192px,_1fr))]">
-          {Array.from({ length: 20 }).map((_, i) => (
+        <div className="p-4 grid gap-1 grid-cols-[repeat(auto-fit,_minmax(148px,_1fr))]">
+          {covers.map((cover, i) => (
             <div
               id={`cover-${i}`}
               key={i}
-              className="rounded-lg overflow-hidden"
+              className="rounded-lg overflow-hidden cursor-pointer"
               onClick={() => {
                 setCurrentCoverIndex(i)
                 setTrans(Trans.TO_EDITOR)
@@ -36,43 +44,67 @@ export const Editor = () => {
                     : undefined,
               }}
             >
-              <CoverRenderer bg={defaultColors[i % 5]} />
+              <CoverRenderer {...cover} />
             </div>
           ))}
         </div>
       </div>
 
       <motion.div
-        className="fixed inset-0 grid place-items-center bg-primary px-4"
-        onClick={() => {
-          setTrans(Trans.TO_GRID)
+        className="fixed inset-0 grid place-items-center bg-primary"
+        animate={{
+          pointerEvents: trans !== Trans.GRID ? "auto" : "none",
+          opacity: trans === Trans.TO_EDITOR || trans === Trans.EDITOR ? 1 : 0,
         }}
-        animate={
-          trans === Trans.TO_EDITOR || trans === Trans.EDITOR
-            ? { pointerEvents: "auto", opacity: 1 }
-            : { pointerEvents: "none", opacity: 0 }
-        }
       >
         <div
-          id="cover-preview"
           style={{
             visibility: trans === Trans.EDITOR ? "visible" : "hidden",
           }}
-          className="overflow-hidden rounded-xl w-full"
         >
-          <CoverRenderer bg={defaultColors[currentCoverIndex % 5]} />
+          <CoverCarousel
+            covers={covers}
+            currentCoverIndex={currentCoverIndex}
+            setCurrentCoverIndex={setCurrentCoverIndex}
+          />
         </div>
+      </motion.div>
+
+      <motion.div
+        className="fixed top-0 w-full"
+        animate={
+          trans === Trans.EDITOR ? { translateY: 0 } : { translateY: "-100%" }
+        }
+      >
+        <div className="p-4 flex justify-end">
+          <IconButton
+            onClick={() => {
+              setTrans(Trans.TO_GRID)
+            }}
+          >
+            <Icon24FullscreenExit />
+          </IconButton>
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="fixed bottom-0 w-full"
+        animate={
+          trans === Trans.EDITOR ? { translateY: 0 } : { translateY: "100%" }
+        }
+      >
+        <div className="p-4 flex">Tools</div>
       </motion.div>
 
       {(trans === Trans.TO_EDITOR || trans === Trans.TO_GRID) && (
         <motion.div
           className="fixed overflow-hidden"
-          initial={createAnimCanvas(
-            trans === Trans.TO_EDITOR ? false : true,
+          initial={createAnimCoverRenderer(
+            trans !== Trans.TO_EDITOR,
             currentCoverIndex
           )}
-          animate={createAnimCanvas(
-            trans === Trans.TO_EDITOR ? true : false,
+          animate={createAnimCoverRenderer(
+            trans === Trans.TO_EDITOR,
             currentCoverIndex
           )}
           onAnimationComplete={() =>
@@ -81,14 +113,14 @@ export const Editor = () => {
             )
           }
         >
-          <CoverRenderer bg={defaultColors[currentCoverIndex % 5]} />
+          <CoverRenderer {...covers[currentCoverIndex]} />
         </motion.div>
       )}
-    </div>
+    </>
   )
 }
 
-const createAnimCanvas = (inversed: boolean, index: number) => {
+const createAnimCoverRenderer = (inversed: boolean, index: number) => {
   const elem = document
     .getElementById(`cover-${inversed ? "preview" : index}`)
     ?.getBoundingClientRect()

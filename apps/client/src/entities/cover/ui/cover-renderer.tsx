@@ -19,21 +19,16 @@ export const CoverRenderer = (props: CoverRendererProps) => {
 
     if (!ctx) return
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
     ctx.fillStyle = props.bg
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
     if (props.text) {
       ctx.fillStyle = "#000"
-      ctx.fillText("Test", 100, 100)
+      ctx.font = `${64 * pixelRatio}px sans-serif`
+      ctx.textAlign = "center"
+      ctx.textBaseline = "middle"
+      ctx.fillText(props.text, canvas.width / 2, canvas.height / 2)
     }
-
-    ctx.fillStyle = "#000"
-    ctx.font = `${64 * pixelRatio}px sans-serif`
-    ctx.textAlign = "center"
-    ctx.textBaseline = "middle"
-    ctx.fillText("Test", canvas.width / 2, canvas.height / 2)
   }, [props.bg, props.text])
 
   return (
