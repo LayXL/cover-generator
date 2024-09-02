@@ -14,47 +14,38 @@ enum Trans {
 }
 
 export const Editor = () => {
-  const { project: currentProject, updateProject } = useProjectStore()
+  const {
+    project: currentProject,
+    updateProject,
+    addCover,
+    deleteCover,
+  } = useProjectStore()
 
   const covers = currentProject.covers ?? []
 
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
   const currentCover = useMemo(
     () => currentProject.covers?.[currentCoverIndex],
-    [currentCoverIndex]
+    [currentCoverIndex, currentProject.covers]
   )
 
   useEffect(() => {
-    updateProject({
-      title: "Untitled",
-      covers: [
-        {
-          bg: {
-            type: "solid",
-            color: "#f44336",
-          },
-        },
-        {
-          bg: {
-            type: "solid",
-            color: "#9c27b0",
-          },
-        },
-        {
-          bg: {
-            type: "solid",
-            color: "#2196f3",
-          },
-        },
-      ],
-    })
-  }, [currentCover])
+    updateProject({ title: "Untitled" })
+  }, [])
 
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
 
   return (
     <>
       <div className="h-screen overflow-scroll">
+        <div className="p-4 flex gap-4">
+          <button onClick={() => addCover()} children={"Add cover"} />
+          <button
+            onClick={() => deleteCover(currentCoverIndex)}
+            children={"Delete current"}
+          />
+        </div>
+
         <div className="p-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4">
           {currentProject.covers?.map((cover, i) => (
             <div

@@ -3,7 +3,7 @@ import { Cover, Project } from "../types"
 
 type ProjectState = {
   project: Partial<Project>
-  updateProject: (project: Project) => void
+  updateProject: (project: Partial<Project>) => void
   addCover: (cover?: Cover) => void
   updateCover: (index: number, cover: Cover) => void
   deleteCover: (index: number) => void
