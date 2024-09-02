@@ -19,6 +19,7 @@ export const Editor = () => {
     updateProject,
     addCover,
     deleteCover,
+    updateCover,
   } = useProjectStore()
 
   const covers = currentProject.covers ?? []
@@ -112,7 +113,20 @@ export const Editor = () => {
           trans === Trans.EDITOR ? { translateY: 0 } : { translateY: "100%" }
         }
       >
-        <div className="p-4 flex">Tools</div>
+        <div className="p-4 flex">
+          <button
+            onClick={() => {
+              updateCover(currentCoverIndex, {
+                text: {
+                  value: "123",
+                  fontSize: 32,
+                  color: "#000",
+                },
+              })
+            }}
+            children={"Add text"}
+          />
+        </div>
       </motion.div>
 
       {(trans === Trans.TO_EDITOR || trans === Trans.TO_GRID) && (

@@ -5,7 +5,7 @@ type ProjectState = {
   project: Partial<Project>
   updateProject: (project: Partial<Project>) => void
   addCover: (cover?: Cover) => void
-  updateCover: (index: number, cover: Cover) => void
+  updateCover: (index: number, cover: Partial<Cover>) => void
   deleteCover: (index: number) => void
 }
 
@@ -40,8 +40,9 @@ export const useProjectStore = create<ProjectState>()((set) => {
         project: {
           ...state.project,
           covers:
-            state.project.covers?.map((c, i) => (i === index ? cover : c)) ??
-            [],
+            state.project.covers?.map((c, i) =>
+              i === index ? { ...c, ...cover } : c
+            ) ?? [],
         },
       }))
     },
