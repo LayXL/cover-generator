@@ -1,10 +1,9 @@
 import { useEffect, useRef } from "react"
+import { Cover } from "../../../shared/types"
 
 type CoverRendererProps = {
   pixelRatio?: number
-  bg: string
-  text?: string
-}
+} & Partial<Cover>
 
 export const CoverRenderer = (props: CoverRendererProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -19,15 +18,17 @@ export const CoverRenderer = (props: CoverRendererProps) => {
 
     if (!ctx) return
 
-    ctx.fillStyle = props.bg
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    if (props.bg?.type === "solid") {
+      ctx.fillStyle = props.bg.color
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+    }
 
     if (props.text) {
-      ctx.fillStyle = "#000"
-      ctx.font = `${64 * pixelRatio}px sans-serif`
+      ctx.fillStyle = props.text.color
+      ctx.font = `${props.text.fontSize * pixelRatio}px sans-serif`
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
-      ctx.fillText(props.text, canvas.width / 2, canvas.height / 2)
+      ctx.fillText(props.text.value, canvas.width / 2, canvas.height / 2)
     }
   }, [props.bg, props.text])
 

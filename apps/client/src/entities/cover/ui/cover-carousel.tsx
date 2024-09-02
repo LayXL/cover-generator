@@ -7,7 +7,7 @@ import {
 } from "framer-motion"
 import { useEffect } from "react"
 import { useWindowSize } from "usehooks-ts"
-import { Cover } from "../lib/cover"
+import { Cover } from "../../../shared/types"
 import { CoverRenderer } from "./cover-renderer"
 
 type CoverCarouselsProps = {

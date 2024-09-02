@@ -1,9 +1,10 @@
 import { Icon24FullscreenExit } from "@vkontakte/icons"
 import { IconButton } from "@vkontakte/vkui"
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { CoverCarousel } from "../entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "../entities/cover/ui/cover-renderer"
+import { useProjectStore } from "../shared/store"
 
 enum Trans {
   GRID,
@@ -12,23 +13,50 @@ enum Trans {
   TO_GRID,
 }
 
-const defaultColors = ["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5"]
-
-const covers = Array.from({ length: 5 }).map((_, i) => ({
-  bg: defaultColors[i % 5],
-  text: `Cover ${i + 1}`,
-}))
-
 export const Editor = () => {
+  const { project: currentProject, updateProject } = useProjectStore()
+
+  const covers = currentProject.covers ?? []
+
   const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
+  const currentCover = useMemo(
+    () => currentProject.covers?.[currentCoverIndex],
+    [currentCoverIndex]
+  )
+
+  useEffect(() => {
+    updateProject({
+      title: "Untitled",
+      covers: [
+        {
+          bg: {
+            type: "solid",
+            color: "#f44336",
+          },
+        },
+        {
+          bg: {
+            type: "solid",
+            color: "#9c27b0",
+          },
+        },
+        {
+          bg: {
+            type: "solid",
+            color: "#2196f3",
+          },
+        },
+      ],
+    })
+  }, [currentCover])
 
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
 
   return (
     <>
       <div className="h-screen overflow-scroll">
-        <div className="p-4 grid gap-1 grid-cols-[repeat(auto-fit,_minmax(148px,_1fr))]">
-          {covers.map((cover, i) => (
+        <div className="p-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4">
+          {currentProject.covers?.map((cover, i) => (
             <div
               id={`cover-${i}`}
               key={i}
@@ -113,7 +141,7 @@ export const Editor = () => {
             )
           }
         >
-          <CoverRenderer {...covers[currentCoverIndex]} />
+          <CoverRenderer {...currentCover} />
         </motion.div>
       )}
     </>
