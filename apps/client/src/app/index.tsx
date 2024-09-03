@@ -6,7 +6,7 @@ import initLocalization from "../features/localization/lib/initLocalization.ts"
 import "./index.css"
 import { QueryProvider } from "./query-provider.tsx"
 import { router } from "./router.tsx"
-import ThemeConfig from "./theme-config.tsx"
+import { ThemeConfig } from "./theme-config.tsx"
 
 initLocalization()
 
