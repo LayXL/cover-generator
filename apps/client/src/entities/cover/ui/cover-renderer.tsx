@@ -1,10 +1,4 @@
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-} from "react"
+import { useCallback, useEffect, useRef } from "react"
 import type { Cover, DeepPartial } from "../../../shared/types"
 import { buildCover } from "../lib/buildCover"
 import { useIconCanvas } from "../lib/useIconCanvas"
@@ -13,42 +7,34 @@ type CoverRendererProps = {
   pixelRatio?: number
 } & DeepPartial<Cover>
 
-export const CoverRenderer = forwardRef<HTMLCanvasElement, CoverRendererProps>(
-  (props, ref) => {
-    const canvasRef = useRef<HTMLCanvasElement>(null)
+export const CoverRenderer = (props: CoverRendererProps) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-    const pixelRatio = props.pixelRatio ?? window.devicePixelRatio
+  const pixelRatio = props.pixelRatio ?? window.devicePixelRatio
 
-    const toRelativePx = useCallback(
-      (n: number) => n * pixelRatio,
-      [pixelRatio]
-    )
+  const toRelativePx = useCallback((n: number) => n * pixelRatio, [pixelRatio])
 
-    const iconCanvas = useIconCanvas(
-      props.icon?.name,
-      toRelativePx(props.icon?.size ?? 32),
-      props.icon?.color
-    )
+  const iconCanvas = useIconCanvas(
+    props.icon?.name,
+    toRelativePx(props.icon?.size ?? 32),
+    props.icon?.color
+  )
 
-    useEffect(() => {
-      if (!canvasRef.current) return
+  useEffect(() => {
+    if (!canvasRef.current) return
 
-      buildCover(canvasRef.current, props, {
-        pixelRatio,
-        iconCanvas,
-      })
-    }, [props, iconCanvas, pixelRatio])
+    buildCover(canvasRef.current, props, {
+      pixelRatio,
+      iconCanvas,
+    })
+  }, [props, iconCanvas, pixelRatio])
 
-    // biome-ignore lint/style/noNonNullAssertion: <explanation>
-    useImperativeHandle(ref, () => canvasRef.current!)
-
-    return (
-      <canvas
-        width={376 * pixelRatio}
-        height={256 * pixelRatio}
-        ref={canvasRef}
-        className="size-full object-cover"
-      />
-    )
-  }
-)
+  return (
+    <canvas
+      width={376 * pixelRatio}
+      height={256 * pixelRatio}
+      ref={canvasRef}
+      className="size-full object-cover"
+    />
+  )
+}
