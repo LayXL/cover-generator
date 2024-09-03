@@ -5,19 +5,19 @@ export type Community = {
   coverUrl?: string
 }
 
-type SolidBackground = {
+export type SolidBackground = {
   type: "solid"
   color: string
 }
 
-type GradientBackground = {
+export type GradientBackground = {
   type: "gradient"
   colors: string[]
   angle: number
   style: "linear" | "radial"
 }
 
-type ImageBackground = {
+export type ImageBackground = {
   type: "image"
   style: "repeat" | "cover" | "contain"
 } & ({ url: string } | { base64: string })
