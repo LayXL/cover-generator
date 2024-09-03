@@ -13,7 +13,7 @@ function toggle(condition: boolean, className: string) {
   document.body.classList[condition ? "add" : "remove"](className)
 }
 
-export function ThemeConfig({ children }: { children?: ReactNode }) {
+export const ThemeConfig = ({ children }: { children?: ReactNode }) => {
   useEffect(() => {
     toggle(isMobile, "mobile")
     toggle(isDesktop, "desktop")
