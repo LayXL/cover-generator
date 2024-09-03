@@ -1,8 +1,6 @@
-import { useQuery } from "@tanstack/react-query"
 import { useCallback, useEffect, useRef } from "react"
 import type { Cover, DeepPartial } from "../../../shared/types"
-import { hexToRgb } from "../../../shared/utils/hexToRgb"
-import { loadImage } from "../../../shared/utils/loadImage"
+import { useIconCanvas } from "../lib/useIconCanvas"
 
 type CoverRendererProps = {
   pixelRatio?: number
@@ -13,46 +11,16 @@ export const CoverRenderer = (props: CoverRendererProps) => {
 
   const pixelRatio = props.pixelRatio ?? window.devicePixelRatio
 
-  const rem = useCallback((n: number) => n * pixelRatio, [pixelRatio])
+  const toRelativePx = useCallback((n: number) => n * pixelRatio, [pixelRatio])
 
-  const iconSize = rem(props.icon?.size ?? 32)
-  const fontSize = rem(props.text?.fontSize ?? 16)
+  const iconSize = toRelativePx(props.icon?.size ?? 32)
+  const fontSize = toRelativePx(props.text?.fontSize ?? 16)
 
-  const { data: iconCanvas } = useQuery({
-    queryKey: ["iconCanvas", props.icon],
-    queryFn: async () => {
-      if (!props.icon) return
-
-      const img = await loadImage(`/icons/${props.icon.name}.svg`)
-
-      const canvas = document.createElement("canvas")
-      canvas.width = iconSize
-      canvas.height = iconSize
-
-      const ctx = canvas.getContext("2d")
-
-      if (!ctx) return
-
-      ctx.drawImage(img, 0, 0, iconSize, iconSize)
-
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-      const data = imageData.data
-
-      const targetRgb = hexToRgb(props.icon.color ?? "#000")
-
-      for (let i = 0; i < data.length; i += 4) {
-        const alpha = data[i + 3] / 255
-
-        data[i] = targetRgb.r * alpha
-        data[i + 1] = targetRgb.g * alpha
-        data[i + 2] = targetRgb.b * alpha
-      }
-
-      ctx.putImageData(imageData, 0, 0)
-
-      return canvas
-    },
-  })
+  const iconCanvas = useIconCanvas(
+    props.icon?.name,
+    iconSize,
+    props.icon?.color
+  )
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -98,7 +66,7 @@ export const CoverRenderer = (props: CoverRendererProps) => {
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
 
-      const offset = props.icon ? iconSize / 2 + rem(4) : 0
+      const offset = props.icon ? iconSize / 2 + toRelativePx(4) : 0
 
       const top = canvas.height / 2 + offset
       const left = canvas.width / 2
@@ -109,7 +77,7 @@ export const CoverRenderer = (props: CoverRendererProps) => {
     if (props.icon && iconCanvas) {
       const offset =
         props.text?.value && props.text.value.length > 0
-          ? fontSize / 2 + rem(4)
+          ? fontSize / 2 + toRelativePx(4)
           : 0
 
       const top = canvas.height / 2 - iconSize / 2 - offset
@@ -117,7 +85,15 @@ export const CoverRenderer = (props: CoverRendererProps) => {
 
       ctx.drawImage(iconCanvas, left, top, iconSize, iconSize)
     }
-  }, [props.bg, props.text, props.icon, iconCanvas, fontSize, iconSize, rem])
+  }, [
+    props.bg,
+    props.text,
+    props.icon,
+    iconCanvas,
+    fontSize,
+    iconSize,
+    toRelativePx,
+  ])
 
   return (
     <canvas
