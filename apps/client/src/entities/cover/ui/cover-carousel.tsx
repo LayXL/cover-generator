@@ -1,13 +1,13 @@
 import {
+  type MotionValue,
   animate,
   motion,
-  MotionValue,
   useMotionValue,
   useTransform,
 } from "framer-motion"
 import { useEffect } from "react"
 import { useWindowSize } from "usehooks-ts"
-import { Cover } from "../../../shared/types"
+import type { Cover } from "../../../shared/types"
 import { CoverRenderer } from "./cover-renderer"
 
 type CoverCarouselsProps = {
@@ -24,7 +24,7 @@ export const CoverCarousel = (props: CoverCarouselsProps) => {
 
   useEffect(() => {
     x.set(snapPoints[props.currentCoverIndex])
-  }, [props.currentCoverIndex, snapPoints])
+  }, [props.currentCoverIndex, snapPoints, x.set])
 
   const handleDragEnd = () => {
     const closestPoint = snapPoints.reduce((prev, curr) =>

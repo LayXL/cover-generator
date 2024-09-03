@@ -10,6 +10,7 @@ import { ThemeConfig } from "./theme-config.tsx"
 
 initLocalization()
 
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RecoilRoot>

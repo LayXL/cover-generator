@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 // import { httpBatchLink } from "@trpc/client"
-import { ReactNode, useState } from "react"
+import { type ReactNode, useState } from "react"
 // import superjson from "superjson"
 
 // const token = window.Telegram.WebApp.initData || window.location.search.slice(1)

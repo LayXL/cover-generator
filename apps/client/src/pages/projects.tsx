@@ -7,7 +7,7 @@ export const Projects = () => {
     <div>
       <h1>Projects page</h1>
 
-      <button onClick={() => navigate("/editor")}>New project</button>
+      <button type="button" onClick={() => navigate("/editor")}>New project</button>
     </div>
   )
 }

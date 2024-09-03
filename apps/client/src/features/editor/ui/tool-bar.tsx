@@ -1,12 +1,8 @@
 import { useCallback } from "react"
 import { useCoverStore, useProjectStore } from "../../../shared/store"
-import { Cover, DeepPartial } from "../../../shared/types"
+import type { Cover, DeepPartial } from "../../../shared/types"
 
-type ToolBarProps = {
-  //props
-}
-
-export const ToolBar = (props: ToolBarProps) => {
+export const ToolBar = () => {
   const { updateCover } = useProjectStore()
   const { currentCoverIndex } = useCoverStore()
 
@@ -20,6 +16,7 @@ export const ToolBar = (props: ToolBarProps) => {
   return (
     <div className="p-4 flex gap-4">
       <button
+        type="button"
         onClick={() => {
           updateCover(currentCoverIndex, {
             text: {
@@ -32,6 +29,7 @@ export const ToolBar = (props: ToolBarProps) => {
         children={"Add text"}
       />
       <button
+        type="button"
         onClick={() => {
           updateCurrentCover({
             icon: {
@@ -55,6 +53,7 @@ export const ToolBar = (props: ToolBarProps) => {
         placeholder="Text"
       />
       <button
+        type="button"
         onClick={() => {
           updateCurrentCover({
             bg: {

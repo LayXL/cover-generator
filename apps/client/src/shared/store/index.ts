@@ -1,18 +1,18 @@
 import { create } from "zustand"
-import { Cover, Project } from "../types"
-import { DeepPartial } from "../types/DeepPartial"
+import type { Cover, DeepPartial, Project } from "../types"
 import { deepMerge } from "../utils/deepMerge"
 
 type ProjectState = {
   project: Partial<Project>
   updateProject: (project: Partial<Project>) => void
-  addCover: (cover?: Cover) => void
+  addCover: (cover?: Omit<Cover, "uuid">) => void
   updateCover: (index: number, cover: DeepPartial<Cover>) => void
   deleteCover: (index: number) => void
 }
 
 export const useProjectStore = create<ProjectState>()((set) => ({
   project: {},
+
   updateProject: (project: Partial<Project>) =>
     set((state) => ({
       project: { ...state.project, ...project },
@@ -23,7 +23,14 @@ export const useProjectStore = create<ProjectState>()((set) => ({
         ...state.project,
         covers: [
           ...(state.project.covers ?? []),
-          cover ?? { bg: { type: "solid", color: "#fff" } },
+          {
+            bg: {
+              type: "solid",
+              color: "#fff",
+            },
+            ...cover,
+            uuid: crypto.randomUUID(),
+          },
         ],
       },
     }))

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react"
+import { type ReactNode, useEffect } from "react"
 import {
   isAndroid,
   isDesktop,
@@ -11,11 +11,6 @@ import { isTelegram, isVK } from "../shared/utils/platform-detect"
 
 function toggle(condition: boolean, className: string) {
   document.body.classList[condition ? "add" : "remove"](className)
-}
-
-function componentToHex(c: number) {
-  const hex = c.toString(16)
-  return hex.length == 1 ? "0" + hex : hex
 }
 
 export function ThemeConfig({ children }: { children?: ReactNode }) {

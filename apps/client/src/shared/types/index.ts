@@ -37,6 +37,7 @@ export type Text = {
 }
 
 export type Cover = {
+  uuid: string
   title?: string
   bg: Background
   text?: Text

@@ -1,7 +1,7 @@
 import { FloatingPortal } from "@floating-ui/react"
 import { BackButton } from "@vkruglikov/react-telegram-web-app"
 import { AnimatePresence, motion } from "framer-motion"
-import { ReactNode, createContext, useContext } from "react"
+import { type ReactNode, createContext, useContext } from "react"
 import { CUBIC_BEZIER } from "../utils/animations"
 import { cn } from "../utils/cn"
 import { isTelegram } from "../utils/platform-detect"

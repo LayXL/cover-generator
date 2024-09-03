@@ -2,7 +2,7 @@
   "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
   "formatter": {
     "enabled": true,
-    "formatWithErrors": false,
+    "formatWithErrors": true,
     "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
@@ -15,7 +15,8 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noUnusedImports": "warn"
+        "noUnusedImports": "warn",
+        "noChildrenProp": "off"
       },
       "nursery": {},
       "style": {

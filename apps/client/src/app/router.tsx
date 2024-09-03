@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from "react-router-dom"
+import { Outlet, createBrowserRouter } from "react-router-dom"
 import { Editor } from "../pages/editor"
 import { Projects } from "../pages/projects"
 

@@ -8,10 +8,10 @@ import { ToolBar } from "../features/editor/ui/tool-bar"
 import { useCoverStore, useProjectStore } from "../shared/store"
 
 enum Trans {
-  GRID,
-  TO_EDITOR,
-  EDITOR,
-  TO_GRID,
+  GRID = 0,
+  TO_EDITOR = 1,
+  EDITOR = 2,
+  TO_GRID = 3,
 }
 
 export const Editor = () => {
@@ -40,8 +40,13 @@ export const Editor = () => {
     <>
       <div className="h-screen overflow-scroll">
         <div className="p-4 flex gap-4">
-          <button onClick={() => addCover()} children={"Add cover"} />
           <button
+            type="button"
+            onClick={() => addCover()}
+            children={"Add cover"}
+          />
+          <button
+            type="button"
             onClick={() => deleteCover(currentCoverIndex)}
             children={"Delete current"}
           />
@@ -49,7 +54,8 @@ export const Editor = () => {
 
         <div className="p-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4">
           {currentProject.covers?.map((cover, i) => (
-            <div
+            <button
+              type="button"
               id={`cover-${i}`}
               key={i}
               className="rounded-lg overflow-hidden cursor-pointer"
@@ -65,7 +71,7 @@ export const Editor = () => {
               }}
             >
               <CoverRenderer {...cover} />
-            </div>
+            </button>
           ))}
         </div>
       </div>

@@ -12,7 +12,7 @@ export const activeLanguageId =
   Object.entries({
     en: 1,
     ru: 2,
-  }).find(([x]) => x === activeLanguage)![1] ?? 1
+  }).find(([x]) => x === activeLanguage)?.[1] ?? 1
 
 export default function () {
   i18n

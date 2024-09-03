@@ -88,7 +88,7 @@ export const CoverRenderer = (props: CoverRendererProps) => {
       ctx.fillRect(0, 0, max, max)
     }
 
-    if (props.text && props.text.value && props.text.value.length > 0) {
+    if (props.text?.value && props.text.value.length > 0) {
       ctx.fillStyle = props.text.color ?? "#000"
       ctx.font = `${fontSize}px sans-serif`
       ctx.textAlign = "center"
@@ -104,7 +104,7 @@ export const CoverRenderer = (props: CoverRendererProps) => {
 
     if (props.icon && iconCanvas) {
       const offset =
-        props.text && props.text.value && props.text.value.length > 0
+        props.text?.value && props.text.value.length > 0
           ? fontSize / 2 + rem(4)
           : 0
 
@@ -113,7 +113,7 @@ export const CoverRenderer = (props: CoverRendererProps) => {
 
       ctx.drawImage(iconCanvas, left, top, iconSize, iconSize)
     }
-  }, [props.bg, props.text, props.icon, iconCanvas])
+  }, [props.bg, props.text, props.icon, iconCanvas, fontSize, iconSize, rem])
 
   return (
     <canvas
