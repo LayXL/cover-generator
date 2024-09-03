@@ -17,5 +17,8 @@
   },
   "peerDependencies": {
     "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.53.3"
   }
 }

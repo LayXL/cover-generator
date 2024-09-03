@@ -1,14 +1,74 @@
-import { useEffect, useRef } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { useCallback, useEffect, useRef } from "react"
+import { DeepPartial } from "../../../shared/store"
 import { Cover } from "../../../shared/types"
 
 type CoverRendererProps = {
   pixelRatio?: number
-} & Partial<Cover>
+} & DeepPartial<Cover>
+
+const loadImage = (src: string): Promise<HTMLImageElement> =>
+  new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => resolve(img)
+    img.onerror = reject
+    img.src = src
+  })
+
+function hexToRgb(hex: string) {
+  hex = hex.replace("#", "")
+  let bigint = parseInt(hex, 16)
+  let r = (bigint >> 16) & 255
+  let g = (bigint >> 8) & 255
+  let b = bigint & 255
+  return { r, g, b }
+}
 
 export const CoverRenderer = (props: CoverRendererProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const pixelRatio = props.pixelRatio ?? window.devicePixelRatio
+
+  const rem = useCallback((n: number) => n * pixelRatio, [pixelRatio])
+
+  const iconSize = rem(props.icon?.size ?? 32)
+  const fontSize = rem(props.text?.fontSize ?? 16)
+
+  const { data: iconCanvas } = useQuery({
+    queryKey: ["iconCanvas", props.icon],
+    queryFn: async () => {
+      if (!props.icon) return
+
+      const img = await loadImage(`/icons/${props.icon.name}.svg`)
+
+      const canvas = document.createElement("canvas")
+      canvas.width = iconSize
+      canvas.height = iconSize
+
+      const ctx = canvas.getContext("2d")
+
+      if (!ctx) return
+
+      ctx.drawImage(img, 0, 0, iconSize, iconSize)
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      const data = imageData.data
+
+      const targetRgb = hexToRgb(props.icon.color)
+
+      for (let i = 0; i < data.length; i += 4) {
+        const alpha = data[i + 3] / 255
+
+        data[i] = targetRgb.r * alpha
+        data[i + 1] = targetRgb.g * alpha
+        data[i + 2] = targetRgb.b * alpha
+      }
+
+      ctx.putImageData(imageData, 0, 0)
+
+      return canvas
+    },
+  })
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -19,18 +79,36 @@ export const CoverRenderer = (props: CoverRendererProps) => {
     if (!ctx) return
 
     if (props.bg?.type === "solid") {
-      ctx.fillStyle = props.bg.color
+      ctx.fillStyle = props.bg.color ?? "#fff"
       ctx.fillRect(0, 0, canvas.width, canvas.height)
     }
 
-    if (props.text) {
-      ctx.fillStyle = props.text.color
-      ctx.font = `${props.text.fontSize * pixelRatio}px sans-serif`
+    if (props.text && props.text.value && props.text.value.length > 0) {
+      ctx.fillStyle = props.text.color ?? "#000"
+      ctx.font = `${fontSize}px sans-serif`
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
-      ctx.fillText(props.text.value, canvas.width / 2, canvas.height / 2)
+
+      const offset = props.icon ? iconSize / 2 + rem(4) : 0
+
+      const top = canvas.height / 2 + offset
+      const left = canvas.width / 2
+
+      ctx.fillText(props.text.value, left, top)
     }
-  }, [props.bg, props.text])
+
+    if (props.icon && iconCanvas) {
+      const offset =
+        props.text && props.text.value && props.text.value.length > 0
+          ? fontSize / 2 + rem(4)
+          : 0
+
+      const top = canvas.height / 2 - iconSize / 2 - offset
+      const left = canvas.width / 2 - iconSize / 2
+
+      ctx.drawImage(iconCanvas, left, top, iconSize, iconSize)
+    }
+  }, [props.bg, props.text, props.icon, iconCanvas])
 
   return (
     <canvas

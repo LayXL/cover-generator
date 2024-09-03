@@ -87,7 +87,7 @@ const CoverCarouselItem = (props: CoverCarouselItemProps) => {
           scale,
         }}
       >
-        <CoverRenderer bg={props.cover.bg} text={props.cover.text} />
+        <CoverRenderer {...props.cover} />
       </motion.div>
     </div>
   )
