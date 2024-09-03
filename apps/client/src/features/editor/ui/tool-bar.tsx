@@ -14,7 +14,7 @@ export const ToolBar = () => {
   )
 
   return (
-    <div className="p-4 flex gap-4">
+    <div className="p-4 flex gap-4 overflow-scroll">
       <button
         type="button"
         onClick={() => {
@@ -63,6 +63,18 @@ export const ToolBar = () => {
           })
         }}
         children={"Set gradient"}
+      />
+      <input
+        type="range"
+        min={0}
+        max={360}
+        onChange={(e) => {
+          updateCurrentCover({
+            bg: {
+              angle: Number(e.target.value),
+            },
+          })
+        }}
       />
     </div>
   )

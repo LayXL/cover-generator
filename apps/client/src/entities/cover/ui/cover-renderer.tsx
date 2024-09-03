@@ -74,18 +74,26 @@ export const CoverRenderer = (props: CoverRendererProps) => {
     } else if (props.bg?.type === "gradient") {
       if (!props.bg.colors) return
 
-      // const angleInRadians = degreesToRadians(props.bg.angle ?? 90)
+      const angleRad = (props.bg.angle ?? 90) * (Math.PI / 180)
 
-      const max = Math.max(canvas.width, canvas.height)
+      const width = canvas.width
+      const height = canvas.height
 
-      const gradient = ctx.createLinearGradient(0, 0, max, max)
+      const x0 = width / 2 + (width / 2) * Math.cos(angleRad)
+      const y0 = height / 2 + (height / 2) * Math.sin(angleRad)
+      const x1 = width / 2 - (width / 2) * Math.cos(angleRad)
+      const y1 = height / 2 - (height / 2) * Math.sin(angleRad)
 
-      // props.bg.colors.forEach((color, i) =>
-      //   gradient.addColorStop(i / props.bg.colors.length, color!)
-      // )
+      const gradient = ctx.createLinearGradient(x0, y0, x1, y1)
+
+      props.bg.colors
+        .filter((color) => color !== undefined)
+        .forEach((color, index) => {
+          gradient.addColorStop(index / (props.bg.colors.length - 1), color)
+        })
 
       ctx.fillStyle = gradient
-      ctx.fillRect(0, 0, max, max)
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
     }
 
     if (props.text?.value && props.text.value.length > 0) {

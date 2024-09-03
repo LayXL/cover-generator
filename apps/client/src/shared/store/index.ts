@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid"
 import { create } from "zustand"
 import type { Cover, DeepPartial, Project } from "../types"
 import { deepMerge } from "../utils/deepMerge"
@@ -12,7 +13,6 @@ type ProjectState = {
 
 export const useProjectStore = create<ProjectState>()((set) => ({
   project: {},
-
   updateProject: (project: Partial<Project>) =>
     set((state) => ({
       project: { ...state.project, ...project },
@@ -29,7 +29,7 @@ export const useProjectStore = create<ProjectState>()((set) => ({
               color: "#fff",
             },
             ...cover,
-            uuid: crypto.randomUUID(),
+            uuid: uuidv4(),
           },
         ],
       },
