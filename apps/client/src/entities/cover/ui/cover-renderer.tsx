@@ -1,28 +1,16 @@
 import { useQuery } from "@tanstack/react-query"
 import { useCallback, useEffect, useRef } from "react"
-import { DeepPartial } from "../../../shared/store"
-import { Cover } from "../../../shared/types"
+import { Cover, DeepPartial } from "../../../shared/types"
+import { hexToRgb } from "../../../shared/utils/hexToRgb"
+import { loadImage } from "../../../shared/utils/loadImage"
+
+function degreesToRadians(degrees: number) {
+  return degrees * (Math.PI / 180)
+}
 
 type CoverRendererProps = {
   pixelRatio?: number
 } & DeepPartial<Cover>
-
-const loadImage = (src: string): Promise<HTMLImageElement> =>
-  new Promise((resolve, reject) => {
-    const img = new Image()
-    img.onload = () => resolve(img)
-    img.onerror = reject
-    img.src = src
-  })
-
-function hexToRgb(hex: string) {
-  hex = hex.replace("#", "")
-  let bigint = parseInt(hex, 16)
-  let r = (bigint >> 16) & 255
-  let g = (bigint >> 8) & 255
-  let b = bigint & 255
-  return { r, g, b }
-}
 
 export const CoverRenderer = (props: CoverRendererProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -54,7 +42,7 @@ export const CoverRenderer = (props: CoverRendererProps) => {
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
       const data = imageData.data
 
-      const targetRgb = hexToRgb(props.icon.color)
+      const targetRgb = hexToRgb(props.icon.color ?? "#000")
 
       for (let i = 0; i < data.length; i += 4) {
         const alpha = data[i + 3] / 255
@@ -78,9 +66,26 @@ export const CoverRenderer = (props: CoverRendererProps) => {
 
     if (!ctx) return
 
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
     if (props.bg?.type === "solid") {
       ctx.fillStyle = props.bg.color ?? "#fff"
       ctx.fillRect(0, 0, canvas.width, canvas.height)
+    } else if (props.bg?.type === "gradient") {
+      if (!props.bg.colors) return
+
+      const angleInRadians = degreesToRadians(props.bg.angle ?? 90)
+
+      const max = Math.max(canvas.width, canvas.height)
+
+      const gradient = ctx.createLinearGradient(0, 0, max, max)
+
+      props.bg.colors.forEach((color, i) =>
+        gradient.addColorStop(i / props.bg.colors.length, color!)
+      )
+
+      ctx.fillStyle = gradient
+      ctx.fillRect(0, 0, max, max)
     }
 
     if (props.text && props.text.value && props.text.value.length > 0) {

@@ -4,7 +4,8 @@ import { motion } from "framer-motion"
 import { useEffect, useMemo, useState } from "react"
 import { CoverCarousel } from "../entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "../entities/cover/ui/cover-renderer"
-import { useProjectStore } from "../shared/store"
+import { ToolBar } from "../features/editor/ui/tool-bar"
+import { useCoverStore, useProjectStore } from "../shared/store"
 
 enum Trans {
   GRID,
@@ -19,12 +20,11 @@ export const Editor = () => {
     updateProject,
     addCover,
     deleteCover,
-    updateCover,
   } = useProjectStore()
 
   const covers = currentProject.covers ?? []
 
-  const [currentCoverIndex, setCurrentCoverIndex] = useState(0)
+  const { currentCoverIndex, setCurrentCoverIndex } = useCoverStore()
   const currentCover = useMemo(
     () => currentProject.covers?.[currentCoverIndex],
     [currentCoverIndex, currentProject.covers]
@@ -113,43 +113,7 @@ export const Editor = () => {
           trans === Trans.EDITOR ? { translateY: 0 } : { translateY: "100%" }
         }
       >
-        <div className="p-4 flex gap-4">
-          <button
-            onClick={() => {
-              updateCover(currentCoverIndex, {
-                text: {
-                  value: "Sample Text",
-                  fontSize: 32,
-                  color: "#000",
-                },
-              })
-            }}
-            children={"Add text"}
-          />
-          <button
-            onClick={() => {
-              updateCover(currentCoverIndex, {
-                icon: {
-                  name: "home",
-                  size: 32,
-                  color: "#000",
-                },
-              })
-            }}
-            children={"Add icon"}
-          />
-          <input
-            className="bg-primary text-primary border border-inversed rounded-xl px-3"
-            onChange={(e) => {
-              updateCover(currentCoverIndex, {
-                text: {
-                  value: e.target.value,
-                },
-              })
-            }}
-            placeholder="Text"
-          />
-        </div>
+        <ToolBar />
       </motion.div>
 
       {(trans === Trans.TO_EDITOR || trans === Trans.TO_GRID) && (
