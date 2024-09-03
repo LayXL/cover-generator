@@ -23,6 +23,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.30",
     "i18next-resources-to-backend": "^1.2.1",
+    "jszip": "^3.10.1",
     "lottie-react": "^2.4.0",
     "luxon": "^3.5.0",
     "react": "^18.3.1",

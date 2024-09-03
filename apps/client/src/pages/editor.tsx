@@ -1,3 +1,4 @@
+import { downloadCovers } from "@/entities/cover/lib/downloadCovers"
 import { CoverCarousel } from "@/entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
 import { ToolBar } from "@/features/editor/ui/tool-bar"
@@ -49,6 +50,11 @@ export const Editor = () => {
             type="button"
             onClick={() => deleteCover(currentCoverIndex)}
             children={"Delete current"}
+          />
+          <button
+            type="button"
+            onClick={() => downloadCovers(covers)}
+            children={"Download all"}
           />
         </div>
 
