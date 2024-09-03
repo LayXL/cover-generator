@@ -1,24 +1,24 @@
 {
-	"name": "cover-generator",
-	"module": "index.ts",
-	"type": "module",
-	"workspaces": ["packages/*", "apps/*"],
-	"scripts": {
-		"dev:client": "cd apps/client && bun dev",
-		"build": "npm run build:client",
-		"build:client": "cd apps/client && npm run build",
-		"prepare": "husky"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.8.3"
-	},
-	"peerDependencies": {
-		"typescript": "^5.5.4"
-	},
-	"dependencies": {
-		"@tanstack/react-query": "^5.53.3"
-	},
-	"lint-stages": {
-		"*": ["biome check --no-errors-on-unmatched --files-ignore-unknown=true"]
-	}
+  "name": "cover-generator",
+  "module": "index.ts",
+  "type": "module",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "dev:client": "cd apps/client && bun dev",
+    "build": "npm run build:client",
+    "build:client": "cd apps/client && npm run build",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.53.3"
+  },
+  "lint-staged": {
+    "*": ["biome check --no-errors-on-unmatched --files-ignore-unknown=true"]
+  }
 }

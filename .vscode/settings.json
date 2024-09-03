@@ -1,10 +1,10 @@
 {
-    "css.customData": [".vscode/tailwind.json"],
-    "i18n-ally.enabledFrameworks": ["react-i18next"],
-    "i18n-ally.localesPaths": ["apps/client/src/locales"],
-    "i18n-ally.pathMatcher": "{locale}.json",
-    "i18n-ally.keystyle": "nested",
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "svg.preview.background": "dark-transparent",
-    "editor.indentSize": 2,
+  "css.customData": [".vscode/tailwind.json"],
+  "i18n-ally.enabledFrameworks": ["react-i18next"],
+  "i18n-ally.localesPaths": ["apps/client/src/locales"],
+  "i18n-ally.pathMatcher": "{locale}.json",
+  "i18n-ally.keystyle": "nested",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "svg.preview.background": "dark-transparent",
+  "editor.indentSize": 2
 }
