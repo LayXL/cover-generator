@@ -1,4 +1,4 @@
-import type { Cover } from "../../../shared/types"
+import type { Cover } from "@/shared/types"
 import { buildCover } from "./buildCover"
 import { buildIcon } from "./buildIcon"
 

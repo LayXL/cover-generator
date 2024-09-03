@@ -1,5 +1,5 @@
+import type { DeepPartial, Icon } from "@/shared/types"
 import { useQuery } from "@tanstack/react-query"
-import type { DeepPartial, Icon } from "../../../shared/types"
 import { buildIcon } from "./buildIcon"
 
 export const useIconCanvas = (icon?: DeepPartial<Icon>, pixelRatio = 1) => {

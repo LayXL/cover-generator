@@ -1,6 +1,6 @@
+import { Editor } from "@/pages/editor"
+import { Projects } from "@/pages/projects"
 import { Outlet, createBrowserRouter } from "react-router-dom"
-import { Editor } from "../pages/editor"
-import { Projects } from "../pages/projects"
 
 export const router = createBrowserRouter([
   {

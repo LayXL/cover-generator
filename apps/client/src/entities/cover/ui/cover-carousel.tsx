@@ -1,3 +1,4 @@
+import type { Cover } from "@/shared/types"
 import {
   type MotionValue,
   animate,
@@ -7,7 +8,6 @@ import {
 } from "framer-motion"
 import { useEffect } from "react"
 import { useWindowSize } from "usehooks-ts"
-import type { Cover } from "../../../shared/types"
 import { CoverRenderer } from "./cover-renderer"
 
 type CoverCarouselsProps = {
@@ -49,7 +49,7 @@ export const CoverCarousel = (props: CoverCarouselsProps) => {
     >
       {props.covers.map((cover, i) => (
         <CoverCarouselItem
-          key={i}
+          key={cover.uuid}
           index={i}
           currentCoverIndex={props.currentCoverIndex}
           cover={cover}

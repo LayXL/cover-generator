@@ -1,7 +1,7 @@
+import { downloadCover } from "@/entities/cover/lib/downloadCover"
+import { useCoverStore, useProjectStore } from "@/shared/store"
+import type { Cover, DeepPartial } from "@/shared/types"
 import { useCallback } from "react"
-import { downloadCover } from "../../../entities/cover/lib/downloadCover"
-import { useCoverStore, useProjectStore } from "../../../shared/store"
-import type { Cover, DeepPartial } from "../../../shared/types"
 
 export const ToolBar = () => {
   const {

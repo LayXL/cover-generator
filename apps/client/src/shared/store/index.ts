@@ -1,7 +1,7 @@
+import { deepMerge } from "@/shared/utils/deepMerge"
 import { v4 as uuidv4 } from "uuid"
 import { create } from "zustand"
 import type { Cover, DeepPartial, Project } from "../types"
-import { deepMerge } from "../utils/deepMerge"
 
 type ProjectState = {
   project: Partial<Project>

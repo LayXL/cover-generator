@@ -1,10 +1,8 @@
+import { CUBIC_BEZIER } from "@/shared/utils/animations"
+import { cn } from "@/shared/utils/cn"
 import { FloatingPortal } from "@floating-ui/react"
-import { BackButton } from "@vkruglikov/react-telegram-web-app"
 import { AnimatePresence, motion } from "framer-motion"
 import { type ReactNode, createContext, useContext } from "react"
-import { CUBIC_BEZIER } from "../utils/animations"
-import { cn } from "../utils/cn"
-import { isTelegram } from "../utils/platform-detect"
 
 type ModalProps = {
   isOpened: boolean
@@ -34,7 +32,7 @@ export const Modal = (props: ModalProps) => {
       <AnimatePresence>
         {props.isOpened && (
           <FloatingPortal>
-            {isTelegram && <BackButton onClick={props.onClose} />}
+            {/* {isTelegram && <BackButton onClick={props.onClose} />} */}
             <motion.div
               initial={{ backgroundColor: "rgba(0,0,0,0)" }}
               animate={{ backgroundColor: "rgba(0,0,0,0.5)" }}

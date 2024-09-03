@@ -3,7 +3,7 @@ import type {
   DeepPartial,
   GradientBackground,
   SolidBackground,
-} from "../../../shared/types"
+} from "@/shared/types"
 import { fillGradientBackground } from "./fillGradientBackground"
 import { fillSolidBackground } from "./fillSolidBackground"
 

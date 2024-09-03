@@ -1,11 +1,11 @@
+import { CoverCarousel } from "@/entities/cover/ui/cover-carousel"
+import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
+import { ToolBar } from "@/features/editor/ui/tool-bar"
+import { useCoverStore, useProjectStore } from "@/shared/store"
 import { Icon24FullscreenExit } from "@vkontakte/icons"
 import { IconButton } from "@vkontakte/vkui"
 import { motion } from "framer-motion"
 import { useEffect, useMemo, useState } from "react"
-import { CoverCarousel } from "../entities/cover/ui/cover-carousel"
-import { CoverRenderer } from "../entities/cover/ui/cover-renderer"
-import { ToolBar } from "../features/editor/ui/tool-bar"
-import { useCoverStore, useProjectStore } from "../shared/store"
 
 enum Trans {
   GRID = 0,
