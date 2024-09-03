@@ -32,7 +32,7 @@ export const Editor = () => {
 
   useEffect(() => {
     updateProject({ title: "Untitled" })
-  }, [])
+  }, [updateProject])
 
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
 
@@ -54,9 +54,12 @@ export const Editor = () => {
 
         <div className="p-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4">
           {currentProject.covers?.map((cover, i) => (
-            <button
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
               type="button"
               id={`cover-${i}`}
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               key={i}
               className="rounded-lg overflow-hidden cursor-pointer"
               onClick={() => {
@@ -71,7 +74,7 @@ export const Editor = () => {
               }}
             >
               <CoverRenderer {...cover} />
-            </button>
+            </motion.button>
           ))}
         </div>
       </div>

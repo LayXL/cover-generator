@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { useCallback, useEffect, useRef } from "react"
-import { Cover, DeepPartial } from "../../../shared/types"
+import type { Cover, DeepPartial } from "../../../shared/types"
 import { hexToRgb } from "../../../shared/utils/hexToRgb"
 import { loadImage } from "../../../shared/utils/loadImage"
 
@@ -74,15 +74,15 @@ export const CoverRenderer = (props: CoverRendererProps) => {
     } else if (props.bg?.type === "gradient") {
       if (!props.bg.colors) return
 
-      const angleInRadians = degreesToRadians(props.bg.angle ?? 90)
+      // const angleInRadians = degreesToRadians(props.bg.angle ?? 90)
 
       const max = Math.max(canvas.width, canvas.height)
 
       const gradient = ctx.createLinearGradient(0, 0, max, max)
 
-      props.bg.colors.forEach((color, i) =>
-        gradient.addColorStop(i / props.bg.colors.length, color!)
-      )
+      // props.bg.colors.forEach((color, i) =>
+      //   gradient.addColorStop(i / props.bg.colors.length, color!)
+      // )
 
       ctx.fillStyle = gradient
       ctx.fillRect(0, 0, max, max)

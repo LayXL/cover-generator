@@ -1,4 +1,4 @@
-let plugin = require("tailwindcss/plugin")
+const plugin = require("tailwindcss/plugin")
 
 // noinspection JSUnusedGlobalSymbols
 /** @type {import("tailwindcss").Config} */
@@ -48,7 +48,7 @@ export default {
     },
   },
   plugins: [
-    plugin(function ({ addVariant }) {
+    plugin(({ addVariant }) => {
       addVariant("ios", "body.ios &")
       addVariant("android", "body.android &")
       addVariant("macos", "body.macos &")
@@ -58,7 +58,7 @@ export default {
       addVariant("tg", "body.telegram &")
       addVariant("vk", "body.vk &")
     }),
-    plugin(function ({ addVariant }) {
+    plugin(({ addVariant }) => {
       addVariant("hocus", ["body:not(.mobile) &:hover", "body.mobile &:active"])
     }),
   ],
