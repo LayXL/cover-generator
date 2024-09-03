@@ -4,10 +4,6 @@ import type { Cover, DeepPartial } from "../../../shared/types"
 import { hexToRgb } from "../../../shared/utils/hexToRgb"
 import { loadImage } from "../../../shared/utils/loadImage"
 
-function degreesToRadians(degrees: number) {
-  return degrees * (Math.PI / 180)
-}
-
 type CoverRendererProps = {
   pixelRatio?: number
 } & DeepPartial<Cover>
@@ -74,23 +70,23 @@ export const CoverRenderer = (props: CoverRendererProps) => {
     } else if (props.bg?.type === "gradient") {
       if (!props.bg.colors) return
 
-      const angleRad = (props.bg.angle ?? 90) * (Math.PI / 180)
+      const colors = props.bg.colors.filter((color) => color !== undefined)
+
+      const angleInRadians = (props.bg.angle ?? 90) * (Math.PI / 180)
 
       const width = canvas.width
       const height = canvas.height
 
-      const x0 = width / 2 + (width / 2) * Math.cos(angleRad)
-      const y0 = height / 2 + (height / 2) * Math.sin(angleRad)
-      const x1 = width / 2 - (width / 2) * Math.cos(angleRad)
-      const y1 = height / 2 - (height / 2) * Math.sin(angleRad)
+      const x0 = width / 2 + (width / 2) * Math.cos(angleInRadians)
+      const y0 = height / 2 + (height / 2) * Math.sin(angleInRadians)
+      const x1 = width / 2 - (width / 2) * Math.cos(angleInRadians)
+      const y1 = height / 2 - (height / 2) * Math.sin(angleInRadians)
 
       const gradient = ctx.createLinearGradient(x0, y0, x1, y1)
 
-      props.bg.colors
-        .filter((color) => color !== undefined)
-        .forEach((color, index) => {
-          gradient.addColorStop(index / (props.bg.colors.length - 1), color)
-        })
+      colors.forEach((color, index) => {
+        gradient.addColorStop(index / (colors.length - 1), color)
+      })
 
       ctx.fillStyle = gradient
       ctx.fillRect(0, 0, canvas.width, canvas.height)
