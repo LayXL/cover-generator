@@ -7,7 +7,6 @@ import {
   isMobile,
   isWindows,
 } from "react-device-detect"
-import { isTelegram, isVK } from "../shared/utils/platform-detect"
 
 function toggle(condition: boolean, className: string) {
   document.body.classList[condition ? "add" : "remove"](className)
@@ -21,8 +20,6 @@ export const ThemeConfig = ({ children }: { children?: ReactNode }) => {
     toggle(isWindows, "windows")
     toggle(isIOS, "ios")
     toggle(isAndroid, "android")
-    toggle(isVK, "vk")
-    toggle(isTelegram, "telegram")
 
     toggle(true, "dark")
   }, [])
