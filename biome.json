@@ -17,6 +17,10 @@
       "correctness": {
         "noUnusedImports": "warn"
       },
+      "nursery": {},
+      "style": {
+        "noVar": "error"
+      },
       "complexity": {
         "noUselessSwitchCase": "error",
         "useFlatMap": "error"

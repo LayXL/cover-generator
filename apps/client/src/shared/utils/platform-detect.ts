@@ -1,2 +1,2 @@
-export let isTelegram = window.Telegram?.WebApp?.initData?.length !== 0
-export let isVK = !isTelegram
+export const isTelegram = window.Telegram?.WebApp?.initData?.length !== 0
+export const isVK = !isTelegram
