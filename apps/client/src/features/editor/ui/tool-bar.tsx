@@ -1,9 +1,14 @@
 import { useCallback } from "react"
+import { downloadCover } from "../../../entities/cover/lib/downloadCover"
 import { useCoverStore, useProjectStore } from "../../../shared/store"
 import type { Cover, DeepPartial } from "../../../shared/types"
 
 export const ToolBar = () => {
-  const { updateCover } = useProjectStore()
+  const {
+    updateCover,
+    project: { covers },
+  } = useProjectStore()
+
   const { currentCoverIndex } = useCoverStore()
 
   const updateCurrentCover = useCallback(
@@ -75,6 +80,15 @@ export const ToolBar = () => {
             },
           })
         }}
+      />
+      <button
+        type="button"
+        onClick={() => {
+          if (!covers?.[currentCoverIndex]) return
+
+          downloadCover(covers[currentCoverIndex])
+        }}
+        children={"Download"}
       />
     </div>
   )

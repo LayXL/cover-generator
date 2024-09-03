@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import type { Cover, DeepPartial } from "../../../shared/types"
 import { buildCover } from "../lib/buildCover"
 import { useIconCanvas } from "../lib/useIconCanvas"
@@ -11,14 +11,7 @@ export const CoverRenderer = (props: CoverRendererProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const pixelRatio = props.pixelRatio ?? window.devicePixelRatio
-
-  const toRelativePx = useCallback((n: number) => n * pixelRatio, [pixelRatio])
-
-  const iconCanvas = useIconCanvas(
-    props.icon?.name,
-    toRelativePx(props.icon?.size ?? 32),
-    props.icon?.color
-  )
+  const iconCanvas = useIconCanvas(props.icon, pixelRatio)
 
   useEffect(() => {
     if (!canvasRef.current) return
