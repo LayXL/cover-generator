@@ -4,10 +4,16 @@
   "type": "module",
   "workspaces": ["packages/*", "apps/*"],
   "scripts": {
+    "prepare": "husky",
     "dev:client": "cd apps/client && bun dev",
-    "build": "npm run build:client",
+    "dev:server": "cd apps/server && bun dev",
+    "build": "npm run build:client && npm run migrate && npm run build:server",
     "build:client": "cd apps/client && npm run build",
-    "prepare": "husky"
+    "build:server": "docker compose up -d --build server",
+    "db:push": "cd packages/drizzle && bun run push",
+    "db:studio": "cd packages/drizzle && bunx drizzle-kit studio",
+    "migrate": "cd packages/drizzle && bun run migrate",
+    "generate": "cd packages/drizzle && bun run generate"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
