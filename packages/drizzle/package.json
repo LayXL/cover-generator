@@ -1,0 +1,20 @@
+{
+  "name": "drizzle",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "push": "drizzle-kit push",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.5.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "postgres": "^3.4.4"
+  }
+}
