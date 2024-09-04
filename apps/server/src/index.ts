@@ -1,40 +1,16 @@
 import { cors } from "@elysiajs/cors"
+import { treaty } from "@elysiajs/eden"
 import { trpc } from "@elysiajs/trpc"
 import { Elysia } from "elysia"
 import { createContext } from "./context"
+import { images } from "./images"
 import { router } from "./routes"
-import { verifyVKSignature } from "./utils/calculateVkSignature"
-
-// TODO: move vkPayments
-const vkPayments = new Elysia().post(
-  "/purchase",
-  async ({ request, body, error }) => {
-    const data = body as Record<string, string>
-
-    if (!verifyVKSignature(data)) return error(10)
-
-    const notification = data.notification_type as
-      | "get_item"
-      | "get_item_test"
-      | "order_status_change"
-      | "order_status_change_test"
-
-    switch (notification) {
-      case "get_item":
-      case "get_item_test":
-        return
-      case "order_status_change":
-      case "order_status_change_test":
-        return
-      default:
-        return error(500)
-    }
-  }
-)
+import { vkPayments } from "./vkPayments"
 
 const app = new Elysia()
   .use(cors())
   .use(vkPayments)
+  .use(images)
   .use(
     trpc(router, {
       endpoint: "/api",
@@ -52,3 +28,5 @@ const app = new Elysia()
   .listen(Bun.env.SERVER_PORT ?? 3000)
 
 console.info(`Server is running at ${app.server?.hostname}:${app.server?.port}`)
+
+export const elysia = treaty<typeof app>("localhost:3000")

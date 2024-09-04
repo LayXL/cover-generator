@@ -1,7 +1,7 @@
 import { TRPCError, initTRPC } from "@trpc/server"
 import { db } from "drizzle"
 import { eq } from "drizzle-orm"
-import { superUsers, users } from "drizzle/db/schema"
+import { users } from "drizzle/db/schema"
 import superjson from "superjson"
 import type { Context } from "./context"
 
@@ -68,9 +68,8 @@ export const privateProcedure = t.procedure.use(async (opts) => {
 })
 
 export const adminProcedure = privateProcedure.use(async (opts) => {
-  const isAdmin = await db.query.superUsers.findFirst({
-    where: eq(superUsers.userId, opts.ctx.user.id),
-  })
+  // TODO: rework
+  const isAdmin = false
 
   if (!isAdmin) {
     throw new TRPCError({
