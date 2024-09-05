@@ -23,6 +23,7 @@
     "blurhash": "^2.0.5",
     "bun-image-transform": "^1.1.3",
     "drizzle-cursor": "^0.4.1",
+    "drizzle-orm": "^0.33.0",
     "elysia": "^1.0.20",
     "grammy": "^1.27.0",
     "luxon": "^3.4.4",

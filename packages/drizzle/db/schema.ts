@@ -19,7 +19,7 @@ export const users = pgTable("users", {
 
 export const projects = pgTable("projects", {
   id: serial("id").primaryKey(),
-  title: text("name").notNull(),
+  title: text("name"),
   authorId: integer("authorId").references(() => users.id, {
     onDelete: "cascade",
   }),
