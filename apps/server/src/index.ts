@@ -30,6 +30,14 @@ const app = new Elysia()
       router: router,
       req: opts.request,
       createContext,
+      onError:
+        Bun.env.TEST === "true"
+          ? undefined
+          : (opts) => {
+              const { error } = opts
+
+              console.error("Error:", error)
+            },
     })
   })
   .use(vkPayments)
