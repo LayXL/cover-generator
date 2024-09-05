@@ -1,9 +1,13 @@
 import { t } from "../trpc"
 
-import * as user from "./user"
+import { healthcheck } from "./healthcheck"
+import * as project from "./project"
+// import * as user from "./user"
 
 export const router = t.router({
-  user,
+  healthcheck,
+  project,
+  // user,
 })
 
 export type Router = typeof router

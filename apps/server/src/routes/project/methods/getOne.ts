@@ -11,7 +11,7 @@ export const getOne = privateProcedure
       id: z.number(),
     })
   )
-  .mutation(async ({ ctx }) => {
+  .query(async ({ ctx }) => {
     const project = await db.query.projects.findFirst({
       where: and(eq(projects.authorId, ctx.user.id), eq(projects.id, 1)),
     })

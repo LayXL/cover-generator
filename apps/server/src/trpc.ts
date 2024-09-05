@@ -2,21 +2,21 @@ import { TRPCError, initTRPC } from "@trpc/server"
 import { db } from "drizzle"
 import { eq } from "drizzle-orm"
 import { users } from "drizzle/db/schema"
+import { returnFirst } from "shared/returnFirst"
 import superjson from "superjson"
 import type { Context } from "./context"
 
 export const t = initTRPC.context<Context>().create({
   transformer: superjson,
   errorFormatter:
-    Bun.env.TELEGRAM_TEST_ENV === "true"
+    Bun.env.TEST === "true"
       ? undefined
       : (opts) => {
           const { shape, error } = opts
 
-          const message =
-            error.message.includes("trpc") || error.message.includes("prisma")
-              ? undefined
-              : error.message
+          const message = error.message.includes("trpc")
+            ? undefined
+            : error.message
 
           return {
             message,
@@ -50,7 +50,7 @@ export const privateProcedure = t.procedure.use(async (opts) => {
         vkId: queryData.userId,
       })
       .returning()
-      .then((data) => data[0])) as NonNullable<typeof userData>
+      .then(returnFirst)) as NonNullable<typeof userData>
   } else {
     await db
       .update(users)

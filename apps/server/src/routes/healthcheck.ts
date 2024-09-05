@@ -1,3 +1,3 @@
-import { privateProcedure } from "../trpc"
+import { t } from "../trpc"
 
-export const healthcheck = privateProcedure.query(() => true)
+export const healthcheck = t.procedure.query(() => true)

@@ -6,7 +6,7 @@ import { privateProcedure } from "../../../trpc"
 
 export const getMany = privateProcedure
   .input(z.object({}).default({}))
-  .mutation(async ({ ctx }) => {
+  .query(async ({ ctx }) => {
     const userProjects = await db.query.projects.findMany({
       where: eq(projects.authorId, ctx.user.id),
     })

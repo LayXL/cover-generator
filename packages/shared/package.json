@@ -5,12 +5,5 @@
   "devDependencies": {
     "@types/bun": "latest"
   },
-  "peerDependencies": {
-    "typescript": "^5.5.0"
-  },
-  "dependencies": {
-    "drizzle": "workspace:*",
-    "grammy": "^1.27.0",
-    "luxon": "^3.4.4"
-  }
+  "dependencies": {}
 }
