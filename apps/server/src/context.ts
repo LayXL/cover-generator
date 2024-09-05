@@ -16,7 +16,7 @@ type VKData = {
   sign?: string
 }
 
-const getQueryFromAuthorizationHeader = (
+export const getQueryFromAuthorizationHeader = (
   authorization?: string | null
 ): {
   authorizationType: "vk"
