@@ -1,27 +1,22 @@
-import type {
-  Background,
-  DeepPartial,
-  GradientBackground,
-  SolidBackground,
-} from "shared/types"
+import type { coverBackgroundSchema } from "shared/types"
+import type { z } from "zod"
 import { fillGradientBackground } from "./fillGradientBackground"
 import { fillSolidBackground } from "./fillSolidBackground"
 
 export const fillBackground = (
   canvas: HTMLCanvasElement,
-  bg: DeepPartial<Background>
+  background: z.infer<typeof coverBackgroundSchema>
 ) => {
   const ctx = canvas.getContext("2d")
 
   if (!ctx) return
 
-  switch (bg.type) {
+  switch (background.type) {
     case "solid":
-      fillSolidBackground(canvas, bg as SolidBackground)
+      fillSolidBackground(canvas, background)
       break
     case "gradient":
-      if (!bg.colors) return
-      fillGradientBackground(canvas, bg as GradientBackground)
+      fillGradientBackground(canvas, background)
       break
   }
 }

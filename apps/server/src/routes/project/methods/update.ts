@@ -3,7 +3,7 @@ import { db } from "drizzle"
 import { and, eq } from "drizzle-orm"
 import { projects } from "drizzle/db/schema"
 import { returnFirst } from "shared/returnFirst"
-import { zodProject } from "shared/types"
+import { projectSchema } from "shared/types"
 import { z } from "zod"
 import { privateProcedure } from "../../../trpc"
 
@@ -11,7 +11,7 @@ export const update = privateProcedure
   .input(
     z.object({
       id: z.number(),
-      data: zodProject.optional(),
+      data: projectSchema.optional(),
       title: z.string().optional(),
     })
   )

@@ -1,16 +1,17 @@
-import type { GradientBackground } from "shared/types"
+import type { coverGradientBackgroundSchema } from "shared/types"
+import type { z } from "zod"
 
 export const fillGradientBackground = (
   canvas: HTMLCanvasElement,
-  bg: GradientBackground
+  background: z.infer<typeof coverGradientBackgroundSchema>
 ) => {
   const ctx = canvas.getContext("2d")
 
   if (!ctx) return
 
-  const colors = bg.colors.filter((color) => color !== undefined)
+  const colors = background.colors.filter((color) => color !== undefined)
 
-  const angleInRadians = (bg.angle ?? 90) * (Math.PI / 180)
+  const angleInRadians = background.angle * (Math.PI / 180)
 
   const width = canvas.width
   const height = canvas.height

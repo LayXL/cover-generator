@@ -1,4 +1,4 @@
-import { type DeepPartial, TRPCError } from "@trpc/server"
+import { TRPCError } from "@trpc/server"
 import { db } from "drizzle"
 import { and, eq } from "drizzle-orm"
 import { projects } from "drizzle/db/schema"
@@ -19,5 +19,5 @@ export const getOne = privateProcedure
 
     if (!project) throw new TRPCError({ code: "NOT_FOUND" })
 
-    return project as typeof project & { data: DeepPartial<Project> }
+    return project as typeof project & { data: Project }
   })

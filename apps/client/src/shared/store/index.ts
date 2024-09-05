@@ -1,38 +1,42 @@
 import { deepMerge } from "@/shared/utils/deepMerge"
-import type { Cover, DeepPartial, Project } from "shared/types"
+import {
+  type Cover,
+  type DeepPartial,
+  type Project,
+  coverSchema,
+  projectSchema,
+} from "shared/types"
 import { v4 as uuidv4 } from "uuid"
 import { create } from "zustand"
 
 type ProjectState = {
-  project: DeepPartial<Project>
-  updateProject: (project: DeepPartial<Project>) => void
+  project: Project
+  updateProject: (project: Project) => void
   addCover: (cover?: Omit<Cover, "uuid">) => void
   updateCover: (index: number, cover: DeepPartial<Cover>) => void
   deleteCover: (index: number) => void
-  projectId?: number
-  setProjectId: (id: number) => void
 }
 
 export const useProjectStore = create<ProjectState>()((set) => ({
-  project: {},
+  project: {
+    covers: [],
+  },
   updateProject: (project) =>
-    set((state) => ({
-      project: { ...state.project, ...project },
-    })),
+    set((state) => {
+      return {
+        project: projectSchema.parse(deepMerge(state.project, project)),
+      }
+    }),
   addCover(cover) {
     set((state) => ({
       project: {
         ...state.project,
         covers: [
-          ...(state.project.covers ?? []),
-          {
-            bg: {
-              type: "solid",
-              color: "#fff",
-            },
+          ...state.project.covers,
+          coverSchema.parse({
             ...cover,
             uuid: uuidv4(),
-          },
+          }),
         ],
       },
     }))
@@ -51,14 +55,9 @@ export const useProjectStore = create<ProjectState>()((set) => ({
         ...state.project,
         covers:
           state.project.covers?.map((c, i) =>
-            i === index && c ? deepMerge(c, newCover) : c
+            i === index && c ? coverSchema.parse(deepMerge(c, newCover)) : c
           ) ?? [],
       },
-    }))
-  },
-  setProjectId(id) {
-    set(() => ({
-      projectId: id,
     }))
   },
 }))

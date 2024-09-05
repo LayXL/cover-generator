@@ -19,7 +19,7 @@ export const buildCover = (
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  if (cover.bg) fillBackground(canvas, cover.bg)
+  if (cover.background) fillBackground(canvas, cover.background)
 
   if (cover.text?.value && cover.text.value.length > 0) {
     ctx.fillStyle = cover.text.color ?? "#000"

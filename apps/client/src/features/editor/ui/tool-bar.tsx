@@ -61,7 +61,7 @@ export const ToolBar = () => {
         type="button"
         onClick={() => {
           updateCurrentCover({
-            bg: {
+            background: {
               type: "gradient",
               colors: ["#000", "#fff"],
             },
@@ -75,7 +75,7 @@ export const ToolBar = () => {
         max={360}
         onChange={(e) => {
           updateCurrentCover({
-            bg: {
+            background: {
               angle: Number(e.target.value),
             },
           })
