@@ -1,3 +1,5 @@
+import { z } from "zod"
+
 export type Community = {
   id: number
   name: string
@@ -55,3 +57,5 @@ export type DeepPartial<T> = T extends object
       [P in keyof T]?: DeepPartial<T[P]>
     }
   : T
+
+export const zodProject = z.custom<DeepPartial<Project>>()

@@ -1,4 +1,3 @@
-import type { Cover } from "@/shared/types"
 import {
   type MotionValue,
   animate,
@@ -7,11 +6,12 @@ import {
   useTransform,
 } from "framer-motion"
 import { useEffect } from "react"
+import type { Cover, DeepPartial } from "shared/types"
 import { useWindowSize } from "usehooks-ts"
 import { CoverRenderer } from "./cover-renderer"
 
 type CoverCarouselsProps = {
-  covers: Cover[]
+  covers: DeepPartial<Cover>[]
   currentCoverIndex: number
   setCurrentCoverIndex: (index: number) => void
 }
@@ -63,7 +63,7 @@ export const CoverCarousel = (props: CoverCarouselsProps) => {
 type CoverCarouselItemProps = {
   index: number
   currentCoverIndex: number
-  cover: Cover
+  cover: DeepPartial<Cover>
   x: MotionValue<number>
 }
 

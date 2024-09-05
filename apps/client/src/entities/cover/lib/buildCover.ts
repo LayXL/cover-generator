@@ -1,4 +1,4 @@
-import type { Cover, DeepPartial } from "@/shared/types"
+import type { Cover, DeepPartial } from "shared/types"
 import { fillBackground } from "./fillBackground"
 
 export const buildCover = (

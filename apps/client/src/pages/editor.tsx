@@ -3,10 +3,14 @@ import { CoverCarousel } from "@/entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
 import { ToolBar } from "@/features/editor/ui/tool-bar"
 import { useCoverStore, useProjectStore } from "@/shared/store"
+import { trpc } from "@/shared/utils/trpc"
+import { skipToken } from "@tanstack/react-query"
 import { Icon24FullscreenExit } from "@vkontakte/icons"
 import { IconButton } from "@vkontakte/vkui"
 import { motion } from "framer-motion"
 import { useEffect, useMemo, useState } from "react"
+import { useParams } from "react-router-dom"
+import { useDebounceValue } from "usehooks-ts"
 
 enum Trans {
   GRID = 0,
@@ -16,24 +20,70 @@ enum Trans {
 }
 
 export const Editor = () => {
-  const {
-    project: currentProject,
-    updateProject,
-    addCover,
-    deleteCover,
-  } = useProjectStore()
-
-  const covers = currentProject.covers ?? []
-
-  const { currentCoverIndex, setCurrentCoverIndex } = useCoverStore()
-  const currentCover = useMemo(
-    () => currentProject.covers?.[currentCoverIndex],
-    [currentCoverIndex, currentProject.covers]
+  const { id: projectId } = useParams()
+  const cloudProject = trpc.project.getOne.useQuery(
+    !projectId ? skipToken : { id: Number.parseInt(projectId) }
   )
 
+  const utils = trpc.useUtils()
+
+  const {
+    project: currentProject,
+    addCover,
+    deleteCover,
+    updateProject,
+  } = useProjectStore()
+  const [debouncedCurrentProject] = useDebounceValue(currentProject, 500)
+
+  const updateCloudProject = trpc.project.update.useMutation()
+
+  const covers = currentProject.covers?.filter((c) => c !== undefined) ?? []
+  const { currentCoverIndex, setCurrentCoverIndex } = useCoverStore()
+  const currentCover = useMemo(
+    () => covers[currentCoverIndex],
+    [currentCoverIndex, covers]
+  )
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    updateProject({ title: "Untitled" })
-  }, [updateProject])
+    if (!projectId) return
+
+    updateCloudProject.mutate({
+      id: Number.parseInt(projectId),
+      title: debouncedCurrentProject.title,
+      data: {
+        community: debouncedCurrentProject.community,
+        covers: debouncedCurrentProject.covers,
+      },
+    })
+
+    utils.project.getOne.setData({ id: Number.parseInt(projectId) }, (data) => {
+      if (!data) return
+
+      return {
+        ...data,
+        title: debouncedCurrentProject.title
+          ? debouncedCurrentProject.title
+          : data.title,
+        data: {
+          ...data.data,
+          community: debouncedCurrentProject.community,
+          covers: debouncedCurrentProject.covers,
+        },
+      }
+    })
+  }, [debouncedCurrentProject, projectId])
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (cloudProject.isSuccess) {
+      updateProject({
+        title: cloudProject.data.title ?? undefined,
+        community: cloudProject.data.data.community,
+        covers: cloudProject.data.data.covers,
+      })
+    }
+  }, [cloudProject.isSuccess])
 
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
 

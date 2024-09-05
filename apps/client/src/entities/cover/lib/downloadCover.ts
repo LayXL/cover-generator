@@ -1,4 +1,4 @@
-import type { Cover } from "@/shared/types"
+import type { Cover } from "shared/types"
 import { convertCoverToImage } from "./convertCoverToImage"
 
 export const downloadCover = async (cover: Cover) => {

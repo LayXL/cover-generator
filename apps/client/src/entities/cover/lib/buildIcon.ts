@@ -1,6 +1,6 @@
-import type { DeepPartial, Icon } from "@/shared/types"
 import { hexToRgb } from "@/shared/utils/hexToRgb"
 import { loadImage } from "@/shared/utils/loadImage"
+import type { DeepPartial, Icon } from "shared/types"
 
 export const buildIcon = async (icon: DeepPartial<Icon>, pixelRatio = 1) => {
   const img = await loadImage(`/icons/${icon.name}.svg`)

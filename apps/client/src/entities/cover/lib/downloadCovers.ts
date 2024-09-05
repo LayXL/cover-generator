@@ -1,9 +1,12 @@
-import type { Cover } from "@/shared/types"
 import JSZip from "jszip"
+import type { Cover, DeepPartial } from "shared/types"
 import { convertCoverToImage } from "./convertCoverToImage"
 import { dataURItoBlob } from "./dataURItoBlob"
 
-export const downloadCovers = async (covers: Cover[], name = "Covers") => {
+export const downloadCovers = async (
+  covers: DeepPartial<Cover>[] | Cover[],
+  name = "Covers"
+) => {
   const zip = new JSZip()
 
   for (const cover of covers) {

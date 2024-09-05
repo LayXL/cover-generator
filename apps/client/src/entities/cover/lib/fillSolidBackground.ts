@@ -1,4 +1,4 @@
-import type { SolidBackground } from "@/shared/types"
+import type { SolidBackground } from "shared/types"
 
 export const fillSolidBackground = (
   canvas: HTMLCanvasElement,

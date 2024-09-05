@@ -1,4 +1,4 @@
-import type { GradientBackground } from "@/shared/types"
+import type { GradientBackground } from "shared/types"
 
 export const fillGradientBackground = (
   canvas: HTMLCanvasElement,

@@ -1,5 +1,5 @@
-import type { Cover, DeepPartial } from "@/shared/types"
 import { useEffect, useRef } from "react"
+import type { Cover, DeepPartial } from "shared/types"
 import { buildCover } from "../lib/buildCover"
 import { useIconCanvas } from "../lib/useIconCanvas"
 

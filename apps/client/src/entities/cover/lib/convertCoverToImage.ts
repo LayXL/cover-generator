@@ -1,8 +1,10 @@
-import type { Cover } from "@/shared/types"
+import type { Cover, DeepPartial } from "shared/types"
 import { buildCover } from "./buildCover"
 import { buildIcon } from "./buildIcon"
 
-export const convertCoverToImage = async (cover: Cover) => {
+export const convertCoverToImage = async (
+  cover: DeepPartial<Cover> | Cover
+) => {
   const canvas = document.createElement("canvas")
 
   canvas.width = 376

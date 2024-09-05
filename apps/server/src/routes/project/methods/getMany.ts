@@ -9,6 +9,9 @@ export const getMany = privateProcedure
   .query(async ({ ctx }) => {
     const userProjects = await db.query.projects.findMany({
       where: eq(projects.authorId, ctx.user.id),
+      columns: {
+        data: false,
+      },
     })
 
     return userProjects
