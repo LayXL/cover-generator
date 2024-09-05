@@ -1,3 +1,6 @@
-myProjectsTitle = Мои проекты
+my-projects-title = Мои проекты
 
-newProjectButton = Создать новый проект
+create-project-button = Создать проект
+
+no-projects-placeholder = Здесь пока пусто
+  .caption = Здесь будут отображаться проекты, которые вы создавали

@@ -15,7 +15,9 @@
     --ma-theme-text-accent: 38, 136, 235;
     --ma-theme-text-on-accent: 255, 255, 255;
     --ma-theme-text-destructive: 244, 1, 77;
+
   }
+
 
   body.dark {
     --ma-theme-bg-primary: 20, 20, 20;
@@ -32,19 +34,34 @@
   }
 
   body {
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     user-select: none;
     cursor: default;
-    background-color: rgb(var(--ma-theme-bg-primary)) !important;
-    color: rgb(var(--ma-theme-text-primary)) !important;
+    background-color: rgb(var(--ma-theme-bg-primary));
+    color: rgb(var(--ma-theme-text-primary));
     overscroll-behavior-x: none;
     overflow-x: hidden;
   }
+}
 
-  body,
-  #root {
-    min-height: var(--ma-viewport-height);
-  }
+html,
+body,
+#root,
+.vkuiAppRoot {
+  min-height: 100lvh;
+}
+
+.vkuiAppRoot {
+  --vkui--color_background_content: rgb(var(--ma-theme-bg-primary)) !important;
+  --vkui--color_text_primary: rgb(var(--ma-theme-text-primary)) !important;
+}
+
+.vkui--sizeX-none {
+  background: inherit !important;
+}
+
+.vkuiTokensClassProvider--default-color {
+  color: rgb(var(--ma-theme-text-primary)) !important;
 }
 
 *::-webkit-scrollbar {
