@@ -1,4 +1,8 @@
-import { type ReactNode, useEffect } from "react"
+import { useQuery } from "@tanstack/react-query"
+import bridge, { type VKBridgeSubscribeHandler } from "@vkontakte/vk-bridge"
+import { AppRoot, ConfigProvider } from "@vkontakte/vkui"
+import "@vkontakte/vkui/dist/vkui.css"
+import { type ReactNode, useEffect, useState } from "react"
 import {
   isAndroid,
   isDesktop,
@@ -13,6 +17,28 @@ function toggle(condition: boolean, className: string) {
 }
 
 export const ThemeConfig = ({ children }: { children?: ReactNode }) => {
+  const [scheme, setScheme] = useState<"light" | "dark">("dark")
+
+  const { data: vkConfig } = useQuery({
+    queryKey: ["VKConfig"],
+    queryFn: () => bridge.send("VKWebAppGetConfig"),
+  })
+
+  useEffect(() => {
+    if (vkConfig) setScheme(vkConfig.appearance)
+  }, [vkConfig])
+
+  useEffect(() => {
+    const listener: VKBridgeSubscribeHandler = (event) => {
+      if (event.detail.type !== "VKWebAppUpdateConfig") return
+      setScheme(event.detail.data.appearance)
+    }
+
+    bridge.subscribe(listener)
+
+    return () => bridge.unsubscribe(listener)
+  }, [])
+
   useEffect(() => {
     toggle(isMobile, "mobile")
     toggle(isDesktop, "desktop")
@@ -21,8 +47,12 @@ export const ThemeConfig = ({ children }: { children?: ReactNode }) => {
     toggle(isIOS, "ios")
     toggle(isAndroid, "android")
 
-    toggle(true, "dark")
-  }, [])
+    toggle(scheme === "dark", "dark")
+  }, [scheme])
 
-  return children
+  return (
+    <ConfigProvider appearance={scheme}>
+      <AppRoot mode="embedded">{children}</AppRoot>
+    </ConfigProvider>
+  )
 }

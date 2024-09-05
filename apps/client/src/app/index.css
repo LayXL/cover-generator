@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    --ma-theme-bg-primary: 237, 238, 240;
+    --ma-theme-bg-primary: 235, 237, 240;
     --ma-theme-bg-surface: 255, 255, 255;
     --ma-theme-bg-inversed: 20, 20, 20;
     --ma-theme-bg-accent: 38, 136, 235;

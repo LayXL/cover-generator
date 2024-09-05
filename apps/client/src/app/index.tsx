@@ -1,4 +1,4 @@
-import initLocalization from "@/features/localization/lib/initLocalization"
+import { initLocalization } from "@/features/localization/lib/initLocalization"
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { RouterProvider } from "react-router-dom"
@@ -11,14 +11,16 @@ import { ThemeConfig } from "./theme-config.tsx"
 initLocalization()
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
-createRoot(document.getElementById("root")!).render(
+const root = createRoot(document.getElementById("root")!)
+
+root.render(
   <StrictMode>
-    <RecoilRoot>
-      <ThemeConfig>
-        <QueryProvider>
+    <QueryProvider>
+      <RecoilRoot>
+        <ThemeConfig>
           <RouterProvider router={router} />
-        </QueryProvider>
-      </ThemeConfig>
-    </RecoilRoot>
+        </ThemeConfig>
+      </RecoilRoot>
+    </QueryProvider>
   </StrictMode>
 )

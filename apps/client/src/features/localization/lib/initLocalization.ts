@@ -1,28 +1,23 @@
 import i18n from "i18next"
-import resourcesToBackend from "i18next-resources-to-backend"
+import Fluent from "i18next-fluent"
+import Backend from "i18next-fluent-backend"
 import { Settings } from "luxon"
 import { initReactI18next } from "react-i18next"
 
 export const activeLanguage = "ru"
 
-export const activeLanguageId =
-  Object.entries({
-    en: 1,
-    ru: 2,
-  }).find(([x]) => x === activeLanguage)?.[1] ?? 1
-
-export default function () {
+export const initLocalization = () => {
   i18n
+    .use(Fluent)
+    .use(Backend)
     .use(initReactI18next)
-    .use(
-      resourcesToBackend(
-        (lang: string) => import(`../../../locales/${lang}.json`)
-      )
-    )
     .init({
       lng: activeLanguage,
-      fallbackLng: "en",
+      fallbackLng: "ru",
       interpolation: { escapeValue: false },
+      backend: {
+        loadPath: "/locales/{{lng}}.ftl",
+      },
     })
 
   Settings.defaultLocale = activeLanguage

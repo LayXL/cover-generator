@@ -12,7 +12,7 @@ export const router = createBrowserRouter([
         element: <Projects />,
       },
       {
-        path: "/editor",
+        path: "/projects/:id/editor",
         element: <Editor />,
       },
     ],
