@@ -33,23 +33,28 @@ export const images = new Elysia().group("/images", (group) =>
           .webp({ quality: 80 })
           .toFile(`./images/${uuid}.webp`)
 
-        db.insert(media).values({
+        const blurhash = encode(
+          await fileToUint8ClampedArray(image),
+          convertedImage.width,
+          convertedImage.height,
+          4,
+          4
+        )
+
+        await db.insert(media).values({
           uuid,
           authorId: queryData.userId,
           projectId,
           width: convertedImage.width,
           height: convertedImage.height,
-          blurhash: encode(
-            await fileToUint8ClampedArray(image),
-            convertedImage.width,
-            convertedImage.height,
-            4,
-            4
-          ),
+          blurhash,
         })
 
         return {
           url: `/images/${uuid}.webp`,
+          width: convertedImage.width,
+          height: convertedImage.height,
+          blurhash,
         }
       },
       {
