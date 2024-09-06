@@ -1,11 +1,17 @@
 import { downloadCovers } from "@/entities/cover/lib/downloadCovers"
 import { CoverCarousel } from "@/entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
-import { ToolBar } from "@/features/editor/ui/tool-bar"
+import { ToolbarRoot } from "@/features/toolbar/ui/toolbar-root"
+import type { ToolbarTabData } from "@/features/toolbar/ui/toolbar-tab"
 import { useCoverStore, useProjectStore } from "@/shared/store"
 import { trpc } from "@/shared/utils/trpc"
 import { skipToken } from "@tanstack/react-query"
-import { Icon24FullscreenExit } from "@vkontakte/icons"
+import {
+  Icon24FullscreenExit,
+  Icon28LogoVkOutline,
+  Icon28PictureOutline,
+  Icon28TextOutline,
+} from "@vkontakte/icons"
 import { IconButton } from "@vkontakte/vkui"
 import { motion } from "framer-motion"
 import { useEffect, useMemo, useState } from "react"
@@ -86,6 +92,81 @@ export const Editor = () => {
   }, [cloudProject.isSuccess])
 
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
+
+  const tabs = useMemo(() => {
+    return [
+      {
+        name: "root",
+        items: [
+          {
+            name: "background",
+            title: "Background",
+            icon: <Icon28PictureOutline />,
+            onSelect: (toolbar) => toolbar.push("background"),
+          },
+          {
+            name: "text",
+            title: "Text",
+            icon: <Icon28TextOutline />,
+            onSelect: (toolbar) => toolbar.push("text"),
+          },
+          {
+            name: "icon",
+            title: "Icon",
+            icon: <Icon28LogoVkOutline />,
+            onSelect: (toolbar) => toolbar.push("icon"),
+          },
+        ],
+      },
+      {
+        name: "background",
+        items: [
+          {
+            name: "gradient",
+            title: "Gradient",
+          },
+          {
+            name: "fill",
+            title: "Fill",
+          },
+          {
+            name: "image",
+            title: "Image",
+          },
+        ],
+      },
+      {
+        name: "text",
+        items: [
+          {
+            name: "font",
+            title: "Font",
+          },
+          {
+            name: "size",
+            title: "Size",
+          },
+          {
+            name: "color",
+            title: "Color",
+          },
+        ],
+      },
+      {
+        name: "icon",
+        items: [
+          {
+            name: "size",
+            title: "Size",
+          },
+          {
+            name: "color",
+            title: "Color",
+          },
+        ],
+      },
+    ] as ToolbarTabData[]
+  }, [])
 
   return (
     <>
@@ -178,7 +259,7 @@ export const Editor = () => {
           trans === Trans.EDITOR ? { translateY: 0 } : { translateY: "100%" }
         }
       >
-        <ToolBar />
+        <ToolbarRoot tabs={tabs} />
       </motion.div>
 
       {(trans === Trans.TO_EDITOR || trans === Trans.TO_GRID) && (
