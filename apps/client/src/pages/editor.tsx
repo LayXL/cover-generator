@@ -1,7 +1,7 @@
 import { downloadCovers } from "@/entities/cover/lib/downloadCovers"
 import { CoverCarousel } from "@/entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
-import { useCurrentCover } from "@/features/editor/lib/useCurrentCover.tsx"
+import { useCurrentCover } from "@/features/editor/lib/useCurrentCover"
 import { EditorToolBar } from "@/features/editor/ui/editor-tool-bar"
 import { useCoverStore, useProjectStore } from "@/shared/store"
 import { trpc } from "@/shared/utils/trpc"

@@ -5,9 +5,9 @@ import { createRoot } from "react-dom/client"
 import { RouterProvider } from "react-router-dom"
 import { RecoilRoot } from "recoil"
 import "./index.css"
-import { QueryProvider } from "./query-provider.tsx"
-import { router } from "./router.tsx"
-import { ThemeConfig } from "./theme-config.tsx"
+import { QueryProvider } from "./query-provider"
+import { router } from "./router"
+import { ThemeConfig } from "./theme-config"
 
 initLocalization()
 
