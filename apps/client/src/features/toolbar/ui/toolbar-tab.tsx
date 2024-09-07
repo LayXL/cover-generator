@@ -1,5 +1,5 @@
 import { Icon28ChevronLeftOutline } from "@vkontakte/icons"
-import { useToolbar } from "../lib/useToolBar"
+import { useToolbar } from "../lib/useToolbar"
 import { ToolbarItem, type ToolbarItemData } from "./toolbar-item"
 
 export type ToolbarTabData = {
@@ -20,7 +20,7 @@ export const ToolbarTab = (props: ToolbarTabProps) => {
       {props.canGoBack && (
         <button
           type="button"
-          className="grid place-items-center bg-primary rounded-[10px] border border-inversed/10"
+          className="grid place-items-center bg-primary rounded-[10px] border border-inversed/10 px-1.5"
           onClick={() => {
             toolbar.back()
           }}
@@ -33,8 +33,17 @@ export const ToolbarTab = (props: ToolbarTabProps) => {
           key={item.title}
           {...item}
           mode={props.mode}
+          isSelected={toolbar.selectedItems[props.name] === item.name}
           onClick={() => {
-            item.onSelect?.(toolbar)
+            item.onSelect?.({
+              push: toolbar.push(props.mode === "secondary"),
+              markAsSelected: () =>
+                toolbar.markAsSelected(props.name, item.name),
+              pushAndMark: (tabName: string) => {
+                toolbar.push(props.mode === "secondary")(tabName)
+                toolbar.markAsSelected(props.name, item.name)
+              },
+            })
           }}
         />
       ))}

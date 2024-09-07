@@ -1,17 +1,11 @@
 import { downloadCovers } from "@/entities/cover/lib/downloadCovers"
 import { CoverCarousel } from "@/entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
-import { ToolbarRoot } from "@/features/toolbar/ui/toolbar-root"
-import type { ToolbarTabData } from "@/features/toolbar/ui/toolbar-tab"
+import { EditorToolBar } from "@/features/editor/ui/editor-tool-bar"
 import { useCoverStore, useProjectStore } from "@/shared/store"
 import { trpc } from "@/shared/utils/trpc"
 import { skipToken } from "@tanstack/react-query"
-import {
-  Icon24FullscreenExit,
-  Icon28LogoVkOutline,
-  Icon28PictureOutline,
-  Icon28TextOutline,
-} from "@vkontakte/icons"
+import { Icon24FullscreenExit } from "@vkontakte/icons"
 import { IconButton } from "@vkontakte/vkui"
 import { motion } from "framer-motion"
 import { useEffect, useMemo, useState } from "react"
@@ -26,12 +20,12 @@ enum Trans {
 }
 
 export const Editor = () => {
+  const utils = trpc.useUtils()
+
   const { id: projectId } = useParams()
   const cloudProject = trpc.project.getOne.useQuery(
     !projectId ? skipToken : { id: Number.parseInt(projectId) }
   )
-
-  const utils = trpc.useUtils()
 
   const {
     project: currentProject,
@@ -93,81 +87,6 @@ export const Editor = () => {
 
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
 
-  const tabs = useMemo(() => {
-    return [
-      {
-        name: "root",
-        items: [
-          {
-            name: "background",
-            title: "Background",
-            icon: <Icon28PictureOutline />,
-            onSelect: (toolbar) => toolbar.push("background"),
-          },
-          {
-            name: "text",
-            title: "Text",
-            icon: <Icon28TextOutline />,
-            onSelect: (toolbar) => toolbar.push("text"),
-          },
-          {
-            name: "icon",
-            title: "Icon",
-            icon: <Icon28LogoVkOutline />,
-            onSelect: (toolbar) => toolbar.push("icon"),
-          },
-        ],
-      },
-      {
-        name: "background",
-        items: [
-          {
-            name: "gradient",
-            title: "Gradient",
-          },
-          {
-            name: "fill",
-            title: "Fill",
-          },
-          {
-            name: "image",
-            title: "Image",
-          },
-        ],
-      },
-      {
-        name: "text",
-        items: [
-          {
-            name: "font",
-            title: "Font",
-          },
-          {
-            name: "size",
-            title: "Size",
-          },
-          {
-            name: "color",
-            title: "Color",
-          },
-        ],
-      },
-      {
-        name: "icon",
-        items: [
-          {
-            name: "size",
-            title: "Size",
-          },
-          {
-            name: "color",
-            title: "Color",
-          },
-        ],
-      },
-    ] as ToolbarTabData[]
-  }, [])
-
   return (
     <>
       <div className="h-screen overflow-scroll">
@@ -192,12 +111,12 @@ export const Editor = () => {
         <div className="p-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4">
           {currentProject.covers?.map((cover, i) => (
             <motion.button
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              key={i}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               type="button"
               id={`cover-${i}`}
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              key={i}
               className="rounded-lg overflow-hidden cursor-pointer"
               onClick={() => {
                 setCurrentCoverIndex(i)
@@ -259,7 +178,7 @@ export const Editor = () => {
           trans === Trans.EDITOR ? { translateY: 0 } : { translateY: "100%" }
         }
       >
-        <ToolbarRoot tabs={tabs} />
+        <EditorToolBar />
       </motion.div>
 
       {(trans === Trans.TO_EDITOR || trans === Trans.TO_GRID) && (

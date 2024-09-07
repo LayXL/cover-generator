@@ -1,13 +1,16 @@
 import { Caption, Text } from "@/shared/ui/typography"
 import { cn } from "@/shared/utils/cn"
 import type { ReactNode } from "react"
-import type { ToolbarContext } from "../lib/useToolBar"
 
 export type ToolbarItemData = {
   name: string
   title: string
   icon?: ReactNode
-  onSelect?: (toolbar: ToolbarContext) => void
+  onSelect?: (toolbar: {
+    push: (tabName: string) => void
+    markAsSelected: () => void
+    pushAndMark: (tabName: string) => void
+  }) => void
   isSelected?: boolean
   mode?: "primary" | "secondary"
 }
@@ -24,14 +27,17 @@ export const ToolbarItem = (props: ToolbarItemProps) => {
       type="button"
       onClick={props.onClick}
       className={cn(
-        "w-full h-full flex flex-col gap-0.5 items-center justify-center",
-        mode === "secondary" && "flex-row gap-1.5"
+        "w-full h-full flex flex-col gap-0.5 items-center justify-center rounded-[10px] border border-transparent",
+        mode === "secondary" && "flex-row gap-1.5",
+        mode === "secondary" &&
+          props.isSelected &&
+          "bg-primary border-inversed/10"
       )}
     >
       <div
         className={cn(
-          "[&>svg]:!size-[var(--size)]",
-          mode === "secondary" && "fill-inversed/50"
+          "[&>svg]:!size-[var(--size)] [&>svg]:text-inversed/50 [&>svg]:fill-current",
+          props.isSelected && "[&>svg]:text-accent"
         )}
         style={{
           "--size": mode === "primary" ? "28px" : "20px",

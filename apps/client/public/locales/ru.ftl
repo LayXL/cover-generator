@@ -9,3 +9,11 @@ loading-projects-error-placeholder = Произошла ошибка при за
   .caption = Повторите попытку позже
 
 try-again-button = Повторить попытку
+
+background-tab-title = Фон
+text-tab-title = Текст
+icon-tab-title = Иконка
+
+gradient-tab-title = Градиент
+fill-tab-title = Заливка
+image-tab-title = Изображение

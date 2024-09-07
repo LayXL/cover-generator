@@ -1,27 +1,49 @@
 import { useCallback, useState } from "react"
-import { ToolbarProvider } from "../lib/useToolBar"
+import { type SelectedItems, ToolbarProvider } from "../lib/useToolbar"
 import { ToolbarTab, type ToolbarTabData } from "./toolbar-tab"
 
 type ToolbarRootProps = {
   tabs: ToolbarTabData[]
+  overrideCurrentTab?: string
+  overrideTabHistory?: string[]
+  overrideSelectedItems?: SelectedItems
+  selectedItems?: SelectedItems
 }
 
 export const ToolbarRoot = (props: ToolbarRootProps) => {
-  const [currentTab, setCurrentTab] = useState("root")
-  const [tabHistory, setTabHistory] = useState<string[]>([])
+  const [currentTab, setCurrentTab] = useState(
+    props.overrideCurrentTab ?? "root"
+  )
+  const [tabHistory, setTabHistory] = useState<string[]>(
+    props.overrideTabHistory ?? []
+  )
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>(
+    props.overrideSelectedItems ?? {}
+  )
+
+  const markAsSelected = useCallback((tabName: string, itemName: string) => {
+    setSelectedItems((prev) => ({
+      ...prev,
+      [tabName]: itemName,
+    }))
+  }, [])
 
   const push = useCallback(
-    (tabName: string) => {
+    (replace: boolean) => (tabName: string) => {
       setCurrentTab(tabName)
-      setTabHistory([...tabHistory, currentTab])
+      if (!replace) setTabHistory([...tabHistory, currentTab])
     },
     [tabHistory, currentTab]
   )
 
   const back = useCallback(() => {
-    if (tabHistory.length > 0) {
+    if (tabHistory.length > 1) {
       setTabHistory(tabHistory.slice(0, -1))
       setCurrentTab(tabHistory[tabHistory.length - 1])
+      setSelectedItems((prev) => ({
+        ...prev,
+        [tabHistory[tabHistory.length - 1]]: null,
+      }))
     }
   }, [tabHistory])
 
@@ -35,15 +57,17 @@ export const ToolbarRoot = (props: ToolbarRootProps) => {
       value={{
         currentTab,
         tabHistory,
+        selectedItems: { ...selectedItems, ...props.selectedItems },
         push,
         back,
+        markAsSelected,
       }}
     >
       <div className="flex flex-col gap-3 p-3">
         <div className="h-[79px]">
           {currentTabData && (
             <ToolbarTab
-              canGoBack={tabHistory.length >= 1}
+              canGoBack={tabHistory.length > 1}
               mode="primary"
               {...currentTabData}
             />

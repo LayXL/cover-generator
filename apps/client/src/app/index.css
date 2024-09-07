@@ -44,6 +44,10 @@
   }
 }
 
+[class*="vkui"] {
+  box-sizing: content-box;
+}
+
 html,
 body,
 #root,

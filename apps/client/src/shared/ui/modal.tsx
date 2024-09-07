@@ -32,7 +32,6 @@ export const Modal = (props: ModalProps) => {
       <AnimatePresence>
         {props.isOpened && (
           <FloatingPortal>
-            {/* {isTelegram && <BackButton onClick={props.onClose} />} */}
             <motion.div
               initial={{ backgroundColor: "rgba(0,0,0,0)" }}
               animate={{ backgroundColor: "rgba(0,0,0,0.5)" }}
@@ -68,11 +67,13 @@ export const Modal = (props: ModalProps) => {
                   props.fullscreen && "h-full pb-safe-area-bottom -mb-0"
                 )}
                 onClick={(e) => e.stopPropagation()}
-                style={{
-                  boxShadow: props.fullscreen
-                    ? undefined
-                    : "inset 0 1px rgba(var(--ma-theme-bg-inversed), 0.25)",
-                }}
+                style={
+                  {
+                    // boxShadow: props.fullscreen
+                    //   ? undefined
+                    //   : "inset 0 1px rgba(var(--ma-theme-bg-inversed), 0.25)",
+                  }
+                }
               >
                 <div
                   className={cn(props.fullscreen && "overflow-scroll h-full")}
