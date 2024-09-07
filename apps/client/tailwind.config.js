@@ -24,6 +24,7 @@ export default {
           accent: "rgb(var(--ma-theme-bg-on-accent), <alpha-value>)",
         },
         destructive: "rgb(var(--ma-theme-destructive), <alpha-value>)",
+        modal: "var(--vkui--color_background_modal)",
       },
       backgroundColor: {
         primary: "rgb(var(--ma-theme-bg-primary), <alpha-value>)",

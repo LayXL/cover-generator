@@ -1,6 +1,7 @@
 import { CUBIC_BEZIER } from "@/shared/utils/animations"
 import { cn } from "@/shared/utils/cn"
 import { FloatingPortal } from "@floating-ui/react"
+import type { ClassValue } from "clsx"
 import { AnimatePresence, motion } from "framer-motion"
 import { type ReactNode, createContext, useContext } from "react"
 
@@ -11,6 +12,7 @@ type ModalProps = {
   withoutCloseButton?: boolean
   fullscreen?: boolean
   withoutTint?: boolean
+  className?: ClassValue
 }
 
 const ModalContext = createContext({
@@ -32,7 +34,7 @@ export const Modal = (props: ModalProps) => {
     >
       <AnimatePresence>
         {props.isOpened && (
-          <FloatingPortal>
+          <FloatingPortal root={document.getElementById("root")}>
             <motion.div
               initial={{ backgroundColor: "rgba(0,0,0,0)" }}
               animate={
@@ -68,17 +70,11 @@ export const Modal = (props: ModalProps) => {
                       }
                 }
                 className={cn(
-                  "relative bg-surface rounded-t-3xl pb-16 -mb-16 overflow-hidden",
-                  props.fullscreen && "h-full pb-safe-area-bottom -mb-0"
+                  "relative bg-modal rounded-t-3xl pb-16 -mb-16 overflow-hidden",
+                  props.fullscreen && "h-full pb-safe-area-bottom -mb-0",
+                  props.className
                 )}
                 onClick={(e) => e.stopPropagation()}
-                style={
-                  {
-                    // boxShadow: props.fullscreen
-                    //   ? undefined
-                    //   : "inset 0 1px rgba(var(--ma-theme-bg-inversed), 0.25)",
-                  }
-                }
               >
                 <div
                   className={cn(props.fullscreen && "overflow-scroll h-full")}

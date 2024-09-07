@@ -188,7 +188,11 @@ export const EditorToolBar = () => {
         }
       />
 
-      <Modal withoutTint {...fillSolidColorModal}>
+      <Modal
+        withoutTint
+        {...fillSolidColorModal}
+        // className="h-40 box-content"
+      >
         <ColorPickerModal
           color={
             currentCover && "color" in currentCover.background
