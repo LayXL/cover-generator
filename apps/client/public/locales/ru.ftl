@@ -10,6 +10,8 @@ loading-projects-error-placeholder = Произошла ошибка при за
 
 try-again-button = Повторить попытку
 
+# Editor tool bar
+
 background-tab-title = Фон
 text-tab-title = Текст
 icon-tab-title = Иконка
@@ -17,3 +19,9 @@ icon-tab-title = Иконка
 gradient-tab-title = Градиент
 fill-tab-title = Заливка
 image-tab-title = Изображение
+
+default-gradients-tab-title = Готовые
+linear-gradient-tab-title = Линейный
+radial-gradient-tab-title = Радиальный
+
+clear-text-button = Очистить текст

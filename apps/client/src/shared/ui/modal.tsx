@@ -10,6 +10,7 @@ type ModalProps = {
   children?: ReactNode
   withoutCloseButton?: boolean
   fullscreen?: boolean
+  withoutTint?: boolean
 }
 
 const ModalContext = createContext({
@@ -34,7 +35,11 @@ export const Modal = (props: ModalProps) => {
           <FloatingPortal>
             <motion.div
               initial={{ backgroundColor: "rgba(0,0,0,0)" }}
-              animate={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+              animate={
+                !props.withoutTint
+                  ? { backgroundColor: "rgba(0,0,0,0.5)" }
+                  : undefined
+              }
               exit={{
                 backgroundColor: "rgba(0,0,0,0)",
                 pointerEvents: "none",

@@ -6,12 +6,18 @@ import { useModalState } from "@/shared/hooks/useModalState"
 import { Modal } from "@/shared/ui/modal"
 import { CUBIC_BEZIER } from "@/shared/utils/animations"
 import {
+  Icon16Clear,
+  Icon24GradientOutline,
+  Icon28ArchiveCheckOutline,
+  Icon28ArrowRightSquareOutline,
+  Icon28CheckCircleOff,
   Icon28LogoVkOutline,
   Icon28PaintRollerOutline,
+  Icon28PaletteOutline,
   Icon28PictureOutline,
   Icon28TextOutline,
 } from "@vkontakte/icons"
-import { Input } from "@vkontakte/vkui"
+import { IconButton, Input } from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -57,13 +63,13 @@ export const EditorToolBar = () => {
             {
               name: "gradient",
               title: t("gradient-tab-title"),
-              icon: <Icon28PaintRollerOutline />,
+              icon: <Icon24GradientOutline />,
               onSelect: (toolbar) => toolbar.pushAndMark("gradient"),
             },
             {
               name: "fill",
               title: t("fill-tab-title"),
-              icon: <Icon28PaintRollerOutline />,
+              icon: <Icon28PaletteOutline />,
               onSelect: () => {
                 fillSolidColorModal.open()
               },
@@ -71,7 +77,7 @@ export const EditorToolBar = () => {
             {
               name: "image",
               title: t("image-tab-title"),
-              icon: <Icon28PaintRollerOutline />,
+              icon: <Icon28PictureOutline />,
             },
           ],
         },
@@ -79,16 +85,19 @@ export const EditorToolBar = () => {
           name: "gradient",
           items: [
             {
-              name: "template",
-              title: "Template",
+              name: "defaultGradients",
+              icon: <Icon28ArchiveCheckOutline />,
+              title: t("default-gradients-tab-title"),
             },
             {
               name: "linear",
-              title: "Linear",
+              icon: <Icon28ArrowRightSquareOutline />,
+              title: t("linear-gradient-tab-title"),
             },
             {
               name: "radial",
-              title: "Radial",
+              icon: <Icon28CheckCircleOff />,
+              title: t("radial-gradient-tab-title"),
             },
           ],
         },
@@ -148,20 +157,29 @@ export const EditorToolBar = () => {
                   initial={{ scale: 0, opacity: 50 }}
                   animate={{ scale: 1, opacity: 100 }}
                   exit={{ scale: 0, opacity: 0 }}
-                  transition={{
-                    ease: CUBIC_BEZIER,
-                  }}
+                  transition={{ ease: CUBIC_BEZIER }}
                 >
                   <Input
                     placeholder="Text"
                     value={currentCover?.text?.value ?? ""}
                     onChange={({ target: { value } }) => {
-                      updateCurrentCover({
-                        text: {
-                          value,
-                        },
-                      })
+                      updateCurrentCover({ text: { value } })
                     }}
+                    after={
+                      currentCover?.text?.value?.length !== 0 && (
+                        <IconButton
+                          hoverMode="opacity"
+                          label={t("clear-text-button")}
+                          onClick={() =>
+                            updateCurrentCover({
+                              text: { value: "" },
+                            })
+                          }
+                        >
+                          <Icon16Clear />
+                        </IconButton>
+                      )
+                    }
                   />
                 </motion.div>
               )}
@@ -170,7 +188,7 @@ export const EditorToolBar = () => {
         }
       />
 
-      <Modal {...fillSolidColorModal}>
+      <Modal withoutTint {...fillSolidColorModal}>
         <ColorPickerModal
           color={
             currentCover && "color" in currentCover.background
