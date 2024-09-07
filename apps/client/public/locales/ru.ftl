@@ -24,4 +24,7 @@ default-gradients-tab-title = Готовые
 linear-gradient-tab-title = Линейный
 radial-gradient-tab-title = Радиальный
 
+cover-text-input-placeholder = Начните вводить текст
 clear-text-button = Очистить текст
+
+untitled-cover-placeholder = Без названия

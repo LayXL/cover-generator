@@ -1,6 +1,7 @@
 import { downloadCovers } from "@/entities/cover/lib/downloadCovers"
 import { CoverCarousel } from "@/entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
+import { useCurrentCover } from "@/features/editor/lib/useCurrentCover.tsx"
 import { EditorToolBar } from "@/features/editor/ui/editor-tool-bar"
 import { useCoverStore, useProjectStore } from "@/shared/store"
 import { trpc } from "@/shared/utils/trpc"
@@ -8,7 +9,7 @@ import { skipToken } from "@tanstack/react-query"
 import { Icon24FullscreenExit } from "@vkontakte/icons"
 import { IconButton } from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useDebounceValue } from "usehooks-ts"
 
@@ -39,10 +40,7 @@ export const Editor = () => {
 
   const covers = currentProject.covers?.filter((c) => c !== undefined) ?? []
   const { currentCoverIndex, setCurrentCoverIndex } = useCoverStore()
-  const currentCover = useMemo(
-    () => covers[currentCoverIndex],
-    [currentCoverIndex, covers]
-  )
+  const [currentCover, updateCurrentCover] = useCurrentCover()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -151,6 +149,12 @@ export const Editor = () => {
             covers={covers}
             currentCoverIndex={currentCoverIndex}
             setCurrentCoverIndex={setCurrentCoverIndex}
+            onChangeTitle={(title) => {
+              updateCurrentCover({ title })
+            }}
+            onRemove={() => {
+              console.log(true)
+            }}
           />
         </div>
       </motion.div>

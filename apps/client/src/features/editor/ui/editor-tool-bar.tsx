@@ -8,9 +8,11 @@ import { CUBIC_BEZIER } from "@/shared/utils/animations"
 import {
   Icon16Clear,
   Icon24GradientOutline,
+  Icon24TextTtOutline,
   Icon28ArchiveCheckOutline,
   Icon28ArrowRightSquareOutline,
   Icon28CheckCircleOff,
+  Icon28FullscreenOutline,
   Icon28LogoVkOutline,
   Icon28PaintRollerOutline,
   Icon28PaletteOutline,
@@ -28,7 +30,9 @@ export const EditorToolBar = () => {
   const { t } = useTranslation()
 
   const [currentCover, updateCurrentCover] = useCurrentCover()
-  const [selectedItems, setSelectedItems] = useState<SelectedItems>({})
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>({
+    root: "background",
+  })
 
   const fillSolidColorModal = useModalState()
 
@@ -47,7 +51,7 @@ export const EditorToolBar = () => {
             {
               name: "text",
               title: t("text-tab-title"),
-              icon: <Icon28TextOutline />,
+              icon: <Icon24TextTtOutline />,
               onSelect: (toolbar) => toolbar.pushAndMark("text"),
             },
             {
@@ -64,7 +68,7 @@ export const EditorToolBar = () => {
             {
               name: "fill",
               title: t("fill-tab-title"),
-              icon: <Icon28PaletteOutline />,
+              icon: <Icon28PaintRollerOutline />,
               onSelect: () => {
                 fillSolidColorModal.open()
               },
@@ -89,7 +93,7 @@ export const EditorToolBar = () => {
               name: "defaultGradients",
               icon: <Icon28ArchiveCheckOutline />,
               title: t("default-gradients-tab-title"),
-              onSelect: (toolbar) => {
+              onSelect: () => {
                 setSelectedItems((prev) => ({
                   ...prev,
                   gradient:
@@ -103,11 +107,21 @@ export const EditorToolBar = () => {
               name: "linear",
               icon: <Icon28ArrowRightSquareOutline />,
               title: t("linear-gradient-tab-title"),
+              onSelect: () => {
+                updateCurrentCover({
+                  background: { style: "linear" },
+                })
+              },
             },
             {
               name: "radial",
               icon: <Icon28CheckCircleOff />,
               title: t("radial-gradient-tab-title"),
+              onSelect: () => {
+                updateCurrentCover({
+                  background: { style: "radial" },
+                })
+              },
             },
           ],
         },
@@ -122,12 +136,12 @@ export const EditorToolBar = () => {
             {
               name: "size",
               title: "Size",
-              icon: <Icon28PaintRollerOutline />,
+              icon: <Icon28FullscreenOutline />,
             },
             {
               name: "color",
               title: "Color",
-              icon: <Icon28PaintRollerOutline />,
+              icon: <Icon28PaletteOutline />,
             },
           ],
         },
@@ -137,17 +151,17 @@ export const EditorToolBar = () => {
             {
               name: "size",
               title: "Size",
-              icon: <Icon28PaintRollerOutline />,
+              icon: <Icon28FullscreenOutline />,
             },
             {
               name: "color",
               title: "Color",
-              icon: <Icon28PaintRollerOutline />,
+              icon: <Icon28PaletteOutline />,
             },
           ],
         },
       ] as ToolbarTabData[],
-    [t, fillSolidColorModal]
+    [t, fillSolidColorModal, updateCurrentCover]
   )
 
   return (
@@ -170,7 +184,7 @@ export const EditorToolBar = () => {
                 transition={{ ease: CUBIC_BEZIER }}
               >
                 <Input
-                  placeholder="Text"
+                  placeholder={t("cover-text-input-placeholder")}
                   value={currentCover?.text?.value ?? ""}
                   onChange={({ target: { value } }) => {
                     updateCurrentCover({ text: { value } })

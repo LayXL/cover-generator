@@ -22,7 +22,17 @@ export const fillGradientBackground = (
   const x1 = width / 2 - (width / 2) * Math.cos(angleInRadians)
   const y1 = height / 2 - (height / 2) * Math.sin(angleInRadians)
 
-  const gradient = ctx.createLinearGradient(x0, y0, x1, y1)
+  const gradient =
+    background.style === "linear"
+      ? ctx.createLinearGradient(x0, y0, x1, y1)
+      : ctx.createRadialGradient(
+          canvas.width / 2,
+          canvas.height / 2,
+          0,
+          canvas.width / 2,
+          canvas.height / 2,
+          Math.max(width, height)
+        )
 
   colors.forEach((color, index) => {
     gradient.addColorStop(index / (colors.length - 1), color)
