@@ -18,7 +18,7 @@ icon-tab-title = Иконка
 
 gradient-tab-title = Градиент
 fill-tab-title = Заливка
-image-tab-title = Изображение
+image-tab-title = Картинка
 
 default-gradients-tab-title = Готовые
 linear-gradient-tab-title = Линейный

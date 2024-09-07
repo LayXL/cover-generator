@@ -1,9 +1,9 @@
-import type { coverSolidBackgroundSchema } from "shared/types"
+import type { DeepPartial, coverSolidBackgroundSchema } from "shared/types"
 import type { z } from "zod"
 
 export const fillSolidBackground = (
   canvas: HTMLCanvasElement,
-  background: z.infer<typeof coverSolidBackgroundSchema>
+  background: DeepPartial<z.infer<typeof coverSolidBackgroundSchema>>
 ) => {
   const ctx = canvas.getContext("2d")
 

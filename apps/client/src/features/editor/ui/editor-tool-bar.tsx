@@ -22,6 +22,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useCurrentCover } from "../lib/useCurrentCover"
+import { DefaultGradientsPicker } from "./default-gradients-picker"
 
 export const EditorToolBar = () => {
   const { t } = useTranslation()
@@ -61,18 +62,18 @@ export const EditorToolBar = () => {
           name: "background",
           items: [
             {
-              name: "gradient",
-              title: t("gradient-tab-title"),
-              icon: <Icon24GradientOutline />,
-              onSelect: (toolbar) => toolbar.pushAndMark("gradient"),
-            },
-            {
               name: "fill",
               title: t("fill-tab-title"),
               icon: <Icon28PaletteOutline />,
               onSelect: () => {
                 fillSolidColorModal.open()
               },
+            },
+            {
+              name: "gradient",
+              title: t("gradient-tab-title"),
+              icon: <Icon24GradientOutline />,
+              onSelect: (toolbar) => toolbar.pushAndMark("gradient"),
             },
             {
               name: "image",
@@ -88,6 +89,15 @@ export const EditorToolBar = () => {
               name: "defaultGradients",
               icon: <Icon28ArchiveCheckOutline />,
               title: t("default-gradients-tab-title"),
+              onSelect: (toolbar) => {
+                setSelectedItems((prev) => ({
+                  ...prev,
+                  gradient:
+                    prev.gradient === "defaultGradients"
+                      ? null
+                      : "defaultGradients",
+                }))
+              },
             },
             {
               name: "linear",
@@ -150,49 +160,59 @@ export const EditorToolBar = () => {
         selectedItems={selectedItems}
         setSelectedItems={setSelectedItems}
         before={
-          <div className="px-3">
-            <AnimatePresence>
-              {selectedItems.root === "text" && (
-                <motion.div
-                  initial={{ scale: 0, opacity: 50 }}
-                  animate={{ scale: 1, opacity: 100 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  transition={{ ease: CUBIC_BEZIER }}
-                >
-                  <Input
-                    placeholder="Text"
-                    value={currentCover?.text?.value ?? ""}
-                    onChange={({ target: { value } }) => {
-                      updateCurrentCover({ text: { value } })
-                    }}
-                    after={
-                      currentCover?.text?.value?.length !== 0 && (
-                        <IconButton
-                          hoverMode="opacity"
-                          label={t("clear-text-button")}
-                          onClick={() =>
-                            updateCurrentCover({
-                              text: { value: "" },
-                            })
-                          }
-                        >
-                          <Icon16Clear />
-                        </IconButton>
-                      )
-                    }
-                  />
-                </motion.div>
+          <AnimatePresence>
+            {selectedItems.root === "text" && (
+              <motion.div
+                className="px-3"
+                initial={{ scale: 0, opacity: 50 }}
+                animate={{ scale: 1, opacity: 100 }}
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{ ease: CUBIC_BEZIER }}
+              >
+                <Input
+                  placeholder="Text"
+                  value={currentCover?.text?.value ?? ""}
+                  onChange={({ target: { value } }) => {
+                    updateCurrentCover({ text: { value } })
+                  }}
+                  after={
+                    currentCover?.text?.value?.length !== 0 && (
+                      <IconButton
+                        hoverMode="opacity"
+                        label={t("clear-text-button")}
+                        onClick={() =>
+                          updateCurrentCover({
+                            text: { value: "" },
+                          })
+                        }
+                      >
+                        <Icon16Clear />
+                      </IconButton>
+                    )
+                  }
+                />
+              </motion.div>
+            )}
+
+            {selectedItems.root === "background" &&
+              selectedItems.background === "gradient" &&
+              selectedItems.gradient === "defaultGradients" && (
+                <DefaultGradientsPicker
+                  onChoose={(gradient) => {
+                    updateCurrentCover({
+                      background: {
+                        type: "gradient",
+                        colors: gradient,
+                      },
+                    })
+                  }}
+                />
               )}
-            </AnimatePresence>
-          </div>
+          </AnimatePresence>
         }
       />
 
-      <Modal
-        withoutTint
-        {...fillSolidColorModal}
-        // className="h-40 box-content"
-      >
+      <Modal withoutTint {...fillSolidColorModal}>
         <ColorPickerModal
           color={
             currentCover && "color" in currentCover.background

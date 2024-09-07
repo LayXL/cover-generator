@@ -24,15 +24,18 @@ export const ToolbarTab = (props: ToolbarTabProps) => {
       )}
     >
       {props.canGoBack && (
-        <button
-          type="button"
-          className="grid place-items-center bg-primary rounded-[10px] border border-inversed/10 px-1.5"
-          onClick={() => {
-            toolbar.back()
-          }}
-        >
-          <Icon28ChevronLeftOutline className="fill-accent" />
-        </button>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            className="grid place-items-center bg-primary rounded-[10px] border border-inversed/10 px-1.5"
+            onClick={() => {
+              toolbar.back()
+            }}
+          >
+            <Icon28ChevronLeftOutline className="fill-accent" />
+          </button>
+          <div className="bg-inversed/10 rounded-full my-2 w-px" />
+        </div>
       )}
       {props.items.map((item) => (
         <ToolbarItem

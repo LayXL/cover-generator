@@ -1,17 +1,18 @@
-import type { coverGradientBackgroundSchema } from "shared/types"
+import type { DeepPartial, coverGradientBackgroundSchema } from "shared/types"
 import type { z } from "zod"
 
 export const fillGradientBackground = (
   canvas: HTMLCanvasElement,
-  background: z.infer<typeof coverGradientBackgroundSchema>
+  background: DeepPartial<z.infer<typeof coverGradientBackgroundSchema>>
 ) => {
   const ctx = canvas.getContext("2d")
 
   if (!ctx) return
 
-  const colors = background.colors.filter((color) => color !== undefined)
+  const colors = background.colors?.filter((color) => color !== undefined) ?? []
+  const angle = background.angle ?? 0
 
-  const angleInRadians = background.angle * (Math.PI / 180)
+  const angleInRadians = angle * (Math.PI / 180)
 
   const width = canvas.width
   const height = canvas.height
