@@ -1,8 +1,8 @@
-import { getAuthorizationHeader } from "@/shared/utils/getAuthorizationHeader"
 import { trpc } from "@/shared/utils/trpc"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { httpBatchLink } from "@trpc/client"
-import { type ReactNode, useState } from "react"
+import bridge from "@vkontakte/vk-bridge"
+import { type ReactNode, useEffect, useMemo, useState } from "react"
 import superjson from "superjson"
 
 type QueryProviderType = {
@@ -10,21 +10,31 @@ type QueryProviderType = {
 }
 
 export const QueryProvider = ({ children }: QueryProviderType) => {
-  const [queryClient] = useState(() => new QueryClient())
-  const [trpcClient] = useState(() =>
-    trpc.createClient({
-      links: [
-        httpBatchLink({
-          transformer: superjson,
-          url: "/api",
-          headers() {
-            return {
-              authorization: getAuthorizationHeader(),
-            }
-          },
-        }),
-      ],
+  const [token, setToken] = useState(() => window.location.search.slice(1))
+
+  useEffect(() => {
+    bridge.send("VKWebAppGetLaunchParams").then((data) => {
+      const sortedKeys = Object.keys(data).sort() as (keyof typeof data)[]
+
+      setToken(sortedKeys.map((key) => `${key}=${data[key]}`).join("&"))
     })
+  }, [])
+
+  const [queryClient] = useState(() => new QueryClient())
+  const trpcClient = useMemo(
+    () =>
+      trpc.createClient({
+        links: [
+          httpBatchLink({
+            transformer: superjson,
+            url: "/api",
+            headers() {
+              return { authorization: `Bearer ${token}` }
+            },
+          }),
+        ],
+      }),
+    [token]
   )
 
   return (

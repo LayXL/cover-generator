@@ -24,7 +24,7 @@ export const ToolbarItem = (props: ToolbarItemProps) => {
   const mode = props.mode ?? "primary"
 
   return (
-    <button type="button" onClick={props.onClick} className="size-full">
+    <button type="button" onClick={props.onClick} className="size-full flex-1">
       <motion.div
         className={cn(
           "size-full flex flex-col gap-0.5 items-center justify-center rounded-[10px] border border-transparent transition-colors",
@@ -35,7 +35,6 @@ export const ToolbarItem = (props: ToolbarItemProps) => {
             "bg-primary border-inversed/10"
         )}
         whileTap={{ scale: 0.9 }}
-        // whileHover={!props.isSelected ? { scale: 1.05 } : undefined}
       >
         <div
           className={cn(
@@ -49,7 +48,10 @@ export const ToolbarItem = (props: ToolbarItemProps) => {
           {props.icon}
         </div>
         {mode === "primary" && (
-          <Caption level={2} className="font-medium text-primary/50">
+          <Caption
+            level={2}
+            className="font-medium text-primary/50 line-clamp-1"
+          >
             {props.title}
           </Caption>
         )}

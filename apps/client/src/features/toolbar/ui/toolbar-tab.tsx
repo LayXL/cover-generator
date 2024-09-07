@@ -1,3 +1,4 @@
+import { cn } from "@/shared/utils/cn"
 import { Icon28ChevronLeftOutline } from "@vkontakte/icons"
 import { useToolbar } from "../lib/useToolbar"
 import { ToolbarItem, type ToolbarItemData } from "./toolbar-item"
@@ -16,7 +17,12 @@ export const ToolbarTab = (props: ToolbarTabProps) => {
   const toolbar = useToolbar()
 
   return (
-    <div className="p-0.5 flex h-full bg-surface rounded-xl">
+    <div
+      className={cn(
+        "p-0.5 flex h-full rounded-xl",
+        (props.canGoBack || props.mode === "secondary") && "bg-surface"
+      )}
+    >
       {props.canGoBack && (
         <button
           type="button"

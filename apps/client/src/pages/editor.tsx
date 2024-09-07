@@ -7,7 +7,7 @@ import { trpc } from "@/shared/utils/trpc"
 import { skipToken } from "@tanstack/react-query"
 import { Icon24FullscreenExit } from "@vkontakte/icons"
 import { IconButton } from "@vkontakte/vkui"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useDebounceValue } from "usehooks-ts"
@@ -136,7 +136,7 @@ export const Editor = () => {
       </div>
 
       <motion.div
-        className="fixed inset-0 grid place-items-center bg-primary"
+        className="fixed inset-0 grid pt-20 bg-primary"
         animate={{
           pointerEvents: trans !== Trans.GRID ? "auto" : "none",
           opacity: trans === Trans.TO_EDITOR || trans === Trans.EDITOR ? 1 : 0,
@@ -153,32 +153,6 @@ export const Editor = () => {
             setCurrentCoverIndex={setCurrentCoverIndex}
           />
         </div>
-      </motion.div>
-
-      <motion.div
-        className="fixed top-0 w-full"
-        animate={
-          trans === Trans.EDITOR ? { translateY: 0 } : { translateY: "-100%" }
-        }
-      >
-        <div className="p-4 flex justify-end">
-          <IconButton
-            onClick={() => {
-              setTrans(Trans.TO_GRID)
-            }}
-          >
-            <Icon24FullscreenExit />
-          </IconButton>
-        </div>
-      </motion.div>
-
-      <motion.div
-        className="fixed bottom-0 w-full"
-        animate={
-          trans === Trans.EDITOR ? { translateY: 0 } : { translateY: "100%" }
-        }
-      >
-        <EditorToolBar />
       </motion.div>
 
       {(trans === Trans.TO_EDITOR || trans === Trans.TO_GRID) && (
@@ -201,6 +175,37 @@ export const Editor = () => {
           <CoverRenderer {...currentCover} />
         </motion.div>
       )}
+
+      <AnimatePresence>
+        {(trans === Trans.EDITOR || trans === Trans.TO_EDITOR) && (
+          <>
+            <motion.div
+              className="fixed top-0 w-full"
+              initial={{ translateY: "-100%" }}
+              animate={{ translateY: 0 }}
+              exit={{ translateY: "-100%" }}
+            >
+              <div className="p-4 flex justify-end">
+                <IconButton
+                  onClick={() => {
+                    setTrans(Trans.TO_GRID)
+                  }}
+                >
+                  <Icon24FullscreenExit />
+                </IconButton>
+              </div>
+            </motion.div>
+            <motion.div
+              className="fixed bottom-0 w-full"
+              initial={{ translateY: "100%" }}
+              animate={{ translateY: 0 }}
+              exit={{ translateY: "100%" }}
+            >
+              <EditorToolBar />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   )
 }
