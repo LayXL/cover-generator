@@ -1,4 +1,10 @@
-import { useCallback, useState } from "react"
+import {
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+  useCallback,
+  useState,
+} from "react"
 import { type SelectedItems, ToolbarProvider } from "../lib/useToolbar"
 import { ToolbarTab, type ToolbarTabData } from "./toolbar-tab"
 
@@ -7,7 +13,9 @@ type ToolbarRootProps = {
   overrideCurrentTab?: string
   overrideTabHistory?: string[]
   overrideSelectedItems?: SelectedItems
-  selectedItems?: SelectedItems
+  selectedItems: SelectedItems
+  setSelectedItems: Dispatch<SetStateAction<SelectedItems>>
+  before?: ReactNode
 }
 
 export const ToolbarRoot = (props: ToolbarRootProps) => {
@@ -17,16 +25,16 @@ export const ToolbarRoot = (props: ToolbarRootProps) => {
   const [tabHistory, setTabHistory] = useState<string[]>(
     props.overrideTabHistory ?? []
   )
-  const [selectedItems, setSelectedItems] = useState<SelectedItems>(
-    props.overrideSelectedItems ?? {}
-  )
 
-  const markAsSelected = useCallback((tabName: string, itemName: string) => {
-    setSelectedItems((prev) => ({
-      ...prev,
-      [tabName]: itemName,
-    }))
-  }, [])
+  const markAsSelected = useCallback(
+    (tabName: string, itemName: string) => {
+      props.setSelectedItems((prev) => ({
+        ...prev,
+        [tabName]: itemName,
+      }))
+    },
+    [props.setSelectedItems]
+  )
 
   const push = useCallback(
     (replace: boolean) => (tabName: string) => {
@@ -40,12 +48,12 @@ export const ToolbarRoot = (props: ToolbarRootProps) => {
     if (tabHistory.length > 1) {
       setTabHistory(tabHistory.slice(0, -1))
       setCurrentTab(tabHistory[tabHistory.length - 1])
-      setSelectedItems((prev) => ({
+      props.setSelectedItems((prev) => ({
         ...prev,
         [tabHistory[tabHistory.length - 1]]: null,
       }))
     }
-  }, [tabHistory])
+  }, [tabHistory, props.setSelectedItems])
 
   const currentTabData = props.tabs.find((tab) => tab.name === currentTab)
   const latestInHistoryTabData = props.tabs.find(
@@ -57,12 +65,13 @@ export const ToolbarRoot = (props: ToolbarRootProps) => {
       value={{
         currentTab,
         tabHistory,
-        selectedItems: { ...selectedItems, ...props.selectedItems },
+        selectedItems: props.selectedItems,
         push,
         back,
         markAsSelected,
       }}
     >
+      {props.before}
       <div className="flex flex-col gap-3 p-3">
         <div className="h-[79px]">
           {currentTabData && (

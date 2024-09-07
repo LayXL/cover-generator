@@ -4,12 +4,15 @@ import { ToolbarRoot } from "@/features/toolbar/ui/toolbar-root"
 import type { ToolbarTabData } from "@/features/toolbar/ui/toolbar-tab"
 import { useModalState } from "@/shared/hooks/useModalState"
 import { Modal } from "@/shared/ui/modal"
+import { CUBIC_BEZIER } from "@/shared/utils/animations"
 import {
   Icon28LogoVkOutline,
   Icon28PaintRollerOutline,
   Icon28PictureOutline,
   Icon28TextOutline,
 } from "@vkontakte/icons"
+import { Input } from "@vkontakte/vkui"
+import { AnimatePresence, motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useCurrentCover } from "../lib/useCurrentCover"
@@ -136,6 +139,35 @@ export const EditorToolBar = () => {
         overrideTabHistory={["root"]}
         overrideSelectedItems={{ root: "background" }}
         selectedItems={selectedItems}
+        setSelectedItems={setSelectedItems}
+        before={
+          <div className="px-3">
+            <AnimatePresence>
+              {selectedItems.root === "text" && (
+                <motion.div
+                  initial={{ scale: 0, opacity: 50 }}
+                  animate={{ scale: 1, opacity: 100 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{
+                    ease: CUBIC_BEZIER,
+                  }}
+                >
+                  <Input
+                    placeholder="Text"
+                    value={currentCover?.text?.value ?? ""}
+                    onChange={({ target: { value } }) => {
+                      updateCurrentCover({
+                        text: {
+                          value,
+                        },
+                      })
+                    }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        }
       />
 
       <Modal {...fillSolidColorModal}>

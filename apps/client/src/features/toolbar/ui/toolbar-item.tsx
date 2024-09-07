@@ -1,5 +1,6 @@
 import { Caption, Text } from "@/shared/ui/typography"
 import { cn } from "@/shared/utils/cn"
+import { motion } from "framer-motion"
 import type { ReactNode } from "react"
 
 export type ToolbarItemData = {
@@ -23,16 +24,19 @@ export const ToolbarItem = (props: ToolbarItemProps) => {
   const mode = props.mode ?? "primary"
 
   return (
-    <button
+    <motion.button
       type="button"
       onClick={props.onClick}
       className={cn(
-        "w-full h-full flex flex-col gap-0.5 items-center justify-center rounded-[10px] border border-transparent",
+        "w-full h-full flex flex-col gap-0.5 items-center justify-center rounded-[10px] border border-transparent transition-colors",
+        !props.isSelected && "hover:bg-inversed/10",
         mode === "secondary" && "flex-row gap-1.5",
         mode === "secondary" &&
           props.isSelected &&
           "bg-primary border-inversed/10"
       )}
+      whileTap={{ scale: 0.9 }}
+      // whileHover={!props.isSelected ? { scale: 1.05 } : undefined}
     >
       <div
         className={cn(
@@ -53,6 +57,6 @@ export const ToolbarItem = (props: ToolbarItemProps) => {
       {mode === "secondary" && (
         <Text className="font-semibold">{props.title}</Text>
       )}
-    </button>
+    </motion.button>
   )
 }
