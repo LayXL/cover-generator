@@ -10,7 +10,7 @@ type DefaultGradientsPickerProps = {
 export const DefaultGradientsPicker = (props: DefaultGradientsPickerProps) => {
   return (
     <div className="py-3 border-b border-b-inversed/15">
-      <div className={"overflow-scroll"}>
+      <div className={"overflow-scroll overscroll-contain"}>
         <div className="flex w-fit gap-2 px-3">
           <button
             type={"button"}

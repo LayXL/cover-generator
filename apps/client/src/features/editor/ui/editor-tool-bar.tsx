@@ -25,6 +25,7 @@ import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useCurrentCover } from "../lib/useCurrentCover"
 import { DefaultGradientsPicker } from "./default-gradients-picker"
+import { LinearGradientAdjuster } from "./linear-gradient-adjuster"
 
 export const EditorToolBar = () => {
   const { t } = useTranslation()
@@ -108,9 +109,11 @@ export const EditorToolBar = () => {
               icon: <Icon28ArrowRightSquareOutline />,
               title: t("linear-gradient-tab-title"),
               onSelect: () => {
-                updateCurrentCover({
-                  background: { style: "linear" },
-                })
+                setSelectedItems((prev) => ({
+                  ...prev,
+                  gradient: prev.gradient === "linear" ? null : "linear",
+                }))
+                updateCurrentCover({ background: { style: "linear" } })
               },
             },
             {
@@ -118,9 +121,11 @@ export const EditorToolBar = () => {
               icon: <Icon28CheckCircleOff />,
               title: t("radial-gradient-tab-title"),
               onSelect: () => {
-                updateCurrentCover({
-                  background: { style: "radial" },
-                })
+                setSelectedItems((prev) => ({
+                  ...prev,
+                  gradient: prev.gradient === "radial" ? null : "radial",
+                }))
+                updateCurrentCover({ background: { style: "radial" } })
               },
             },
           ],
@@ -163,6 +168,10 @@ export const EditorToolBar = () => {
       ] as ToolbarTabData[],
     [t, fillSolidColorModal, updateCurrentCover]
   )
+
+  const isGradientTabOpened =
+    selectedItems.root === "background" &&
+    selectedItems.background === "gradient"
 
   return (
     <>
@@ -208,8 +217,7 @@ export const EditorToolBar = () => {
               </motion.div>
             )}
 
-            {selectedItems.root === "background" &&
-              selectedItems.background === "gradient" &&
+            {isGradientTabOpened &&
               selectedItems.gradient === "defaultGradients" && (
                 <DefaultGradientsPicker
                   onRemove={() => {
@@ -230,6 +238,32 @@ export const EditorToolBar = () => {
                   }}
                 />
               )}
+
+            {isGradientTabOpened && selectedItems.gradient === "linear" && (
+              <LinearGradientAdjuster
+                angle={
+                  currentCover && "angle" in currentCover.background
+                    ? currentCover?.background.angle
+                    : undefined
+                }
+                colors={
+                  currentCover && "colors" in currentCover.background
+                    ? currentCover?.background.colors
+                    : undefined
+                }
+                onChange={({ angle, colors }) => {
+                  updateCurrentCover({
+                    background: {
+                      type: "gradient",
+                      angle,
+                      colors,
+                    },
+                  })
+                }}
+              />
+            )}
+
+            {isGradientTabOpened && selectedItems.gradient === "radial" && 123}
           </AnimatePresence>
         }
       />
