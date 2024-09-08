@@ -1,6 +1,6 @@
 import { cn } from "@/shared/utils/cn"
 import { Icon28ChevronLeftOutline } from "@vkontakte/icons"
-import { useToolbar } from "../lib/useToolbar.temp"
+import { useToolbar } from "../lib/useToolbar"
 import { ToolbarItem, type ToolbarItemData } from "./toolbar-item"
 
 export type ToolbarTabData = {
