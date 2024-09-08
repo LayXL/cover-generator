@@ -14,6 +14,7 @@ export type ToolbarItemData = {
   }) => void
   isSelected?: boolean
   mode?: "primary" | "secondary"
+  canGoBack?: boolean
 }
 
 type ToolbarItemProps = {
@@ -28,7 +29,8 @@ export const ToolbarItem = (props: ToolbarItemProps) => {
       <motion.div
         className={cn(
           "size-full flex flex-col gap-0.5 items-center justify-center rounded-[10px] border border-transparent transition-colors",
-          !props.isSelected && "hover:bg-inversed/10",
+          (!props.isSelected || mode === "primary") &&
+            "desktop:hover:bg-inversed/10",
           mode === "secondary" && "flex-row gap-1.5",
           mode === "secondary" &&
             props.isSelected &&
@@ -39,7 +41,7 @@ export const ToolbarItem = (props: ToolbarItemProps) => {
         <div
           className={cn(
             "[&>svg]:!size-[var(--size)] [&>svg]:text-inversed/50 [&>svg]:fill-current",
-            props.isSelected && "[&>svg]:text-accent"
+            (props.isSelected || !props.canGoBack) && "[&>svg]:text-accent"
           )}
           style={{
             "--size": mode === "primary" ? "28px" : "20px",

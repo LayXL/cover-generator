@@ -31,7 +31,7 @@ export const fillGradientBackground = (
           0,
           canvas.width / 2,
           canvas.height / 2,
-          Math.max(width, height)
+          Math.max(width, height) * (background.radius ?? 1)
         )
 
   colors.forEach((color, index) => {

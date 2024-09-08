@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next"
 import { useCurrentCover } from "../lib/useCurrentCover"
 import { DefaultGradientsPicker } from "./default-gradients-picker"
 import { LinearGradientAdjuster } from "./linear-gradient-adjuster"
+import { RadialGradientAdjuster } from "./radial-gradient-adjuster"
 
 export const EditorToolBar = () => {
   const { t } = useTranslation()
@@ -113,7 +114,19 @@ export const EditorToolBar = () => {
                   ...prev,
                   gradient: prev.gradient === "linear" ? null : "linear",
                 }))
-                updateCurrentCover({ background: { style: "linear" } })
+
+                updateCurrentCover({
+                  background: {
+                    type: "gradient",
+                    style: "linear",
+                    colors:
+                      currentCover?.background.type === "gradient" &&
+                      currentCover?.background?.colors?.length > 0
+                        ? currentCover?.background.colors
+                        : // TODO: make default gradient
+                          ["#000000", "#ffffff"],
+                  },
+                })
               },
             },
             {
@@ -125,7 +138,19 @@ export const EditorToolBar = () => {
                   ...prev,
                   gradient: prev.gradient === "radial" ? null : "radial",
                 }))
-                updateCurrentCover({ background: { style: "radial" } })
+
+                updateCurrentCover({
+                  background: {
+                    type: "gradient",
+                    style: "radial",
+                    colors:
+                      currentCover?.background.type === "gradient" &&
+                      currentCover?.background?.colors?.length > 0
+                        ? currentCover?.background.colors
+                        : // TODO: make default gradient
+                          ["#000000", "#ffffff"],
+                  },
+                })
               },
             },
           ],
@@ -166,7 +191,7 @@ export const EditorToolBar = () => {
           ],
         },
       ] as ToolbarTabData[],
-    [t, fillSolidColorModal, updateCurrentCover]
+    [t, fillSolidColorModal, updateCurrentCover, currentCover]
   )
 
   const isGradientTabOpened =
@@ -255,6 +280,7 @@ export const EditorToolBar = () => {
                   updateCurrentCover({
                     background: {
                       type: "gradient",
+                      style: "linear",
                       angle,
                       colors,
                     },
@@ -263,7 +289,30 @@ export const EditorToolBar = () => {
               />
             )}
 
-            {isGradientTabOpened && selectedItems.gradient === "radial" && 123}
+            {isGradientTabOpened && selectedItems.gradient === "radial" && (
+              <RadialGradientAdjuster
+                radius={
+                  currentCover && "radius" in currentCover.background
+                    ? currentCover?.background.radius
+                    : undefined
+                }
+                colors={
+                  currentCover && "colors" in currentCover.background
+                    ? currentCover?.background.colors
+                    : undefined
+                }
+                onChange={({ radius, colors }) => {
+                  updateCurrentCover({
+                    background: {
+                      type: "gradient",
+                      style: "radial",
+                      radius,
+                      colors,
+                    },
+                  })
+                }}
+              />
+            )}
           </AnimatePresence>
         }
       />

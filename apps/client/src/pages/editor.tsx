@@ -48,7 +48,7 @@ export const Editor = () => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (!projectId) return
+    if (!projectId || !cloudProject.isSuccess) return
 
     updateCloudProject.mutate({
       id: Number.parseInt(projectId),

@@ -33,3 +33,6 @@ editor-screen-title = Редактор
 download-all-button = Скачать все
 
 done-button = Готово
+
+linear-gradient-angle-slider-caption = Угол
+radial-gradient-size-slider-caption = Радиус

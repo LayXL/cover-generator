@@ -43,6 +43,7 @@ export const ToolbarTab = (props: ToolbarTabProps) => {
           {...item}
           mode={props.mode}
           isSelected={toolbar.selectedItems[props.name] === item.name}
+          canGoBack={props.canGoBack}
           onClick={() => {
             item.onSelect?.({
               push: toolbar.push(props.mode === "secondary"),

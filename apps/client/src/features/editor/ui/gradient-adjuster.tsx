@@ -1,5 +1,6 @@
 import { ColorInput } from "@/features/color-picker/ui/color-input"
 import { Icon24Arrow2SquarepathOutline } from "@vkontakte/icons"
+import { motion } from "framer-motion"
 
 type GradientAdjusterProps = {
   colors: `#${string}`[]
@@ -10,9 +11,9 @@ export const GradientAdjuster = (props: GradientAdjusterProps) => {
   return (
     <div className="p-1.5 flex flex-col gap-1.5 bg-inversed/5 rounded-xl">
       <div className="border border-inversed/10 h-9 rounded-[10px] overflow-hidden">
-        <div
+        <motion.div
           className="size-full"
-          style={{
+          animate={{
             background: `linear-gradient(-90deg, ${props.colors.join(", ")})`,
           }}
         />

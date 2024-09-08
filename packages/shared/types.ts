@@ -1,5 +1,8 @@
-import { hexColor } from "@/features/color-picker/lib/checkIsValidHex"
 import { z } from "zod"
+
+export const hexColor = z.custom<`#${string}`>((value) =>
+  /^#([0-9a-f]{3}){1,2}$/i.test(value)
+)
 
 export type DeepPartial<T> = T extends object
   ? {
@@ -35,6 +38,7 @@ export const coverGradientBackgroundSchema = z.object({
   type: z.literal("gradient"),
   colors: z.array(hexColor).default(["#fff", "#000"]),
   angle: z.number().min(0).max(360).default(0),
+  radius: z.number().min(0.1).max(2).default(1),
   style: z.enum(["linear", "radial"]).default("linear"),
 })
 
