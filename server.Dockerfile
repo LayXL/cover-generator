@@ -2,7 +2,7 @@ FROM oven/bun:alpine
 
 WORKDIR /usr/local
 
-RUN apt-get install lib32stdc++6
+RUN apk add libstdc++
 
 COPY bun.lockb .
 COPY package.json .
