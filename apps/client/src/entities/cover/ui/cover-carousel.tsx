@@ -19,8 +19,14 @@ export const CoverCarousel = (props: CoverCarouselsProps) => {
   const x = useMotionValue(snapPoints[props.currentCoverIndex])
 
   useEffect(() => {
-    x.set(snapPoints[props.currentCoverIndex])
-  }, [props.currentCoverIndex, snapPoints, x.set])
+    // x.set(snapPoints[props.currentCoverIndex])
+
+    animate(x, snapPoints[props.currentCoverIndex], {
+      type: "spring",
+      duration: 0.3,
+      ease: "easeInOut",
+    })
+  }, [x, props.currentCoverIndex, snapPoints, x.set])
 
   const handleDragEnd = () => {
     const closestPoint = snapPoints.reduce((prev, curr) =>

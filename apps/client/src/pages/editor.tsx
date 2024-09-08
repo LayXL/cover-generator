@@ -6,7 +6,7 @@ import { EditorToolBar } from "@/features/editor/ui/editor-tool-bar"
 import { useCoverStore, useProjectStore } from "@/shared/store"
 import { trpc } from "@/shared/utils/trpc"
 import { skipToken } from "@tanstack/react-query"
-import { Icon24FullscreenExit } from "@vkontakte/icons"
+import { Icon24Add, Icon24FullscreenExit } from "@vkontakte/icons"
 import { IconButton } from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
@@ -96,16 +96,10 @@ export const Editor = () => {
           />
           <button
             type="button"
-            onClick={() => deleteCover(currentCoverIndex)}
-            children={"Delete current"}
-          />
-          <button
-            type="button"
             onClick={() => downloadCovers(covers)}
             children={"Download all"}
           />
         </div>
-
         <div className="p-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4">
           {currentProject.covers?.map((cover, i) => (
             <motion.button
@@ -153,7 +147,12 @@ export const Editor = () => {
               updateCurrentCover({ title })
             }}
             onRemove={() => {
-              console.log(true)
+              deleteCover(currentCoverIndex)
+              setCurrentCoverIndex(
+                currentCoverIndex > 0 ? currentCoverIndex - 1 : 0
+              )
+
+              if (covers.length === 1) setTrans(Trans.TO_GRID)
             }}
           />
         </div>
@@ -192,9 +191,13 @@ export const Editor = () => {
               <div className="p-4 flex justify-end">
                 <IconButton
                   onClick={() => {
-                    setTrans(Trans.TO_GRID)
+                    addCover()
+                    setCurrentCoverIndex(covers.length)
                   }}
                 >
+                  <Icon24Add />
+                </IconButton>
+                <IconButton onClick={() => setTrans(Trans.TO_GRID)}>
                   <Icon24FullscreenExit />
                 </IconButton>
               </div>

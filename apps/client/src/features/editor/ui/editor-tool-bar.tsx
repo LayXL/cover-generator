@@ -212,6 +212,14 @@ export const EditorToolBar = () => {
               selectedItems.background === "gradient" &&
               selectedItems.gradient === "defaultGradients" && (
                 <DefaultGradientsPicker
+                  onRemove={() => {
+                    updateCurrentCover({
+                      background: {
+                        type: "solid",
+                        color: "#fff",
+                      },
+                    })
+                  }}
                   onChoose={(gradient) => {
                     updateCurrentCover({
                       background: {
