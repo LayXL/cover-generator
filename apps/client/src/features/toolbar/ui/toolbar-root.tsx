@@ -5,7 +5,7 @@ import {
   useCallback,
   useState,
 } from "react"
-import { type SelectedItems, ToolbarProvider } from "../lib/useToolbar"
+import { type SelectedItems, ToolbarProvider } from "../lib/useToolbar.temp"
 import { ToolbarTab, type ToolbarTabData } from "./toolbar-tab"
 
 type ToolbarRootProps = {
