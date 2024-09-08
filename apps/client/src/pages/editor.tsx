@@ -4,12 +4,19 @@ import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
 import { useCurrentCover } from "@/features/editor/lib/useCurrentCover"
 import { EditorToolBar } from "@/features/editor/ui/editor-tool-bar"
 import { useCoverStore, useProjectStore } from "@/shared/store"
+import { BackButton } from "@/shared/ui/back-button"
+import { Header } from "@/shared/ui/header"
 import { trpc } from "@/shared/utils/trpc"
 import { skipToken } from "@tanstack/react-query"
-import { Icon24Add, Icon24FullscreenExit } from "@vkontakte/icons"
-import { IconButton } from "@vkontakte/vkui"
+import {
+  Icon24Add,
+  Icon24DownloadOutline,
+  Icon24FullscreenExit,
+} from "@vkontakte/icons"
+import { Button, IconButton } from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 import { useDebounceValue } from "usehooks-ts"
 
@@ -21,6 +28,7 @@ enum Trans {
 }
 
 export const Editor = () => {
+  const { t } = useTranslation()
   const utils = trpc.useUtils()
 
   const { id: projectId } = useParams()
@@ -87,43 +95,60 @@ export const Editor = () => {
 
   return (
     <>
-      <div className="h-screen overflow-scroll">
-        <div className="p-4 flex gap-4">
-          <button
-            type="button"
-            onClick={() => addCover()}
-            children={"Add cover"}
-          />
-          <button
-            type="button"
-            onClick={() => downloadCovers(covers)}
-            children={"Download all"}
-          />
+      <div className="h-screen flex flex-col">
+        <Header
+          before={<BackButton />}
+          title={t("editor-screen-title")}
+          after={
+            <div className={"flex"}>
+              <IconButton onClick={() => addCover()}>
+                <Icon24Add />
+              </IconButton>
+            </div>
+          }
+        />
+
+        <div className="overflow-scroll flex-1">
+          <div
+            className={
+              "px-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4"
+            }
+          >
+            {currentProject.covers?.map((cover, i) => (
+              <motion.button
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                key={i}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                type="button"
+                id={`cover-${i}`}
+                className="rounded-lg overflow-hidden cursor-pointer"
+                onClick={() => {
+                  setCurrentCoverIndex(i)
+                  setTrans(Trans.TO_EDITOR)
+                }}
+                style={{
+                  visibility:
+                    i === currentCoverIndex && trans !== Trans.GRID
+                      ? "hidden"
+                      : undefined,
+                }}
+              >
+                <CoverRenderer {...cover} />
+              </motion.button>
+            ))}
+          </div>
         </div>
-        <div className="p-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4">
-          {currentProject.covers?.map((cover, i) => (
-            <motion.button
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              key={i}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              type="button"
-              id={`cover-${i}`}
-              className="rounded-lg overflow-hidden cursor-pointer"
-              onClick={() => {
-                setCurrentCoverIndex(i)
-                setTrans(Trans.TO_EDITOR)
-              }}
-              style={{
-                visibility:
-                  i === currentCoverIndex && trans !== Trans.GRID
-                    ? "hidden"
-                    : undefined,
-              }}
-            >
-              <CoverRenderer {...cover} />
-            </motion.button>
-          ))}
+
+        <div className={"p-4"}>
+          <Button
+            stretched
+            size={"l"}
+            before={<Icon24DownloadOutline />}
+            onClick={() => downloadCovers(covers)}
+          >
+            {t("download-all-button")}
+          </Button>
         </div>
       </div>
 
