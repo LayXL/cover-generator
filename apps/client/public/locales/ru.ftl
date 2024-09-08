@@ -31,3 +31,5 @@ untitled-cover-placeholder = Без названия
 
 editor-screen-title = Редактор
 download-all-button = Скачать все
+
+done-button = Готово

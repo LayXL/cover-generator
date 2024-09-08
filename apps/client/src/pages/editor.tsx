@@ -8,11 +8,7 @@ import { BackButton } from "@/shared/ui/back-button"
 import { Header } from "@/shared/ui/header"
 import { trpc } from "@/shared/utils/trpc"
 import { skipToken } from "@tanstack/react-query"
-import {
-  Icon24Add,
-  Icon24DownloadOutline,
-  Icon24FullscreenExit,
-} from "@vkontakte/icons"
+import { Icon24Add, Icon24DownloadOutline } from "@vkontakte/icons"
 import { Button, IconButton } from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
@@ -108,7 +104,7 @@ export const Editor = () => {
           }
         />
 
-        <div className="overflow-scroll flex-1">
+        <div className="overflow-scroll overscroll-contain flex-1">
           <div
             className={
               "px-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4"
@@ -153,7 +149,7 @@ export const Editor = () => {
       </div>
 
       <motion.div
-        className="fixed inset-0 grid pt-20 bg-primary"
+        className="fixed inset-0 grid pt-14 bg-primary"
         animate={{
           pointerEvents: trans !== Trans.GRID ? "auto" : "none",
           opacity: trans === Trans.TO_EDITOR || trans === Trans.EDITOR ? 1 : 0,
@@ -165,6 +161,7 @@ export const Editor = () => {
           }}
         >
           <CoverCarousel
+            isInvisible={trans !== Trans.EDITOR}
             covers={covers}
             currentCoverIndex={currentCoverIndex}
             setCurrentCoverIndex={setCurrentCoverIndex}
@@ -213,19 +210,10 @@ export const Editor = () => {
               animate={{ translateY: 0 }}
               exit={{ translateY: "-100%" }}
             >
-              <div className="p-4 flex justify-end">
-                <IconButton
-                  onClick={() => {
-                    addCover()
-                    setCurrentCoverIndex(covers.length)
-                  }}
-                >
-                  <Icon24Add />
-                </IconButton>
-                <IconButton onClick={() => setTrans(Trans.TO_GRID)}>
-                  <Icon24FullscreenExit />
-                </IconButton>
-              </div>
+              <Header
+                before={<BackButton onClick={() => setTrans(Trans.TO_GRID)} />}
+                title={t("editor-screen-title")}
+              />
             </motion.div>
             <motion.div
               className="fixed bottom-0 w-full"

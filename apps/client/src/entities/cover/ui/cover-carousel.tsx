@@ -1,5 +1,5 @@
 import { CoverCarouselItem } from "@/entities/cover/ui/cover-carousel-item"
-import { animate, motion, useMotionValue } from "framer-motion"
+import { type PanInfo, animate, motion, useMotionValue } from "framer-motion"
 import { useEffect } from "react"
 import type { Cover, DeepPartial } from "shared/types"
 import { useWindowSize } from "usehooks-ts"
@@ -10,6 +10,7 @@ type CoverCarouselsProps = {
   setCurrentCoverIndex: (index: number) => void
   onChangeTitle?: (value: string) => void
   onRemove?: () => void
+  isInvisible?: boolean
 }
 
 export const CoverCarousel = (props: CoverCarouselsProps) => {
@@ -28,14 +29,26 @@ export const CoverCarousel = (props: CoverCarouselsProps) => {
     })
   }, [x, props.currentCoverIndex, snapPoints, x.set])
 
-  const handleDragEnd = () => {
-    const closestPoint = snapPoints.reduce((prev, curr) =>
-      Math.abs(curr - x.get()) < Math.abs(prev - x.get()) ? curr : prev
-    )
+  const handleDragEnd = (
+    _: MouseEvent | TouchEvent | PointerEvent,
+    i: PanInfo
+  ) => {
+    if (i.velocity.x > 100 && props.currentCoverIndex > 0) {
+      props.setCurrentCoverIndex(props.currentCoverIndex - 1)
+    } else if (
+      i.velocity.x < -100 &&
+      props.currentCoverIndex < props.covers.length - 1
+    ) {
+      props.setCurrentCoverIndex(props.currentCoverIndex + 1)
+    } else {
+      const closestPoint = snapPoints.reduce((prev, curr) =>
+        Math.abs(curr - x.get()) < Math.abs(prev - x.get()) ? curr : prev
+      )
 
-    animate(x, closestPoint, { type: "spring", stiffness: 300, damping: 30 })
+      // animate(x, closestPoint, { type: "spring", stiffness: 300, damping: 30 })
 
-    props.setCurrentCoverIndex(snapPoints.indexOf(closestPoint))
+      props.setCurrentCoverIndex(snapPoints.indexOf(closestPoint))
+    }
   }
 
   return (
@@ -52,6 +65,7 @@ export const CoverCarousel = (props: CoverCarouselsProps) => {
       {props.covers.map((cover, i) => (
         <div key={cover.uuid}>
           <CoverCarouselItem
+            isInvisible={props.isInvisible}
             index={i}
             currentCoverIndex={props.currentCoverIndex}
             cover={cover}
