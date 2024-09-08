@@ -25,4 +25,4 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
     ports:
-      - "5444:5432"
+      - "${DB_PORT}:5432"
