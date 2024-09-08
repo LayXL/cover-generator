@@ -9,6 +9,8 @@ COPY packages ./packages
 
 RUN bun install
 
+RUN bun install --include=optional sharp
+
 WORKDIR /usr/local/apps/server
 
 ENTRYPOINT ["bun", "src/index.ts"]
