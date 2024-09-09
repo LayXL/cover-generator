@@ -1,5 +1,3 @@
-import { Editor } from "@/pages/editor"
-import { Projects } from "@/pages/projects"
 import { Outlet, createBrowserRouter } from "react-router-dom"
 
 export const router = createBrowserRouter([
@@ -9,11 +7,16 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Projects />,
+        lazy: async () => ({
+          Component: (await import("@/pages/projects")).Projects,
+        }),
       },
       {
         path: "/projects/:id/editor",
-        element: <Editor />,
+        // element: <Editor />,
+        lazy: async () => ({
+          Component: (await import("@/pages/editor")).Editor,
+        }),
       },
     ],
   },
