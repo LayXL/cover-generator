@@ -1,4 +1,6 @@
-import { PanelHeaderBack } from "@vkontakte/vkui"
+import { Icon24ChevronLeft } from "@vkontakte/icons"
+import { IconButton } from "@vkontakte/vkui"
+import { useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 
 type BackButtonProps = {
@@ -8,10 +10,14 @@ type BackButtonProps = {
 export const BackButton = (props: BackButtonProps) => {
   const navigate = useNavigate()
 
+  const onClick = useCallback(() => {
+    if (props.onClick) props.onClick()
+    else navigate(-1)
+  }, [navigate, props.onClick])
+
   return (
-    <PanelHeaderBack
-      onClick={props.onClick ?? (() => navigate(-1))}
-      className="!text-accent"
-    />
+    <IconButton onClick={onClick} className="!text-accent">
+      <Icon24ChevronLeft />
+    </IconButton>
   )
 }

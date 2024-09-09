@@ -206,9 +206,9 @@ export const Editor = () => {
           <>
             <motion.div
               className="fixed top-0 w-full"
-              initial={{ translateY: "-100%" }}
-              animate={{ translateY: 0 }}
-              exit={{ translateY: "-100%" }}
+              // initial={{ translateY: "-100%" }}
+              // animate={{ translateY: 0 }}
+              // exit={{ translateY: "-100%" }}
             >
               <Header
                 before={<BackButton onClick={() => setTrans(Trans.TO_GRID)} />}
