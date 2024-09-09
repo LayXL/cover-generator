@@ -91,7 +91,7 @@ export const Editor = () => {
 
   return (
     <>
-      <div className="h-screen flex flex-col">
+      <div className="h-screen flex flex-col pb-safe-area-bottom">
         <Header
           before={<BackButton />}
           title={t("editor-screen-title")}
@@ -216,7 +216,7 @@ export const Editor = () => {
               />
             </motion.div>
             <motion.div
-              className="fixed bottom-0 w-full"
+              className="fixed bottom-safe-area-bottom w-full"
               initial={{ translateY: "100%" }}
               animate={{ translateY: 0 }}
               exit={{ translateY: "100%" }}

@@ -16,6 +16,8 @@
     --ma-theme-text-on-accent: 255, 255, 255;
     --ma-theme-text-destructive: 244, 1, 77;
 
+    /* --ma-viewport-height: calc(100vh - env(safe-area-inset-bottom)); */
+    --safe-area-bottom: env(safe-area-inset-bottom);
   }
 
 
