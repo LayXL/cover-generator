@@ -17,7 +17,7 @@ export const ColorInput = (props: ColorInputProps) => {
 
   return (
     <input
-      className="flex-1 h-9 text-center rounded-[10px] border border-inversed/10 outline-none w-full"
+      className="flex-1 h-9 px-3 rounded-[10px] border border-inversed/10 outline-none w-full"
       value={`#${value}`}
       onChange={({ target: { value } }) => {
         setValue(value.replaceAll("#", "").toLocaleUpperCase())
