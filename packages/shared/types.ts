@@ -31,7 +31,7 @@ export const coverTextSchema = z.object({
 
 export const coverSolidBackgroundSchema = z.object({
   type: z.literal("solid"),
-  color: z.string(),
+  color: hexColor,
 })
 
 export const coverGradientBackgroundSchema = z.object({
