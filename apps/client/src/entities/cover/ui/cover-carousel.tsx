@@ -10,6 +10,10 @@ type CoverCarouselsProps = {
   setCurrentCoverIndex: (index: number) => void
   onChangeTitle?: (value: string) => void
   onRemove?: () => void
+  canUndo?: boolean
+  canRedo?: boolean
+  onUndo?: () => void
+  onRedo?: () => void
   isInvisible?: boolean
 }
 
@@ -70,12 +74,16 @@ export const CoverCarousel = (props: CoverCarouselsProps) => {
             currentCoverIndex={props.currentCoverIndex}
             cover={cover}
             x={x}
-            onChangeTitle={
-              props.currentCoverIndex === i ? props.onChangeTitle : undefined
-            }
-            onRemove={
-              props.currentCoverIndex === i ? props.onRemove : undefined
-            }
+            {...(props.currentCoverIndex === i
+              ? {
+                  canUndo: props.canUndo,
+                  canRedo: props.canRedo,
+                  onChangeTitle: props.onChangeTitle,
+                  onRemove: props.onRemove,
+                  onUndo: props.onUndo,
+                  onRedo: props.onRedo,
+                }
+              : {})}
           />
         </div>
       ))}

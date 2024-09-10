@@ -12,6 +12,10 @@ type CoverCarouselItemProps = {
   x: MotionValue<number>
   onChangeTitle?: (value: string) => void
   onRemove?: () => void
+  canUndo?: boolean
+  canRedo?: boolean
+  onUndo?: () => void
+  onRedo?: () => void
   isInvisible?: boolean
 }
 export const CoverCarouselItem = (props: CoverCarouselItemProps) => {
@@ -35,6 +39,10 @@ export const CoverCarouselItem = (props: CoverCarouselItemProps) => {
             title={props.cover.title}
             onChangeTitle={props.onChangeTitle}
             onRemove={props.onRemove}
+            canUndo={props.canUndo}
+            canRedo={props.canRedo}
+            onUndo={props.onUndo}
+            onRedo={props.onRedo}
           />
         </motion.div>
       </motion.div>

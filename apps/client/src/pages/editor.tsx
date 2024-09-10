@@ -33,11 +33,24 @@ export const Editor = () => {
   )
 
   const {
-    project: currentProject,
+    currentProject,
     addCover,
     deleteCover,
     updateProject,
-  } = useProjectStore()
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+  } = useProjectStore((state) => ({
+    currentProject: state.project,
+    addCover: state.addCover,
+    deleteCover: state.deleteCover,
+    updateProject: state.updateProject,
+    undo: state.undo,
+    redo: state.redo,
+    canUndo: state.projectSnapshotsBackward.length > 0,
+    canRedo: state.projectSnapshotsForward.length > 0,
+  }))
   const [debouncedCurrentProject] = useDebounceValue(currentProject, 500)
 
   const updateCloudProject = trpc.project.update.useMutation()
@@ -176,6 +189,14 @@ export const Editor = () => {
 
               if (covers.length === 1) setTrans(Trans.TO_GRID)
             }}
+            onUndo={() => {
+              undo()
+            }}
+            onRedo={() => {
+              redo()
+            }}
+            canUndo={canUndo}
+            canRedo={canRedo}
           />
         </div>
       </motion.div>

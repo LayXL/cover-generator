@@ -10,6 +10,10 @@ import { v4 as uuidv4 } from "uuid"
 import { create } from "zustand"
 
 type ProjectState = {
+  projectSnapshotsBackward: Project[]
+  projectSnapshotsForward: Project[]
+  undo: () => void
+  redo: () => void
   project: Project
   updateProject: (project: Project) => void
   addCover: (cover?: Omit<Cover, "uuid">) => void
@@ -17,14 +21,49 @@ type ProjectState = {
   deleteCover: (index: number) => void
 }
 
-export const useProjectStore = create<ProjectState>()((set) => ({
-  project: {
-    covers: [],
+export const useProjectStore = create<ProjectState>()((set, get) => ({
+  projectSnapshotsBackward: [],
+  projectSnapshotsForward: [],
+  undo: () => {
+    if (!get().projectSnapshotsBackward.length) return
+
+    set((state) => ({
+      project:
+        state.projectSnapshotsBackward[
+          state.projectSnapshotsBackward.length - 1
+        ] ?? state.project,
+      projectSnapshotsForward: [
+        ...state.projectSnapshotsForward,
+        state.project,
+      ],
+      projectSnapshotsBackward: state.projectSnapshotsBackward.slice(0, -1),
+    }))
   },
+  redo: () => {
+    if (!get().projectSnapshotsForward.length) return
+
+    set((state) => ({
+      project:
+        state.projectSnapshotsForward[
+          state.projectSnapshotsForward.length - 1
+        ] ?? state.project,
+      projectSnapshotsForward: state.projectSnapshotsForward.slice(0, -1),
+      projectSnapshotsBackward: [
+        ...state.projectSnapshotsBackward,
+        state.project,
+      ],
+    }))
+  },
+  project: { covers: [] },
   updateProject: (project) =>
     set((state) => {
       return {
         project: projectSchema.parse(deepMerge(state.project, project)),
+        projectSnapshotsBackward: [
+          ...state.projectSnapshotsForward,
+          state.project,
+        ],
+        projectSnapshotsForward: [],
       }
     }),
   addCover(cover) {

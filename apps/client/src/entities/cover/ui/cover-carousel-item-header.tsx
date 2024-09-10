@@ -10,6 +10,10 @@ type CoverCarouselItemHeaderProps = {
   title?: string
   onRemove?: () => void
   onChangeTitle?: (title: string) => void
+  canUndo?: boolean
+  canRedo?: boolean
+  onUndo?: () => void
+  onRedo?: () => void
 }
 
 export const CoverCarouselItemHeader = (
@@ -31,13 +35,21 @@ export const CoverCarouselItemHeader = (
         onChange={({ target: { value } }) => props.onChangeTitle?.(value)}
       />
       <div className="flex gap-1.5">
-        <IconButton className="[&>*]:!p-0" disabled>
+        <IconButton
+          className="[&>*]:!p-0"
+          onClick={props.onUndo}
+          disabled={!props.canUndo}
+        >
           <Icon28ArrowUturnLeftOutline
             color="currentColor"
             className="text-inversed/30"
           />
         </IconButton>
-        <IconButton className="[&>*]:!p-0" disabled>
+        <IconButton
+          className="[&>*]:!p-0"
+          onClick={props.onRedo}
+          disabled={!props.canRedo}
+        >
           <Icon28ArrowUturnRightOutline
             color="currentColor"
             className="text-inversed/30"
