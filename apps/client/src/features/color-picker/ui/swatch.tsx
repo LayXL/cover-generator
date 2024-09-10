@@ -1,5 +1,5 @@
 import { rgbToHsl } from "@/shared/utils/rgbToHsl"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const drawSwatch = (ctx: CanvasRenderingContext2D, hue: number) => {
   const width = ctx.canvas.width
@@ -44,6 +44,7 @@ type SwatchProps = {
 
 export const Swatch = (props: SwatchProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -56,14 +57,30 @@ export const Swatch = (props: SwatchProps) => {
   }, [props.color])
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <canvas
+      className="rounded-xl"
       ref={canvasRef}
       width={255}
       height={255}
+      onMouseDown={() => setIsActive(true)}
+      onMouseUp={() => setIsActive(false)}
       onMouseMove={(event) => {
+        if (!isActive) return
         const canvas = canvasRef.current
         if (!canvas) return
 
+        const rect = canvas.getBoundingClientRect()
+
+        const x = (event.clientX - rect.left) * (canvas.width / rect.width)
+        const y = (event.clientY - rect.top) * (canvas.height / rect.height)
+
+        const { s, l } = getColorFromCanvas(canvas, x, y)
+        props.onUpdate(s, l)
+      }}
+      onClick={(event) => {
+        const canvas = canvasRef.current
+        if (!canvas) return
         const rect = canvas.getBoundingClientRect()
 
         const x = (event.clientX - rect.left) * (canvas.width / rect.width)

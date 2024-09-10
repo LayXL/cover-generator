@@ -22,38 +22,50 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
 
   return (
     <div className="p-3 flex flex-col gap-3">
-      <input
-        type="range"
-        min="0"
-        max="360"
-        value={h}
-        onChange={({ target: { value } }) => {
-          setH(Number(value))
-          props.onChange(hslToHex({ h: Number(value), s, l }))
-        }}
-        style={{ width: "100%" }}
-      />
+      <div className="p-1.5 flex flex-col gap-1.5 bg-inversed/5 rounded-xl">
+        <Swatch
+          color={{ h, s, l }}
+          onUpdate={(s, l) => {
+            setS(s)
+            setL(l)
 
-      <Swatch
-        color={{ h, s, l }}
-        onUpdate={(s, l) => {
-          setS(s)
-          setL(l)
+            console.log(l)
 
-          props.onChange(hslToHex({ h, s, l }))
-        }}
-      />
+            props.onChange(hslToHex({ h, s, l }))
+          }}
+        />
 
-      <div
-        className="size-12"
-        style={{
-          backgroundColor: props.color,
-        }}
-      />
+        <div
+          className="relative h-9 rounded-full"
+          style={{
+            background:
+              "linear-gradient(90deg, red, yellow, green, cyan, blue, purple, red)",
+          }}
+        >
+          <div
+            className="h-full aspect-square rounded-full border-2 border-surface -translate-x-1/2"
+            style={{
+              background: `hsl(${h}, 100%, 50%)`,
+              marginLeft: `min(max(${(h / 360) * 100}%, 18px), calc(100% - 18px))`,
+            }}
+          />
+          <input
+            className="absolute inset-0 opacity-0"
+            type="range"
+            min={0}
+            max={359}
+            value={h}
+            onChange={({ target: { value } }) => {
+              setH(Number(value))
+              props.onChange(hslToHex({ h: Number(value), s, l }))
+            }}
+          />
+        </div>
+      </div>
 
       <Separator />
 
-      <Button children={t("pick-color-button")} />
+      <Button size="l" children={t("pick-color-button")} />
     </div>
   )
 }
