@@ -59,11 +59,11 @@ export const useProjectStore = create<ProjectState>()((set, get) => ({
     set((state) => {
       return {
         project: projectSchema.parse(deepMerge(state.project, project)),
-        projectSnapshotsBackward: [
-          ...state.projectSnapshotsForward,
-          state.project,
-        ],
-        projectSnapshotsForward: [],
+        // projectSnapshotsBackward: [
+        //   ...state.projectSnapshotsForward,
+        //   state.project,
+        // ],
+        // projectSnapshotsForward: [],
       }
     }),
   addCover(cover) {
@@ -89,15 +89,27 @@ export const useProjectStore = create<ProjectState>()((set, get) => ({
     }))
   },
   updateCover(index, newCover) {
-    set((state) => ({
-      project: {
+    set((state) => {
+      const project = {
         ...state.project,
         covers:
           state.project.covers?.map((c, i) =>
             i === index && c ? coverSchema.parse(deepMerge(c, newCover)) : c
           ) ?? [],
-      },
-    }))
+      }
+
+      if (JSON.stringify(project) === JSON.stringify(state.project))
+        return { state }
+
+      return {
+        project,
+        projectSnapshotsBackward: [
+          ...state.projectSnapshotsForward,
+          state.project,
+        ],
+        projectSnapshotsForward: [],
+      }
+    })
   },
 }))
 
