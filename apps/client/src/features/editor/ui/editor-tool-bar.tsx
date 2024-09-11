@@ -3,10 +3,12 @@ import type { SelectedItems } from "@/features/toolbar/lib/useToolbar"
 import { ToolbarRoot } from "@/features/toolbar/ui/toolbar-root"
 import type { ToolbarTabData } from "@/features/toolbar/ui/toolbar-tab"
 import { useModalState } from "@/shared/hooks/useModalState"
+import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
 import { CUBIC_BEZIER } from "@/shared/utils/animations"
 import {
   Icon16Clear,
+  Icon24Dismiss,
   Icon24GradientOutline,
   Icon24TextTtOutline,
   Icon28ArchiveCheckOutline,
@@ -318,6 +320,17 @@ export const EditorToolBar = () => {
       />
 
       <Modal withoutTint {...fillSolidColorModal}>
+        <Header
+          title={t("fill-solid-color-modal-title")}
+          after={
+            <div className="pr-4">
+              <Icon24Dismiss
+                className="cursor-pointer"
+                onClick={() => fillSolidColorModal.close()}
+              />
+            </div>
+          }
+        />
         <ColorPickerModal
           color={
             currentCover && "color" in currentCover.background
@@ -325,6 +338,7 @@ export const EditorToolBar = () => {
               : undefined
           }
           onChange={(color) => {
+            fillSolidColorModal.close()
             updateCurrentCover({
               ...currentCover,
               background: {

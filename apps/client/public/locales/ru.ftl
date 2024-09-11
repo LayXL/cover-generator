@@ -36,3 +36,11 @@ done-button = Готово
 
 linear-gradient-angle-slider-caption = Угол
 radial-gradient-size-slider-caption = Радиус
+
+color-input-label = Шестнадцатеричный код
+pick-color-button = Выбрать цвет
+
+color-picker-tab-label = Выбор цвета
+color-history-tab-label = История
+
+fill-solid-color-modal-title = Заливка цветом

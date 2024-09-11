@@ -3,7 +3,7 @@ import { cn } from "@/shared/utils/cn"
 import { FloatingPortal } from "@floating-ui/react"
 import type { ClassValue } from "clsx"
 import { AnimatePresence, motion } from "framer-motion"
-import { type ReactNode, createContext, useContext } from "react"
+import { type ReactNode, createContext, useContext, useState } from "react"
 
 type ModalProps = {
   isOpened: boolean
@@ -24,6 +24,8 @@ const ModalContext = createContext({
 export const useModal = () => useContext(ModalContext)
 
 export const Modal = (props: ModalProps) => {
+  const [isClicked, setIsClicked] = useState(false)
+
   return (
     <ModalContext.Provider
       value={{
@@ -50,7 +52,15 @@ export const Modal = (props: ModalProps) => {
                 "fixed inset-0 h-[var(--ma-viewport-height)] flex flex-col justify-end z-50",
                 props.fullscreen && "h-screen justify-stretch"
               )}
-              onClick={props.onClose}
+              onMouseDown={() => {
+                setIsClicked(true)
+              }}
+              onMouseUp={() => {
+                if (isClicked) {
+                  setIsClicked(false)
+                  props.onClose()
+                }
+              }}
             >
               <motion.div
                 initial={{ translateY: "100%" }}
@@ -74,7 +84,8 @@ export const Modal = (props: ModalProps) => {
                   props.fullscreen && "h-full pb-safe-area-bottom -mb-0",
                   props.className
                 )}
-                onClick={(e) => e.stopPropagation()}
+                onMouseDown={(e) => e.stopPropagation()}
+                onMouseUp={(e) => e.stopPropagation()}
               >
                 <div
                   className={cn(props.fullscreen && "overflow-scroll h-full")}

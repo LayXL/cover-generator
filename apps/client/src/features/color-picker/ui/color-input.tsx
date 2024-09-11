@@ -21,7 +21,11 @@ export const ColorInput = (props: ColorInputProps) => {
       value={`#${value}`}
       onChange={({ target: { value } }) => {
         setValue(value.replaceAll("#", "").toLocaleUpperCase())
-        props.onChange?.(hexColor.parse(value))
+
+        const parsed = hexColor.safeParse(value)
+        if (!parsed.success) return
+
+        props.onChange?.(parsed.data)
       }}
     />
   )
