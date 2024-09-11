@@ -361,7 +361,7 @@ export const EditorToolBar = () => {
         }
       />
 
-      <Modal withoutTint {...fillSolidColorModal}>
+      <Modal fullscreen {...fillSolidColorModal}>
         <Header
           title={t("fill-solid-color-modal-title")}
           after={
