@@ -49,7 +49,7 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
   }, [props.color])
 
   return (
-    <div className="p-3 flex flex-col gap-3">
+    <div className="p-3 flex flex-col gap-3 pt-0">
       <SegmentedControl
         value={tab}
         onChange={(value) => {

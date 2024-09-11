@@ -80,8 +80,9 @@ export const Modal = (props: ModalProps) => {
                       }
                 }
                 className={cn(
-                  "relative bg-modal rounded-t-3xl pb-16 -mb-16 overflow-hidden",
-                  props.fullscreen && "h-full pb-safe-area-bottom -mb-0",
+                  "relative bg-modal rounded-t-3xl pb-safe-area-bottom overflow-hidden",
+                  // "before:contents-[''] before:absolute before:h-[200%] before:top-16 before:w-full before:bg-modal before:z-[-1]",
+                  props.fullscreen && "h-full",
                   props.className
                 )}
                 onMouseDown={(e) => e.stopPropagation()}

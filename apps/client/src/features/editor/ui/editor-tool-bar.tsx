@@ -225,8 +225,7 @@ export const EditorToolBar = () => {
     selectedItems.background === "gradient"
 
   const isBackgroundFillsTabOpened =
-    selectedItems.root === "background" &&
-    selectedItems.backgroundFill === "defaultBackgroundFills"
+    selectedItems.root === "background" && selectedItems.background === "fill"
 
   return (
     <>
@@ -361,7 +360,7 @@ export const EditorToolBar = () => {
         }
       />
 
-      <Modal fullscreen {...fillSolidColorModal}>
+      <Modal {...fillSolidColorModal}>
         <Header
           title={t("fill-solid-color-modal-title")}
           after={
