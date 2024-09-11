@@ -2,7 +2,7 @@ import { useCloudStorage } from "@/shared/hooks/useCloudStorage"
 import { cn } from "@/shared/utils/cn"
 import { Icon20PalleteOutline, Icon20SlidersOutline } from "@vkontakte/icons"
 import { Button, FormItem, SegmentedControl, Separator } from "@vkontakte/vkui"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { HexColorPicker } from "react-colorful"
 import { useTranslation } from "react-i18next"
 import type { hexColor } from "shared/types"
@@ -30,10 +30,19 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
 
   const addColorToHistory = useCallback(
     (color: z.infer<typeof hexColor>) => {
-      mutateHistoryColors(historyColors ? [...historyColors, color] : [color])
+      mutateHistoryColors(
+        historyColors
+          ? [...historyColors.filter((c) => c !== color), color].slice(-50)
+          : [color]
+      )
     },
     [historyColors, mutateHistoryColors]
   )
+
+  const reversedHistoryColors = useMemo(() => {
+    if (!historyColors) return []
+    return [...historyColors].reverse()
+  }, [historyColors])
 
   useEffect(() => {
     setDisplayColor(props.color)
@@ -43,7 +52,12 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
     <div className="p-3 flex flex-col gap-3">
       <SegmentedControl
         value={tab}
-        onChange={(value) => setTab(value as ColorPickerTab)}
+        onChange={(value) => {
+          if (value === ColorPickerTab.History && historyColors?.length === 0)
+            return
+
+          setTab(value as ColorPickerTab)
+        }}
         options={[
           {
             label: t("color-picker-tab-label"),
@@ -54,6 +68,10 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
             label: t("color-history-tab-label"),
             before: <Icon20PalleteOutline />,
             value: "history",
+            className:
+              historyColors?.length === 0
+                ? "opacity-30 pointer-events-none"
+                : undefined,
           },
         ]}
       />
@@ -111,7 +129,7 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
 
         {tab === ColorPickerTab.History && (
           <div className="absolute inset-0 grid gap-4 grid-cols-[repeat(auto-fill,minmax(96px,1fr))]">
-            {historyColors?.map((color) => (
+            {reversedHistoryColors.map((color) => (
               <ColorCard
                 key={color}
                 color={color}

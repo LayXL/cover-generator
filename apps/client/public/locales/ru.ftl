@@ -24,6 +24,9 @@ default-gradients-tab-title = Готовые
 linear-gradient-tab-title = Линейный
 radial-gradient-tab-title = Радиальный
 
+default-backgrounds-fills-tab-title = Готовые
+color-picker-tab-title = Палитра
+
 cover-text-input-placeholder = Начните вводить текст
 clear-text-button = Очистить текст
 
@@ -44,3 +47,4 @@ color-picker-tab-label = Выбор цвета
 color-history-tab-label = История
 
 fill-solid-color-modal-title = Заливка цветом
+

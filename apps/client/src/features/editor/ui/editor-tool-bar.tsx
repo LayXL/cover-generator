@@ -26,6 +26,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useCurrentCover } from "../lib/useCurrentCover"
+import { DefaultColorsPicker } from "./default-colors-picker"
 import { DefaultGradientsPicker } from "./default-gradients-picker"
 import { LinearGradientAdjuster } from "./linear-gradient-adjuster"
 import { RadialGradientAdjuster } from "./radial-gradient-adjuster"
@@ -73,9 +74,7 @@ export const EditorToolBar = () => {
               name: "fill",
               title: t("fill-tab-title"),
               icon: <Icon28PaintRollerOutline />,
-              onSelect: () => {
-                fillSolidColorModal.open()
-              },
+              onSelect: (toolbar) => toolbar.pushAndMark("backgroundFill"),
             },
             {
               name: "gradient",
@@ -158,6 +157,31 @@ export const EditorToolBar = () => {
           ],
         },
         {
+          name: "backgroundFill",
+          items: [
+            {
+              name: "defaultBackgroundFills",
+              title: t("default-backgrounds-fills-tab-title"),
+              icon: <Icon28ArchiveCheckOutline />,
+              onSelect: () => {
+                setSelectedItems((prev) => ({
+                  ...prev,
+                  backgroundFill:
+                    prev.backgroundFill === "defaultBackgroundFills"
+                      ? null
+                      : "defaultBackgroundFills",
+                }))
+              },
+            },
+            {
+              name: "colorPicker",
+              title: t("color-picker-tab-title"),
+              icon: <Icon28PaletteOutline />,
+              onSelect: () => fillSolidColorModal.open(),
+            },
+          ],
+        },
+        {
           name: "text",
           items: [
             {
@@ -199,6 +223,10 @@ export const EditorToolBar = () => {
   const isGradientTabOpened =
     selectedItems.root === "background" &&
     selectedItems.background === "gradient"
+
+  const isBackgroundFillsTabOpened =
+    selectedItems.root === "background" &&
+    selectedItems.backgroundFill === "defaultBackgroundFills"
 
   return (
     <>
@@ -266,6 +294,20 @@ export const EditorToolBar = () => {
                 />
               )}
 
+            {isBackgroundFillsTabOpened &&
+              selectedItems.backgroundFill === "defaultBackgroundFills" && (
+                <DefaultColorsPicker
+                  onChoose={(color) => {
+                    updateCurrentCover({
+                      background: {
+                        type: "solid",
+                        color,
+                      },
+                    })
+                  }}
+                />
+              )}
+
             {isGradientTabOpened && selectedItems.gradient === "linear" && (
               <LinearGradientAdjuster
                 angle={
@@ -326,7 +368,7 @@ export const EditorToolBar = () => {
             <div className="pr-4">
               <Icon24Dismiss
                 className="cursor-pointer"
-                onClick={() => fillSolidColorModal.close()}
+                onClick={fillSolidColorModal.close}
               />
             </div>
           }
