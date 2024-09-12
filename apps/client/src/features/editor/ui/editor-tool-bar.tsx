@@ -16,10 +16,10 @@ import {
   Icon28CheckCircleOff,
   Icon28FullscreenOutline,
   Icon28LogoVkOutline,
-  Icon28PaintRollerOutline,
   Icon28PaletteOutline,
   Icon28PictureOutline,
   Icon28TextOutline,
+  Icon28WaterDropOutline,
 } from "@vkontakte/icons"
 import { IconButton, Input } from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
@@ -73,7 +73,7 @@ export const EditorToolBar = () => {
             {
               name: "fill",
               title: t("fill-tab-title"),
-              icon: <Icon28PaintRollerOutline />,
+              icon: <Icon28WaterDropOutline />,
               onSelect: (toolbar) => toolbar.pushAndMark("backgroundFill"),
             },
             {
