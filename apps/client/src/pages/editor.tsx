@@ -225,12 +225,7 @@ export const Editor = () => {
       <AnimatePresence>
         {(trans === Trans.EDITOR || trans === Trans.TO_EDITOR) && (
           <>
-            <motion.div
-              className="fixed top-0 w-full"
-              // initial={{ translateY: "-100%" }}
-              // animate={{ translateY: 0 }}
-              // exit={{ translateY: "-100%" }}
-            >
+            <motion.div className="fixed top-0 w-full">
               <Header
                 before={<BackButton onClick={() => setTrans(Trans.TO_GRID)} />}
                 title={t("editor-screen-title")}

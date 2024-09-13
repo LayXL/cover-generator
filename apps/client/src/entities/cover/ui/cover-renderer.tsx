@@ -1,3 +1,5 @@
+import { cn } from "@/shared/utils/cn"
+import type { ClassValue } from "clsx"
 import { useEffect, useRef } from "react"
 import type { Cover, DeepPartial } from "shared/types"
 import { buildCover } from "../lib/buildCover"
@@ -5,6 +7,7 @@ import { useIconCanvas } from "../lib/useIconCanvas"
 
 type CoverRendererProps = {
   pixelRatio?: number
+  className?: ClassValue
 } & DeepPartial<Cover>
 
 export const CoverRenderer = (props: CoverRendererProps) => {
@@ -27,7 +30,7 @@ export const CoverRenderer = (props: CoverRendererProps) => {
       width={376 * pixelRatio}
       height={256 * pixelRatio}
       ref={canvasRef}
-      className="size-full object-cover"
+      className={cn("size-full object-cover", props.className)}
     />
   )
 }
