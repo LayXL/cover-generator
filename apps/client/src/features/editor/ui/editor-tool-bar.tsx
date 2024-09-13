@@ -36,11 +36,20 @@ import { RadialGradientAdjuster } from "./radial-gradient-adjuster"
 export const EditorToolBar = () => {
   const { t } = useTranslation()
 
-  const imageUpload = useImageUpload()
-
   const [currentCover, updateCurrentCover] = useCurrentCover()
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({
     root: "background",
+  })
+
+  const imageUpload = useImageUpload({
+    onSuccess: ({ data }) => {
+      updateCurrentCover({
+        background: {
+          type: "image",
+          uuid: data?.uuid,
+        },
+      })
+    },
   })
 
   const fillSolidColorModal = useModalState()
@@ -377,7 +386,7 @@ export const EditorToolBar = () => {
                     children={t("choose-image-button")}
                     size="m"
                     onChange={({ target: { files } }) => {
-                      imageUpload.mutate(files?.[0])
+                      imageUpload.mutate({ file: files?.[0] })
                     }}
                   />
                 }

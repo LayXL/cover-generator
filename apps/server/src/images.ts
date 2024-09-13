@@ -58,6 +58,7 @@ export const images = new Elysia().group("/images", (group) =>
         })
 
         return {
+          uuid,
           url: `/images/${uuid}`,
           width: convertedImage.width,
           height: convertedImage.height,

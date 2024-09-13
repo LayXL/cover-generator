@@ -1,6 +1,7 @@
 import type { DeepPartial, coverBackgroundSchema } from "shared/types"
 import type { z } from "zod"
 import { fillGradientBackground } from "./fillGradientBackground"
+import { fillImageBackground } from "./fillImageBackground"
 import { fillSolidBackground } from "./fillSolidBackground"
 
 export const fillBackground = (
@@ -17,6 +18,9 @@ export const fillBackground = (
       break
     case "gradient":
       fillGradientBackground(canvas, background)
+      break
+    case "image":
+      fillImageBackground(canvas, background)
       break
   }
 }
