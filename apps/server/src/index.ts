@@ -9,23 +9,9 @@ import { vkPayments } from "./vkPayments"
 
 export const app = new Elysia()
   .use(cors())
-  // .use(
-  //   trpc(router, {
-  //     endpoint: "api",
-  //     createContext,
-  //     onError:
-  //       Bun.env.TELEGRAM_TEST_ENV === "true"
-  //         ? undefined
-  //         : (opts) => {
-  //             const { error } = opts
-
-  //             console.error("Error:", error)
-  //           },
-  //   })
-  // )
-  .all("/api/*", async (opts) => {
-    // TODO: workaround
-    return await fetchRequestHandler({
+  // TODO: workaround for https://github.com/elysiajs/eden/issues/18
+  .all("/api/*", (opts) =>
+    fetchRequestHandler({
       endpoint: "/api",
       router: router,
       req: opts.request,
@@ -34,12 +20,10 @@ export const app = new Elysia()
         Bun.env.TEST === "true"
           ? undefined
           : (opts) => {
-              const { error } = opts
-
-              console.error("Error:", error)
+              console.error("Error:", opts.error)
             },
     })
-  })
+  )
   .use(vkPayments)
   .use(images)
   .listen(Bun.env.SERVER_PORT ?? 3000)
