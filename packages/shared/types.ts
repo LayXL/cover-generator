@@ -45,7 +45,7 @@ export const coverGradientBackgroundSchema = z.object({
 export const coverImageBackgroundSchema = z.object({
   type: z.literal("image"),
   uuid: z.string().uuid().optional(),
-  style: z.enum(["repeat", "cover", "contain"]).default("cover"),
+  style: z.enum(["cover", "stretch"]).default("cover"),
 })
 
 export const coverBackgroundSchema = z.discriminatedUnion("type", [

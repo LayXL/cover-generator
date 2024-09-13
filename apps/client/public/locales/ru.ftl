@@ -48,3 +48,10 @@ color-history-tab-label = История
 
 fill-solid-color-modal-title = Заливка цветом
 
+background-image-stretch-title = Растянуть
+background-image-cover-title = Заполнить
+
+background-image-placeholder = Добавьте картинку
+  .caption = Чтобы добавить картинку в качестве фона, приложите её в качества файла
+
+choose-image-button = Выбрать файл

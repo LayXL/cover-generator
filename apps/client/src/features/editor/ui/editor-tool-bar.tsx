@@ -14,6 +14,7 @@ import {
   Icon24TextTtOutline,
   Icon28ArchiveCheckOutline,
   Icon28ArrowRightSquareOutline,
+  Icon28BracketsSquareOutline,
   Icon28CheckCircleOff,
   Icon28FullscreenOutline,
   Icon28LogoVkOutline,
@@ -21,6 +22,7 @@ import {
   Icon28PictureOutline,
   Icon28TextOutline,
   Icon28UploadOutline,
+  Icon28VideoFillOutline,
   Icon28WaterDropOutline,
 } from "@vkontakte/icons"
 import { File, IconButton, Input, Placeholder } from "@vkontakte/vkui"
@@ -197,7 +199,28 @@ export const EditorToolBar = () => {
         },
         {
           name: "backgroundImage",
-          items: [],
+          items: [
+            {
+              name: "backgroundImageStretch",
+              title: t("background-image-stretch-title"),
+              icon: <Icon28BracketsSquareOutline />,
+              onSelect: () => {
+                updateCurrentCover({
+                  background: { type: "image", style: "stretch" },
+                })
+              },
+            },
+            {
+              name: "backgroundImageCover",
+              title: t("background-image-cover-title"),
+              icon: <Icon28VideoFillOutline />,
+              onSelect: () => {
+                updateCurrentCover({
+                  background: { type: "image", style: "cover" },
+                })
+              },
+            },
+          ],
         },
         {
           name: "text",
@@ -380,8 +403,12 @@ export const EditorToolBar = () => {
 
             {isBackgroundImageTabOpened && (
               <Placeholder
+                className="!py-0 !pb-4"
+                header={t("background-image-placeholder")}
+                children={t("background-image-placeholder.caption")}
                 action={
                   <File
+                    accept="image/jpeg,image/png,image/webp"
                     before={<Icon28UploadOutline />}
                     children={t("choose-image-button")}
                     size="m"

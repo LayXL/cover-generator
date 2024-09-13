@@ -27,15 +27,24 @@ export const fillImageBackground = (
       if (background.uuid) {
         images[background.uuid] = img
 
-        drawImage(img, canvas)
+        drawImage(img, canvas, background.style ?? "cover")
       }
     }
   } else {
-    drawImage(image, canvas)
+    drawImage(image, canvas, background.style ?? "cover")
   }
 }
 
-function drawImage(img: HTMLImageElement, canvas: HTMLCanvasElement) {
+function drawImage(
+  img: HTMLImageElement,
+  canvas: HTMLCanvasElement,
+  style: "stretch" | "cover"
+) {
+  if (style === "stretch") {
+    canvas.getContext("2d")?.drawImage(img, 0, 0, canvas.width, canvas.height)
+    return
+  }
+
   const hRatio = canvas.width / img.width
   const vRatio = canvas.height / img.height
   const ratio = Math.max(hRatio, vRatio)
