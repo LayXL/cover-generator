@@ -73,8 +73,7 @@ export const images = new Elysia().group("/images", (group) =>
         body: t.Object({
           projectId: t.Union([t.Number(), t.String()]),
           image: t.File({
-            // "image/jpeg", "image/png", "image/webp",
-            type: ["image/*"],
+            type: ["image/jpeg", "image/png", "image/webp", "image/*"],
             maxSize: "5m",
           }),
         }),
