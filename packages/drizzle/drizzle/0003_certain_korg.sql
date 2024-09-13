@@ -1,0 +1,1 @@
+ALTER TABLE "media" ALTER COLUMN "blurhash" DROP NOT NULL;

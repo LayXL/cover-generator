@@ -7,7 +7,7 @@ import { images } from "./images"
 import { router } from "./routes"
 import { vkPayments } from "./vkPayments"
 
-const app = new Elysia()
+export const app = new Elysia()
   .use(cors())
   // .use(
   //   trpc(router, {
@@ -46,4 +46,4 @@ const app = new Elysia()
 
 console.info(`Server is running at ${app.server?.hostname}:${app.server?.port}`)
 
-export const elysia = treaty<typeof app>("localhost:3000")
+export const elysia = treaty<typeof app>("/")

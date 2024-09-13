@@ -1,13 +1,11 @@
-import { encode } from "blurhash"
 import { db } from "drizzle"
 import { and, eq } from "drizzle-orm"
-import { media } from "drizzle/db/schema"
+import { media, projects, users } from "drizzle/db/schema"
 import Elysia, { t } from "elysia"
 import sharp from "sharp"
 import { v4 as uuidv4 } from "uuid"
 import { getQueryFromAuthorizationHeader } from "./context"
 import { escapePath } from "./utils/escapePath"
-import { fileToUint8ClampedArray } from "./utils/fileToUint8ClampedArray"
 
 export const images = new Elysia().group("/images", (group) =>
   group
@@ -18,10 +16,19 @@ export const images = new Elysia().group("/images", (group) =>
 
         if (!queryData) return error("Forbidden")
 
+        const user = await db.query.users.findFirst({
+          where: eq(users.vkId, queryData.userId),
+        })
+
+        if (!user) return error("Forbidden")
+
+        const parsedProjectId =
+          typeof projectId === "number" ? projectId : Number.parseInt(projectId)
+
         const project = await db.query.projects.findFirst({
           where: and(
-            eq(media.authorId, queryData.userId),
-            eq(media.projectId, projectId)
+            eq(projects.id, parsedProjectId),
+            eq(projects.authorId, user.id)
           ),
         })
 
@@ -33,28 +40,28 @@ export const images = new Elysia().group("/images", (group) =>
           .webp({ quality: 80 })
           .toFile(`./images/${uuid}.webp`)
 
-        const blurhash = encode(
-          await fileToUint8ClampedArray(image),
-          convertedImage.width,
-          convertedImage.height,
-          4,
-          4
-        )
+        // const blurhash = encode(
+        //   await fileToUint8ClampedArray(image),
+        //   convertedImage.width,
+        //   convertedImage.height,
+        //   4,
+        //   4
+        // )
 
         await db.insert(media).values({
           uuid,
-          authorId: queryData.userId,
-          projectId,
+          authorId: user.id,
+          projectId: parsedProjectId,
           width: convertedImage.width,
           height: convertedImage.height,
-          blurhash,
+          // blurhash,
         })
 
         return {
-          url: `/images/${uuid}.webp`,
+          url: `/images/${uuid}`,
           width: convertedImage.width,
           height: convertedImage.height,
-          blurhash,
+          // blurhash,
         }
       },
       {
@@ -63,7 +70,7 @@ export const images = new Elysia().group("/images", (group) =>
         }),
         type: "multipart/form-data",
         body: t.Object({
-          projectId: t.Number(),
+          projectId: t.Union([t.Number(), t.String()]),
           image: t.File({
             type: ["image/jpeg", "image/png", "image/webp"],
             maxSize: "5m",
@@ -71,7 +78,7 @@ export const images = new Elysia().group("/images", (group) =>
         }),
       }
     )
-    .get(":uuid", ({ params: { uuid } }) =>
+    .get("/:uuid", ({ params: { uuid } }) =>
       Bun.file(`./images/${escapePath(uuid)}.webp`)
     )
 )

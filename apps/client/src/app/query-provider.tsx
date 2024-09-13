@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/shared/hooks/useAuth"
 import { trpc } from "@/shared/utils/trpc"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { httpBatchLink } from "@trpc/client"
@@ -38,8 +39,12 @@ export const QueryProvider = ({ children }: QueryProviderType) => {
   )
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </trpc.Provider>
+    <AuthProvider value={{ token }}>
+      <trpc.Provider client={trpcClient} queryClient={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </trpc.Provider>
+    </AuthProvider>
   )
 }

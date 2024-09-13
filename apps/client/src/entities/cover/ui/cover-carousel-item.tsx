@@ -22,7 +22,7 @@ export const CoverCarouselItem = (props: CoverCarouselItemProps) => {
   const { width = 0 } = useWindowSize()
   const itemX = useTransform(
     props.x,
-    (latestX) => latestX + props.index * (width - 32)
+    (latestX) => (latestX ?? 0) + props.index * (width - 32)
   )
 
   const scale = useTransform(itemX, [-width, 0, width], [0.75, 1, 0.75])

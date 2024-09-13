@@ -38,5 +38,5 @@ export const media = pgTable("media", {
   }),
   width: integer("width").notNull(),
   height: integer("height").notNull(),
-  blurhash: text("blurhash").notNull(),
+  blurhash: text("blurhash"),
 })

@@ -2,6 +2,7 @@ import { ColorPickerModal } from "@/features/color-picker/ui/color-picker-modal"
 import type { SelectedItems } from "@/features/toolbar/lib/useToolbar"
 import { ToolbarRoot } from "@/features/toolbar/ui/toolbar-root"
 import type { ToolbarTabData } from "@/features/toolbar/ui/toolbar-tab"
+import { useImageUpload } from "@/shared/hooks/useImageUpload"
 import { useModalState } from "@/shared/hooks/useModalState"
 import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
@@ -19,9 +20,10 @@ import {
   Icon28PaletteOutline,
   Icon28PictureOutline,
   Icon28TextOutline,
+  Icon28UploadOutline,
   Icon28WaterDropOutline,
 } from "@vkontakte/icons"
-import { IconButton, Input } from "@vkontakte/vkui"
+import { File, IconButton, Input, Placeholder } from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -33,6 +35,8 @@ import { RadialGradientAdjuster } from "./radial-gradient-adjuster"
 
 export const EditorToolBar = () => {
   const { t } = useTranslation()
+
+  const imageUpload = useImageUpload()
 
   const [currentCover, updateCurrentCover] = useCurrentCover()
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({
@@ -86,6 +90,7 @@ export const EditorToolBar = () => {
               name: "image",
               title: t("image-tab-title"),
               icon: <Icon28PictureOutline />,
+              onSelect: (toolbar) => toolbar.pushAndMark("backgroundImage"),
             },
           ],
         },
@@ -182,6 +187,10 @@ export const EditorToolBar = () => {
           ],
         },
         {
+          name: "backgroundImage",
+          items: [],
+        },
+        {
           name: "text",
           items: [
             {
@@ -224,8 +233,11 @@ export const EditorToolBar = () => {
     selectedItems.root === "background" &&
     selectedItems.background === "gradient"
 
-  const isBackgroundFillsTabOpened =
+  const isBackgroundFillTabOpened =
     selectedItems.root === "background" && selectedItems.background === "fill"
+
+  const isBackgroundImageTabOpened =
+    selectedItems.root === "background" && selectedItems.background === "image"
 
   return (
     <>
@@ -293,7 +305,7 @@ export const EditorToolBar = () => {
                 />
               )}
 
-            {isBackgroundFillsTabOpened &&
+            {isBackgroundFillTabOpened &&
               selectedItems.backgroundFill === "defaultBackgroundFills" && (
                 <DefaultColorsPicker
                   onChoose={(color) => {
@@ -354,6 +366,21 @@ export const EditorToolBar = () => {
                     },
                   })
                 }}
+              />
+            )}
+
+            {isBackgroundImageTabOpened && (
+              <Placeholder
+                action={
+                  <File
+                    before={<Icon28UploadOutline />}
+                    children={t("choose-image-button")}
+                    size="m"
+                    onChange={({ target: { files } }) => {
+                      imageUpload.mutate(files?.[0])
+                    }}
+                  />
+                }
               />
             )}
           </AnimatePresence>
