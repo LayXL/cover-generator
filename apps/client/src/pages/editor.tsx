@@ -162,13 +162,25 @@ export const Editor = () => {
       </div>
 
       <motion.div
-        className="fixed inset-0 grid pt-14 bg-primary"
+        className="fixed inset-0 bg-primary flex flex-col overflow-hidden"
         animate={{
           pointerEvents: trans !== Trans.GRID ? "auto" : "none",
           opacity: trans === Trans.TO_EDITOR || trans === Trans.EDITOR ? 1 : 0,
         }}
       >
+        <AnimatePresence>
+          {(trans === Trans.EDITOR || trans === Trans.TO_EDITOR) && (
+            <motion.div className="w-full">
+              <Header
+                before={<BackButton onClick={() => setTrans(Trans.TO_GRID)} />}
+                title={t("editor-screen-title")}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <div
+          className="flex-1 max-h-[620px]"
           style={{
             visibility: trans === Trans.EDITOR ? "visible" : "hidden",
           }}
@@ -199,6 +211,19 @@ export const Editor = () => {
             canRedo={canRedo}
           />
         </div>
+
+        <AnimatePresence>
+          {(trans === Trans.EDITOR || trans === Trans.TO_EDITOR) && (
+            <motion.div
+              className="bottom-safe-area-bottom w-full"
+              initial={{ translateY: "100%" }}
+              animate={{ translateY: 0 }}
+              exit={{ translateY: "100%" }}
+            >
+              <EditorToolBar />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
       {(trans === Trans.TO_EDITOR || trans === Trans.TO_GRID) && (
@@ -208,10 +233,17 @@ export const Editor = () => {
             trans !== Trans.TO_EDITOR,
             currentCoverIndex
           )}
-          animate={createAnimCoverRenderer(
-            trans === Trans.TO_EDITOR,
-            currentCoverIndex
-          )}
+          animate={{
+            ...createAnimCoverRenderer(
+              trans === Trans.TO_EDITOR,
+              currentCoverIndex
+            ),
+            ...(trans === Trans.TO_EDITOR
+              ? {
+                  top: 108,
+                }
+              : {}),
+          }}
           onAnimationComplete={() =>
             setTrans((prev) =>
               prev === Trans.TO_EDITOR ? Trans.EDITOR : Trans.GRID
@@ -221,27 +253,6 @@ export const Editor = () => {
           <CoverRenderer {...currentCover} />
         </motion.div>
       )}
-
-      <AnimatePresence>
-        {(trans === Trans.EDITOR || trans === Trans.TO_EDITOR) && (
-          <>
-            <motion.div className="fixed top-0 w-full">
-              <Header
-                before={<BackButton onClick={() => setTrans(Trans.TO_GRID)} />}
-                title={t("editor-screen-title")}
-              />
-            </motion.div>
-            <motion.div
-              className="fixed bottom-safe-area-bottom w-full"
-              initial={{ translateY: "100%" }}
-              animate={{ translateY: 0 }}
-              exit={{ translateY: "100%" }}
-            >
-              <EditorToolBar />
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </>
   )
 }

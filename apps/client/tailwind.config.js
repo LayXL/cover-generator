@@ -1,10 +1,15 @@
 const plugin = require("tailwindcss/plugin")
+const defaultTheme = require("tailwindcss/defaultTheme")
 
 // noinspection JSUnusedGlobalSymbols
 /** @type {import("tailwindcss").Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    screens: {
+      xs: "400px",
+      ...defaultTheme.screens,
+    },
     extend: {
       fontSize: {
         "2xs": "0.625rem",

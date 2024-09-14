@@ -8,6 +8,8 @@ import { useIconCanvas } from "../lib/useIconCanvas"
 type CoverRendererProps = {
   pixelRatio?: number
   className?: ClassValue
+  overrideClassName?: boolean
+  id?: string
 } & DeepPartial<Cover>
 
 export const CoverRenderer = (props: CoverRendererProps) => {
@@ -30,7 +32,11 @@ export const CoverRenderer = (props: CoverRendererProps) => {
       width={376 * pixelRatio}
       height={256 * pixelRatio}
       ref={canvasRef}
-      className={cn("size-full object-cover", props.className)}
+      className={cn(
+        !props.overrideClassName && "size-full object-cover",
+        props.className
+      )}
+      id={props.id}
     />
   )
 }

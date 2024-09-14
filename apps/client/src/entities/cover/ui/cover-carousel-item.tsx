@@ -1,9 +1,9 @@
-import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
 import { CUBIC_BEZIER } from "@/shared/utils/animations"
 import { type MotionValue, motion, useTransform } from "framer-motion"
 import type { Cover, DeepPartial } from "shared/types"
 import { useWindowSize } from "usehooks-ts"
 import { CoverCarouselItemHeader } from "./cover-carousel-item-header"
+import { CoverRenderer } from "./cover-renderer"
 
 type CoverCarouselItemProps = {
   index: number
@@ -29,7 +29,10 @@ export const CoverCarouselItem = (props: CoverCarouselItemProps) => {
   const opacity = useTransform(itemX, [-width, 0, width], [-0.75, 1, -0.75])
 
   return (
-    <motion.div className="flex flex-col gap-2" style={{ scale }}>
+    <motion.div
+      className="flex flex-col gap-2 min-w-[calc(100vw-32px)] h-full"
+      style={{ scale }}
+    >
       <motion.div
         animate={{ opacity: props.isInvisible ? 0 : 1 }}
         transition={{ duration: 0.3, ease: CUBIC_BEZIER }}
@@ -47,16 +50,18 @@ export const CoverCarouselItem = (props: CoverCarouselItemProps) => {
         </motion.div>
       </motion.div>
 
-      <div className="w-[calc(100vw-32px)]">
-        <div
-          className="rounded-xl overflow-hidden"
-          id={
-            props.index === props.currentCoverIndex
-              ? "cover-preview"
-              : undefined
-          }
-        >
-          <CoverRenderer {...props.cover} />
+      <div className="w-full h-[calc(100%-52px)] xs:h-[240px] sm:h-[300px]">
+        <div className="w-full aspect-[376/256] xs:w-auto xs:h-full xs:mx-auto">
+          <CoverRenderer
+            {...props.cover}
+            id={
+              props.index === props.currentCoverIndex
+                ? "cover-preview"
+                : undefined
+            }
+            overrideClassName
+            className="rounded-xl aspect-[376/256] size-full"
+          />
         </div>
       </div>
     </motion.div>

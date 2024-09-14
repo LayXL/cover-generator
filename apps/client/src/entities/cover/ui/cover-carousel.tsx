@@ -1,6 +1,6 @@
 import { CoverCarouselItem } from "@/entities/cover/ui/cover-carousel-item"
 import { type PanInfo, animate, motion, useMotionValue } from "framer-motion"
-import { useEffect } from "react"
+import { Fragment, useEffect } from "react"
 import type { Cover, DeepPartial } from "shared/types"
 import { useWindowSize } from "usehooks-ts"
 
@@ -57,7 +57,7 @@ export const CoverCarousel = (props: CoverCarouselsProps) => {
 
   return (
     <motion.div
-      className="flex px-4"
+      className="flex px-4 h-full"
       drag="x"
       style={{ x }}
       dragConstraints={{
@@ -67,7 +67,7 @@ export const CoverCarousel = (props: CoverCarouselsProps) => {
       onDragEnd={handleDragEnd}
     >
       {props.covers.map((cover, i) => (
-        <div key={cover.uuid}>
+        <Fragment key={cover.uuid}>
           <CoverCarouselItem
             isInvisible={props.isInvisible}
             index={i}
@@ -85,7 +85,7 @@ export const CoverCarousel = (props: CoverCarouselsProps) => {
                 }
               : {})}
           />
-        </div>
+        </Fragment>
       ))}
     </motion.div>
   )
