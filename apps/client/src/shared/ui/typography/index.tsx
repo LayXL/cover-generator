@@ -19,10 +19,7 @@ export const Typography = memo((props: TypographyProps) => {
   const children =
     "children" in props
       ? props.children
-      : "i18nKey" in props &&
-          props.i18nKey &&
-          "i18nOptions" in props &&
-          props.i18nKey
+      : "i18nKey" in props && props.i18nKey
         ? t(props.i18nKey, props.i18nOptions)
         : undefined
 

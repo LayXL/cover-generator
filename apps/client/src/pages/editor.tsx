@@ -23,7 +23,7 @@ enum Trans {
   TO_GRID = 3,
 }
 
-export const Editor = () => {
+export default function Editor() {
   const { t } = useTranslation()
   const utils = trpc.useUtils()
 
