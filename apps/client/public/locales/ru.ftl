@@ -31,6 +31,7 @@ cover-text-input-placeholder = Начните вводить текст
 clear-text-button = Очистить текст
 
 untitled-cover-placeholder = Без названия
+untitled-project-placeholder = Без названия
 
 editor-screen-title = Редактор
 download-all-button = Скачать все

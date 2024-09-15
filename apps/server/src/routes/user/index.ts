@@ -1,1 +1,1 @@
-// export * from "./methods/updateVKData"
+export * from "./methods/premium"

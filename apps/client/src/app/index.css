@@ -50,6 +50,10 @@
   box-sizing: content-box;
 }
 
+button {
+  text-align: inherit;
+}
+
 html,
 body,
 #root,

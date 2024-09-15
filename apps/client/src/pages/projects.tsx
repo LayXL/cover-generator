@@ -1,20 +1,23 @@
+import { ProjectCard } from "@/entities/project/ui/project-card"
 import { Header } from "@/shared/ui/header"
 import { Screen } from "@/shared/ui/screen"
 import { repeatElement } from "@/shared/utils/repeatElement"
 import { trpc } from "@/shared/utils/trpc"
-import { Icon24Add, Icon24RefreshOutline } from "@vkontakte/icons"
+import {
+  Icon24Add,
+  Icon24RefreshOutline,
+  Icon56FragmentsOutline,
+} from "@vkontakte/icons"
 import { Button, Placeholder } from "@vkontakte/vkui"
-import { useCallback, useEffect } from "react"
+import { useCallback } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
-import { useScrollLock } from "usehooks-ts"
 
 const projectSkeleton = (
   <div className="w-full aspect-[4/3] animate-pulse bg-inversed/5 rounded-xl" />
 )
 
 export const Projects = () => {
-  const { lock, unlock } = useScrollLock()
   const { t } = useTranslation()
   const utils = trpc.useUtils()
   const navigate = useNavigate()
@@ -37,26 +40,36 @@ export const Projects = () => {
     projects.refetch()
   }, [projects.refetch])
 
-  useEffect(() => {
-    if (projects.isSuccess) unlock()
-    else lock()
-  }, [projects.isSuccess, lock, unlock])
+  const openEditor = useCallback(
+    (projectId: number) => () => navigate(`/projects/${projectId}/editor`),
+    [navigate]
+  )
 
   return (
-    <Screen>
+    <Screen className="pb-safe-area-bottom">
       <Header title={t("my-projects-title")} />
 
       {projects.isSuccess && projects.data.length > 0 && (
-        <div className="grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 p-4">
-          {projects.data.map((project) => (
-            <button
-              type="button"
-              key={project.id}
-              className="w-full aspect-[4/3] bg-inversed/5 rounded-xl"
-              onClick={() => navigate(`/projects/${project.id}/editor`)}
+        <>
+          <div className="grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 px-4 flex-1 overflow-scroll items-start">
+            {projects.data.map((project) => (
+              <ProjectCard
+                key={project.id}
+                title={project.title}
+                updatedAt={project.updatedAt}
+                onClick={openEditor(project.id)}
+              />
+            ))}
+          </div>
+          <div className="p-4">
+            <Button
+              size="l"
+              stretched
+              children={t("create-project-button")}
+              onClick={onCreateProject}
             />
-          ))}
-        </div>
+          </div>
+        </>
       )}
 
       {projects.isSuccess && projects.data.length === 0 && (
@@ -65,6 +78,7 @@ export const Projects = () => {
           className="min-h-full"
           header={t("no-projects-placeholder")}
           children={t("no-projects-placeholder.caption")}
+          icon={<Icon56FragmentsOutline />}
           action={
             <Button
               before={<Icon24Add />}

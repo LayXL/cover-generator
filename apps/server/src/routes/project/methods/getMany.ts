@@ -1,5 +1,5 @@
 import { db } from "drizzle"
-import { eq } from "drizzle-orm"
+import { desc, eq } from "drizzle-orm"
 import { projects } from "drizzle/db/schema"
 import { z } from "zod"
 import { privateProcedure } from "../../../trpc"
@@ -12,6 +12,7 @@ export const getMany = privateProcedure
       columns: {
         data: false,
       },
+      orderBy: desc(projects.updatedAt),
     })
 
     return userProjects
