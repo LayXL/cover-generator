@@ -16,6 +16,7 @@ import {
   Icon28ArrowRightSquareOutline,
   Icon28BracketsSquareOutline,
   Icon28CheckCircleOff,
+  Icon28DonateOutline,
   Icon28FullscreenOutline,
   Icon28LogoVkOutline,
   Icon28PaletteOutline,
@@ -245,6 +246,11 @@ export const EditorToolBar = () => {
         {
           name: "icon",
           items: [
+            {
+              name: "glyph",
+              title: "Glyph",
+              icon: <Icon28DonateOutline />,
+            },
             {
               name: "size",
               title: "Size",
