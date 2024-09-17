@@ -180,7 +180,7 @@ export default function Editor() {
         </AnimatePresence>
 
         <div
-          className="flex-1 max-h-[620px]"
+          className="flex-1"
           style={{
             visibility: trans === Trans.EDITOR ? "visible" : "hidden",
           }}

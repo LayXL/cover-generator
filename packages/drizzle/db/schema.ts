@@ -1,6 +1,7 @@
 import {
   integer,
   json,
+  pgEnum,
   pgTable,
   serial,
   text,
@@ -64,9 +65,13 @@ export const media = pgTable("media", {
   blurhash: text("blurhash"),
 })
 
+export const iconTypes = pgEnum("icon_types", ["svg", "png"])
+export const iconCategory = pgEnum("icon_types", ["serif"])
+
 export const icons = pgTable("icons", {
   name: text("name").primaryKey(),
-  category: text("category").notNull(),
+  category: iconCategory("category").notNull(),
+  type: iconTypes("type").notNull(),
 })
 
 export const fonts = pgTable("fonts", {

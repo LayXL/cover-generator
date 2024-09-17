@@ -50,19 +50,17 @@ export const CoverCarouselItem = (props: CoverCarouselItemProps) => {
         </motion.div>
       </motion.div>
 
-      <div className="w-full h-[calc(100%-52px)] xs:h-[240px] sm:h-[300px]">
-        <div className="w-full aspect-[376/256] xs:w-auto xs:h-full xs:mx-auto">
-          <CoverRenderer
-            {...props.cover}
-            id={
-              props.index === props.currentCoverIndex
-                ? "cover-preview"
-                : undefined
-            }
-            overrideClassName
-            className="rounded-xl aspect-[376/256] size-full"
-          />
-        </div>
+      <div className="flex-1">
+        <CoverRenderer
+          {...props.cover}
+          id={
+            props.index === props.currentCoverIndex
+              ? "cover-preview"
+              : undefined
+          }
+          overrideClassName
+          className="w-full xs:h-[220px] xs:w-auto xs:mx-auto rounded-xl aspect-[376/256]"
+        />
       </div>
     </motion.div>
   )

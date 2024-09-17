@@ -19,7 +19,11 @@ export const IconCard = (props: IconCardProps) => {
       whileTap={{ scale: 0.9 }}
       onClick={props.onClick}
     >
-      <Icon name={props.name} size={28} className="text-inversed/30" />
+      <Icon
+        name={props.name}
+        size={28}
+        className={["text-inversed/30", props.isSelected && "text-accent"]}
+      />
     </motion.div>
   )
 }
