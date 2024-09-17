@@ -1,4 +1,5 @@
 import { ColorPickerModal } from "@/features/color-picker/ui/color-picker-modal"
+import { IconPicker } from "@/features/icon/ui/icon-picker"
 import type { SelectedItems } from "@/features/toolbar/lib/useToolbar"
 import { ToolbarRoot } from "@/features/toolbar/ui/toolbar-root"
 import type { ToolbarTabData } from "@/features/toolbar/ui/toolbar-tab"
@@ -16,11 +17,12 @@ import {
   Icon28ArrowRightSquareOutline,
   Icon28BracketsSquareOutline,
   Icon28CheckCircleOff,
-  Icon28DonateOutline,
   Icon28FullscreenOutline,
   Icon28LogoVkOutline,
+  Icon28PaintRollerOutline,
   Icon28PaletteOutline,
   Icon28PictureOutline,
+  Icon28SmileOutline,
   Icon28TextOutline,
   Icon28UploadOutline,
   Icon28VideoFillOutline,
@@ -42,6 +44,7 @@ export const EditorToolBar = () => {
   const [currentCover, updateCurrentCover] = useCurrentCover()
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({
     root: "background",
+    icon: "emoji",
   })
 
   const imageUpload = useImageUpload({
@@ -247,19 +250,19 @@ export const EditorToolBar = () => {
           name: "icon",
           items: [
             {
-              name: "glyph",
-              title: "Glyph",
-              icon: <Icon28DonateOutline />,
+              name: "emoji",
+              title: t("emoji-icons-tab-title"),
+              icon: <Icon28SmileOutline />,
             },
             {
-              name: "size",
-              title: "Size",
-              icon: <Icon28FullscreenOutline />,
+              name: "fill",
+              title: t("fill-icons-tab-title"),
+              icon: <Icon28PaintRollerOutline />,
             },
             {
-              name: "color",
-              title: "Color",
-              icon: <Icon28PaletteOutline />,
+              name: "stroke",
+              title: t("stroke-icons-tab-title"),
+              icon: <Icon28CheckCircleOff />,
             },
           ],
         },
@@ -424,6 +427,10 @@ export const EditorToolBar = () => {
                   />
                 }
               />
+            )}
+
+            {selectedItems.root === "icon" && (
+              <IconPicker name="home" onSelect={() => {}} />
             )}
           </AnimatePresence>
         }

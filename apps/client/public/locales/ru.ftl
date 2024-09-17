@@ -27,6 +27,10 @@ radial-gradient-tab-title = Радиальный
 default-backgrounds-fills-tab-title = Готовые
 color-picker-tab-title = Палитра
 
+emoji-icons-tab-title = Эмодзи
+fill-icons-tab-title = С заливкой
+stroke-icons-tab-title = С обводкой
+
 cover-text-input-placeholder = Начните вводить текст
 clear-text-button = Очистить текст
 

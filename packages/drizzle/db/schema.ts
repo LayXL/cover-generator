@@ -63,3 +63,13 @@ export const media = pgTable("media", {
   height: integer("height").notNull(),
   blurhash: text("blurhash"),
 })
+
+export const icons = pgTable("icons", {
+  name: text("name").primaryKey(),
+  category: text("category").notNull(),
+})
+
+export const fonts = pgTable("fonts", {
+  name: text("name").primaryKey(),
+  category: text("category").notNull(),
+})

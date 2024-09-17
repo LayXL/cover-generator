@@ -8,5 +8,8 @@
   "svg.preview.background": "dark-transparent",
   "editor.indentSize": 2,
   "editor.defaultFormatter": "biomejs.biome",
-  "i18n-ally.disabled": true
+  "i18n-ally.disabled": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
 }

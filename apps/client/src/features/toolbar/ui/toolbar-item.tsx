@@ -29,12 +29,12 @@ export const ToolbarItem = (props: ToolbarItemProps) => {
       <motion.div
         className={cn(
           "size-full flex flex-col gap-0.5 items-center justify-center rounded-[10px] border border-transparent transition-colors",
-          (!props.isSelected || mode === "primary") &&
-            "desktop:hover:bg-inversed/10",
+          !props.isSelected && "desktop:hover:bg-inversed/10",
           mode === "secondary" && "flex-row gap-1.5",
           mode === "secondary" &&
             props.isSelected &&
-            "bg-primary border-inversed/10"
+            "bg-primary border-inversed/10",
+          mode === "primary" && props.isSelected && "bg-surface"
         )}
         whileTap={{ scale: 0.9 }}
       >
