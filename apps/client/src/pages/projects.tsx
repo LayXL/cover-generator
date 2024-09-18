@@ -85,6 +85,7 @@ export const Projects = () => {
               stretched
               children={t("create-project-button")}
               onClick={onCreateProject}
+              loading={createProject.isPending}
             />
           </div>
         </>
@@ -103,6 +104,7 @@ export const Projects = () => {
               size="m"
               children={t("create-project-button")}
               onClick={onCreateProject}
+              loading={createProject.isPending}
             />
           }
         />
