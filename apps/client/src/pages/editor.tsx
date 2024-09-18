@@ -122,13 +122,12 @@ export default function Editor() {
         <div className="overflow-scroll overscroll-contain flex-1">
           <div
             className={
-              "px-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4"
+              "px-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 pb-[76px]"
             }
           >
             {currentProject.covers?.map((cover, i) => (
               <motion.button
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                key={i}
+                key={cover.uuid}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 type="button"
@@ -151,7 +150,12 @@ export default function Editor() {
           </div>
         </div>
 
-        <div className={"p-4"}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className={"fixed bottom-0 w-full p-4 bg-primary"}
+        >
           <Button
             stretched
             size={"l"}
@@ -160,7 +164,7 @@ export default function Editor() {
           >
             {t("download-all-button")}
           </Button>
-        </div>
+        </motion.div>
       </div>
 
       <motion.div
