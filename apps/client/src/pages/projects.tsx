@@ -124,7 +124,7 @@ export const Projects = () => {
       )}
 
       {projects.isLoading && (
-        <div className="grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 p-4">
+        <div className="grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 px-4">
           {repeatElement(projectSkeleton, 20)}
         </div>
       )}
