@@ -23,6 +23,16 @@ export const Projects = () => {
   const navigate = useNavigate()
 
   const projects = trpc.project.getMany.useQuery()
+  const deleteProject = trpc.project.deleteOne.useMutation({
+    onSuccess: () => {
+      utils.project.getMany.invalidate()
+    },
+  })
+  const renameProject = trpc.project.rename.useMutation({
+    onSuccess: () => {
+      utils.project.getMany.invalidate()
+    },
+  })
   const createProject = trpc.project.create.useMutation({
     onSuccess: (data) => {
       if (!data) return
@@ -46,18 +56,24 @@ export const Projects = () => {
   )
 
   return (
-    <Screen className="pb-safe-area-bottom">
+    <Screen className="pb-safe-area-bottom max-h-screen">
       <Header title={t("my-projects-title")} />
 
       {projects.isSuccess && projects.data.length > 0 && (
         <>
-          <div className="grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 px-4 flex-1 overflow-scroll items-start">
+          <div className="grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 px-4 content-start flex-1 overflow-scroll">
             {projects.data.map((project) => (
               <ProjectCard
                 key={project.id}
                 title={project.title}
                 updatedAt={project.updatedAt}
                 onClick={openEditor(project.id)}
+                onDeleteWithConfirm={() => {
+                  deleteProject.mutate({ id: project.id })
+                }}
+                onRename={(title) => {
+                  renameProject.mutate({ id: project.id, title })
+                }}
               />
             ))}
           </div>

@@ -64,3 +64,18 @@ choose-image-button = Выбрать файл
 editor-loading-title = Загрузка редактора занимает больше времени, чем требовалось
 
 pick-color-modal-title = Выберите цвет
+
+edit-project-name-button = Изменить название
+delete-project-button = Удалить проект
+
+confirm-delete-project-action = Да, удалить
+cancel-action = Отмена
+
+confirm-delete-project-title = Вы уверены, что хотите удалить проект?
+confirm-delete-project-text = Это действие нельзя отменить
+
+new-project-name-label = Название проекта
+
+save-action = Сохранить
+
+rename-project-title = Изменить название проекта
