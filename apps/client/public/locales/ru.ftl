@@ -62,3 +62,5 @@ background-image-placeholder = Добавьте картинку
 choose-image-button = Выбрать файл
 
 editor-loading-title = Загрузка редактора занимает больше времени, чем требовалось
+
+pick-color-modal-title = Выберите цвет

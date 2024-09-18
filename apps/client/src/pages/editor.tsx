@@ -175,9 +175,7 @@ export default function Editor() {
 
         <div
           className="flex-1"
-          style={{
-            visibility: trans === Trans.EDITOR ? "visible" : "hidden",
-          }}
+          style={{ visibility: trans === Trans.EDITOR ? "visible" : "hidden" }}
         >
           <CoverCarousel
             isInvisible={trans !== Trans.EDITOR}

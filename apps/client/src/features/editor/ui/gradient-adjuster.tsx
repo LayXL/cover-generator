@@ -24,6 +24,7 @@ export const GradientAdjuster = (props: GradientAdjusterProps) => {
           onChange={(color) => {
             props.onChange([color, props.colors[1]])
           }}
+          isOpeningColorPicker
         />
         <button
           className="px-3 grid place-items-center"
@@ -40,6 +41,7 @@ export const GradientAdjuster = (props: GradientAdjusterProps) => {
           onChange={(color) => {
             props.onChange([props.colors[0], color])
           }}
+          isOpeningColorPicker
         />
       </div>
     </div>
