@@ -19,6 +19,7 @@ type ProjectState = {
   addCover: (cover?: Omit<Cover, "uuid">) => void
   updateCover: (index: number, cover: DeepPartial<Cover>) => void
   deleteCover: (index: number) => void
+  clearProject: () => void
 }
 
 export const useProjectStore = create<ProjectState>()((set, get) => ({
@@ -111,6 +112,7 @@ export const useProjectStore = create<ProjectState>()((set, get) => ({
       }
     })
   },
+  clearProject: () => set({ project: { covers: [] } }),
 }))
 
 type CoverState = {

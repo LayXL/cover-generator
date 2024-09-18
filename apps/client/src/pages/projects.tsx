@@ -1,4 +1,5 @@
 import { ProjectCard } from "@/entities/project/ui/project-card"
+import { useProjectStore } from "@/shared/store"
 import { Header } from "@/shared/ui/header"
 import { Screen } from "@/shared/ui/screen"
 import { repeatElement } from "@/shared/utils/repeatElement"
@@ -9,7 +10,7 @@ import {
   Icon56FragmentsOutline,
 } from "@vkontakte/icons"
 import { Button, Placeholder, useScrollLock } from "@vkontakte/vkui"
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 
@@ -21,6 +22,8 @@ export const Projects = () => {
   const { t } = useTranslation()
   const utils = trpc.useUtils()
   const navigate = useNavigate()
+
+  const clearProject = useProjectStore((store) => store.clearProject)
 
   const projects = trpc.project.getMany.useQuery()
   const deleteProject = trpc.project.deleteOne.useMutation({
@@ -54,6 +57,10 @@ export const Projects = () => {
     (projectId: number) => () => navigate(`/projects/${projectId}/editor`),
     [navigate]
   )
+
+  useEffect(() => {
+    clearProject()
+  }, [clearProject])
 
   useScrollLock()
 
