@@ -61,7 +61,7 @@ export const coverSchema = z.object({
   background: coverBackgroundSchema
     .optional()
     .default({ type: "solid", color: "#fff" }),
-  icon: coverIconSchema.optional(),
+  icon: coverIconSchema.optional().nullable(),
   text: coverTextSchema.optional(),
 })
 

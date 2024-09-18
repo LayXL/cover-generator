@@ -3,7 +3,6 @@ import type { ClassValue } from "clsx"
 import { useEffect, useRef } from "react"
 import type { Cover, DeepPartial } from "shared/types"
 import { buildCover } from "../lib/buildCover"
-import { useIconCanvas } from "../lib/useIconCanvas"
 
 type CoverRendererProps = {
   pixelRatio?: number
@@ -16,16 +15,12 @@ export const CoverRenderer = (props: CoverRendererProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const pixelRatio = props.pixelRatio ?? window.devicePixelRatio
-  const iconCanvas = useIconCanvas(props.icon, pixelRatio)
 
   useEffect(() => {
     if (!canvasRef.current) return
 
-    buildCover(canvasRef.current, props, {
-      pixelRatio,
-      iconCanvas,
-    })
-  }, [props, iconCanvas, pixelRatio])
+    buildCover(canvasRef.current, props, { pixelRatio })
+  }, [props, pixelRatio])
 
   return (
     <canvas

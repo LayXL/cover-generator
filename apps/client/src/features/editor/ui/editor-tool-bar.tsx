@@ -430,7 +430,19 @@ export const EditorToolBar = () => {
 
             {selectedItems.root === "icon" && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <IconPicker onSelect={() => {}} />
+                <IconPicker
+                  name={currentCover?.icon?.name}
+                  onSelect={(icon) => {
+                    updateCurrentCover({
+                      icon: icon
+                        ? {
+                            category: "fill",
+                            name: icon,
+                          }
+                        : null,
+                    })
+                  }}
+                />
               </motion.div>
             )}
           </>
