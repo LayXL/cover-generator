@@ -8,7 +8,7 @@ import {
   Icon24RefreshOutline,
   Icon56FragmentsOutline,
 } from "@vkontakte/icons"
-import { Button, Placeholder } from "@vkontakte/vkui"
+import { Button, Placeholder, useScrollLock } from "@vkontakte/vkui"
 import { useCallback } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
@@ -54,6 +54,8 @@ export const Projects = () => {
     (projectId: number) => () => navigate(`/projects/${projectId}/editor`),
     [navigate]
   )
+
+  useScrollLock()
 
   return (
     <Screen className="pb-safe-area-bottom max-h-screen">
