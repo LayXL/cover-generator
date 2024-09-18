@@ -29,7 +29,7 @@ import {
   Icon28WaterDropOutline,
 } from "@vkontakte/icons"
 import { File, IconButton, Input, Placeholder } from "@vkontakte/vkui"
-import { AnimatePresence, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useCurrentCover } from "../lib/useCurrentCover"
@@ -290,13 +290,12 @@ export const EditorToolBar = () => {
         selectedItems={selectedItems}
         setSelectedItems={setSelectedItems}
         before={
-          <AnimatePresence>
+          <>
             {selectedItems.root === "text" && (
               <motion.div
                 className="px-3"
                 initial={{ scale: 0, opacity: 50 }}
                 animate={{ scale: 1, opacity: 100 }}
-                exit={{ scale: 0, opacity: 0 }}
                 transition={{ ease: CUBIC_BEZIER }}
               >
                 <Input
@@ -430,9 +429,11 @@ export const EditorToolBar = () => {
             )}
 
             {selectedItems.root === "icon" && (
-              <IconPicker name="home" onSelect={() => {}} />
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <IconPicker onSelect={() => {}} />
+              </motion.div>
             )}
-          </AnimatePresence>
+          </>
         }
       />
 
