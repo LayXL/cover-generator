@@ -1,4 +1,5 @@
 import { useCloudStorage } from "@/shared/hooks/useCloudStorage"
+import { useProjectStore } from "@/shared/store"
 import { cn } from "@/shared/utils/cn"
 import { Icon20PalleteOutline, Icon20SlidersOutline } from "@vkontakte/icons"
 import { Button, FormItem, SegmentedControl, Separator } from "@vkontakte/vkui"
@@ -43,6 +44,20 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
     if (!historyColors) return []
     return [...historyColors].reverse()
   }, [historyColors])
+
+  const project = useProjectStore((state) => state.project)
+
+  const colorsInTheProject = useMemo(() => {
+    const colors: Set<z.infer<typeof hexColor>> = new Set()
+
+    for (const cover of project.covers) {
+      if (cover.background.type === "solid") colors.add(cover.background.color)
+      if (cover.icon?.color) colors.add(cover.icon.color)
+      if (cover.text?.color) colors.add(cover.text.color)
+    }
+
+    return new Array(...colors)
+  }, [project.covers])
 
   useEffect(() => {
     setDisplayColor(props.color)
@@ -97,6 +112,28 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
             />
           </div>
 
+          {colorsInTheProject.length > 0 && (
+            <div className="bg-inversed/5 rounded-xl overflow-scroll flex relative">
+              <div className="p-1.5 pr-10 flex gap-1">
+                {colorsInTheProject.map((color) => (
+                  <button
+                    type="button"
+                    key={color}
+                    className="size-6 rounded-lg"
+                    style={{
+                      background: color,
+                    }}
+                    onClick={() => {
+                      setDisplayColor(color)
+                      props.onChange(color)
+                      addColorToHistory(color)
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="flex w-full gap-3 items-center">
             <div
               className="aspect-square h-full w-[72px] rounded-xl"
@@ -114,7 +151,7 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
             </div>
           </div>
 
-          <Separator />
+          <Separator className="[&>*]:!mx-0" />
 
           <Button
             size="l"

@@ -21,12 +21,12 @@ export const coverIconSchema = z.object({
   name: z.string(),
   category: z.string().max(32),
   size: z.number().min(1).max(128).default(32),
-  color: z.string().nullable().optional(),
+  color: hexColor.nullable().optional(),
 })
 
 export const coverTextSchema = z.object({
   value: z.string().min(0).max(64).optional(),
-  color: z.string().default("#000"),
+  color: hexColor.default("#000"),
   fontSize: z.number().min(1).max(128).default(32),
 })
 
