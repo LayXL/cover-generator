@@ -66,7 +66,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
               <button
                 ref={moreButtonRef}
                 type="button"
-                className="absolute -inset-2"
+                className="absolute right-0 -inset-2"
                 onClick={(e) => {
                   e.stopPropagation()
                   moreModal.open()
@@ -76,6 +76,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
           </div>
         </div>
       </button>
+
       {moreModal.isOpened && (
         <ActionSheet
           toggleRef={moreButtonRef}
