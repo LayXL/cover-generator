@@ -22,7 +22,7 @@ export const CoverCarouselItemHeader = (
   const { t } = useTranslation()
 
   return (
-    <div className="flex gap-3 h-[44px]">
+    <div className="flex gap-3 h-[44px] items-center">
       <IconButton className="[&>*]:!p-0" onClick={props.onRemove}>
         <Icon28DeleteOutline
           color="currentColor"

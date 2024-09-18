@@ -168,16 +168,10 @@ export default function Editor() {
           opacity: trans === Trans.TO_EDITOR || trans === Trans.EDITOR ? 1 : 0,
         }}
       >
-        <AnimatePresence>
-          {(trans === Trans.EDITOR || trans === Trans.TO_EDITOR) && (
-            <motion.div className="w-full">
-              <Header
-                before={<BackButton onClick={() => setTrans(Trans.TO_GRID)} />}
-                title={t("editor-screen-title")}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <Header
+          before={<BackButton onClick={() => setTrans(Trans.TO_GRID)} />}
+          title={t("editor-screen-title")}
+        />
 
         <div
           className="flex-1"
