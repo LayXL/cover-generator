@@ -18,8 +18,8 @@ export const communitySchema = z.object({
 })
 
 export const coverIconSchema = z.object({
-  name: z.string(),
-  category: z.string().max(32),
+  name: z.string().optional(),
+  category: z.string().max(32).optional(),
   size: z.number().min(1).max(128).default(32),
   color: hexColor.nullable().optional(),
 })

@@ -42,6 +42,8 @@ stroke-icons-tab-title = С обводкой
 icons-tab-title = Иконки
 color-tab-title = Цвет
 
+icon-color-modal-title = Цвет иконки
+
 cover-text-input-placeholder = Начните вводить текст
 clear-text-button = Очистить текст
 
@@ -55,12 +57,14 @@ done-button = Готово
 
 linear-gradient-angle-slider-caption = Угол
 radial-gradient-size-slider-caption = Радиус
+icon-size-slider-caption = Размер иконки
 
 color-input-label = Шестнадцатеричный код
 pick-color-button = Выбрать цвет
 
-color-picker-tab-label = Выбор цвета
+color-picker-tab-label = Круг
 color-history-tab-label = История
+color-defaults-tab-label = Готовые
 
 fill-solid-color-modal-title = Заливка цветом
 

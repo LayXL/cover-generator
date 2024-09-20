@@ -25,7 +25,7 @@ type CoverCardProps = {
 export const CoverCard = (props: CoverCardProps) => {
   const { t } = useTranslation()
 
-  const toggleRef = useRef<SVGSVGElement>(null)
+  const toggleRef = useRef<HTMLDivElement>(null)
   const moreModal = useModalState()
 
   return (
@@ -49,14 +49,15 @@ export const CoverCard = (props: CoverCardProps) => {
             className={"text-primary/30 flex-1 line-clamp-1"}
             children={props.title ?? t("untitled-cover-placeholder")}
           />
-          <Icon20More
-            ref={toggleRef}
-            className="cursor-pointer text-primary/30"
-            onClick={(e) => {
-              e.stopPropagation()
-              moreModal.open()
-            }}
-          />
+          <div ref={toggleRef}>
+            <Icon20More
+              className="cursor-pointer text-primary/30"
+              onClick={(e) => {
+                e.stopPropagation()
+                moreModal.open()
+              }}
+            />
+          </div>
         </div>
       </motion.button>
       {moreModal.isOpened && (

@@ -1,7 +1,12 @@
+import { defaultColors } from "@/features/editor/lib/defaultColors"
 import { useCloudStorage } from "@/shared/hooks/useCloudStorage"
 import { useProjectStore } from "@/shared/store"
 import { cn } from "@/shared/utils/cn"
-import { Icon20PalleteOutline, Icon20SlidersOutline } from "@vkontakte/icons"
+import {
+  Icon20ArchiveOutline,
+  Icon20PalleteOutline,
+  Icon20SlidersOutline,
+} from "@vkontakte/icons"
 import { Button, FormItem, SegmentedControl, Separator } from "@vkontakte/vkui"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { HexColorPicker } from "react-colorful"
@@ -14,11 +19,13 @@ import { ColorInput } from "./color-input"
 type ColorPickerModalProps = {
   color?: z.infer<typeof hexColor>
   onChange: (color: z.infer<typeof hexColor>) => void
+  withDefaults?: boolean
 }
 
 enum ColorPickerTab {
   Picker = "picker",
   History = "history",
+  Defaults = "defaults",
 }
 
 export const ColorPickerModal = (props: ColorPickerModalProps) => {
@@ -27,7 +34,7 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
 
   const { t } = useTranslation()
   const [tab, setTab] = useState<ColorPickerTab>(ColorPickerTab.Picker)
-  const [displayColor, setDisplayColor] = useState(props.color)
+  const [displayColor, setDisplayColor] = useState(props.color ?? "#000000")
 
   const addColorToHistory = useCallback(
     (color: z.infer<typeof hexColor>) => {
@@ -60,7 +67,7 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
   }, [project.covers])
 
   useEffect(() => {
-    setDisplayColor(props.color)
+    setDisplayColor(props.color ?? "#000000")
   }, [props.color])
 
   return (
@@ -88,6 +95,15 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
                 ? "opacity-30 pointer-events-none"
                 : undefined,
           },
+          ...(props.withDefaults
+            ? [
+                {
+                  label: t("color-defaults-tab-label"),
+                  before: <Icon20ArchiveOutline />,
+                  value: "defaults",
+                },
+              ]
+            : []),
         ]}
       />
 
@@ -95,7 +111,7 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
         <div
           className={cn(
             "flex flex-col gap-3",
-            tab === ColorPickerTab.History && "invisible"
+            tab !== ColorPickerTab.Picker && "invisible"
           )}
         >
           <div className="p-1.5 bg-inversed/5 rounded-xl">
@@ -165,7 +181,7 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
         </div>
 
         {tab === ColorPickerTab.History && (
-          <div className="absolute inset-0 grid gap-4 grid-cols-[repeat(auto-fill,minmax(96px,1fr))]">
+          <div className="absolute overflow-scroll inset-0 grid gap-4 content-start grid-cols-[repeat(auto-fill,minmax(96px,1fr))]">
             {reversedHistoryColors.map((color) => (
               <ColorCard
                 key={color}
@@ -173,6 +189,21 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
                 onClick={() => {
                   setTab(ColorPickerTab.Picker)
                   setDisplayColor(color)
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        {tab === ColorPickerTab.Defaults && (
+          <div className="absolute overflow-scroll inset-0 grid gap-4 content-start grid-cols-[repeat(auto-fill,minmax(96px,1fr))]">
+            {defaultColors.map((color) => (
+              <ColorCard
+                key={color}
+                color={color}
+                onClick={() => {
+                  setDisplayColor(color)
+                  props.onChange(color)
                 }}
               />
             ))}

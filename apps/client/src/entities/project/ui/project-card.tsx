@@ -33,7 +33,7 @@ type ProjectCardProps = {
 export const ProjectCard = (props: ProjectCardProps) => {
   const { t } = useTranslation()
 
-  const moreButtonRef = useRef<HTMLButtonElement>(null)
+  const moreButtonRef = useRef<HTMLDivElement>(null)
   const moreModal = useModalState()
 
   const renameProjectModal = useModalState()
@@ -63,9 +63,9 @@ export const ProjectCard = (props: ProjectCardProps) => {
             </div>
             <span className="relative">
               <Icon20More className="text-inversed/30" />
-              <button
+              {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+              <div
                 ref={moreButtonRef}
-                type="button"
                 className="absolute right-0 -inset-2"
                 onClick={(e) => {
                   e.stopPropagation()

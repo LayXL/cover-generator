@@ -18,8 +18,6 @@ export const buildCover = (
   const iconSize = toRelativePx(cover.icon?.size ?? 32)
   const fontSize = toRelativePx(cover.text?.fontSize ?? 16)
 
-  const iconCanvas = options?.iconCanvas
-
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   if (cover.background) fillBackground(canvas, cover.background)
@@ -30,7 +28,7 @@ export const buildCover = (
     ctx.textAlign = "center"
     ctx.textBaseline = "middle"
 
-    const offset = cover.icon ? iconSize / 2 + toRelativePx(4) : 0
+    const offset = cover.icon?.name ? iconSize / 2 + toRelativePx(4) : 0
 
     const top = canvas.height / 2 + offset
     const left = canvas.width / 2

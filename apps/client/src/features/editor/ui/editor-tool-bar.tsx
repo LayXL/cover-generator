@@ -29,7 +29,14 @@ import {
   Icon28VideoFillOutline,
   Icon28WaterDropOutline,
 } from "@vkontakte/icons"
-import { File, IconButton, Input, Placeholder } from "@vkontakte/vkui"
+import {
+  File,
+  FormItem,
+  IconButton,
+  Input,
+  Placeholder,
+  Slider,
+} from "@vkontakte/vkui"
 import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -261,7 +268,7 @@ export const EditorToolBar = () => {
               name: "color",
               title: t("color-tab-title"),
               icon: <Icon28PaletteOutline />,
-              onSelect: (toolbar) => toolbar.pushAndMark("iconColor"),
+              onSelect: () => iconColorModal.open(),
             },
           ],
         },
@@ -282,31 +289,6 @@ export const EditorToolBar = () => {
               name: "stroke",
               title: t("stroke-icons-tab-title"),
               icon: <Icon28CheckCircleOff />,
-            },
-          ],
-        },
-        {
-          name: "iconColor",
-          items: [
-            {
-              name: "defaultBackgroundFills",
-              title: t("default-backgrounds-fills-tab-title"),
-              icon: <Icon28ArchiveCheckOutline />,
-              onSelect: () => {
-                setSelectedItems((prev) => ({
-                  ...prev,
-                  iconColor:
-                    prev.iconColor === "defaultBackgroundFills"
-                      ? null
-                      : "defaultBackgroundFills",
-                }))
-              },
-            },
-            {
-              name: "colorPicker",
-              title: t("color-picker-tab-title"),
-              icon: <Icon28PaletteOutline />,
-              onSelect: () => iconColorModal.open(),
             },
           ],
         },
@@ -475,16 +457,25 @@ export const EditorToolBar = () => {
             {selectedItems.root === "icon" &&
               selectedItems.icon === "icons" && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  <FormItem top={t("icon-size-slider-caption")}>
+                    <Slider
+                      min={16}
+                      max={128}
+                      step={1}
+                      value={currentCover?.icon?.size}
+                      onChange={(size) => {
+                        updateCurrentCover({ icon: { size } })
+                      }}
+                    />
+                  </FormItem>
                   <IconPicker
                     name={currentCover?.icon?.name}
                     onSelect={(icon) => {
                       updateCurrentCover({
-                        icon: icon
-                          ? {
-                              category: "fill",
-                              name: icon,
-                            }
-                          : null,
+                        icon: {
+                          category: "fill",
+                          name: icon ?? undefined,
+                        },
                       })
                     }}
                   />
@@ -521,6 +512,34 @@ export const EditorToolBar = () => {
                 color,
               },
             })
+          }}
+        />
+      </Modal>
+
+      <Modal {...iconColorModal}>
+        <Header
+          title={t("icon-color-modal-title")}
+          after={
+            <div className="pr-4">
+              <Icon24Dismiss
+                className="cursor-pointer"
+                onClick={iconColorModal.close}
+              />
+            </div>
+          }
+        />
+        <ColorPickerModal
+          withDefaults
+          color={
+            currentCover?.icon &&
+            "color" in currentCover.icon &&
+            currentCover.icon.color
+              ? currentCover.icon.color
+              : undefined
+          }
+          onChange={(color) => {
+            iconColorModal.close()
+            updateCurrentCover({ ...currentCover, icon: { color } })
           }}
         />
       </Modal>
