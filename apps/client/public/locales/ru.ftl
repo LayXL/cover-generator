@@ -8,6 +8,14 @@ no-projects-placeholder = Здесь пока пусто
 loading-projects-error-placeholder = Произошла ошибка при загрузке проектов
   .caption = Повторите попытку позже
 
+no-covers-placeholder = Здесь пока нет обложек
+  .caption = Создайте первую обложку для сообщества
+
+add-cover-button = Добавить обложку
+remove-cover-button = Удалить обложку
+download-cover-button = Скачать обложку
+duplicate-cover-button = Дублировать обложку
+
 try-again-button = Повторить попытку
 
 # Editor tool bar

@@ -1,4 +1,6 @@
+import { downloadCover } from "@/entities/cover/lib/downloadCover"
 import { downloadCovers } from "@/entities/cover/lib/downloadCovers"
+import { CoverCard } from "@/entities/cover/ui/cover-card.tsx"
 import { CoverCarousel } from "@/entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
 import { useCurrentCover } from "@/features/editor/lib/useCurrentCover"
@@ -6,10 +8,21 @@ import { EditorToolBar } from "@/features/editor/ui/editor-tool-bar"
 import { useCoverStore, useProjectStore } from "@/shared/store"
 import { BackButton } from "@/shared/ui/back-button"
 import { Header } from "@/shared/ui/header"
+import { cn } from "@/shared/utils/cn"
 import { trpc } from "@/shared/utils/trpc"
 import { skipToken } from "@tanstack/react-query"
-import { Icon24Add, Icon24DownloadOutline } from "@vkontakte/icons"
-import { Button, IconButton } from "@vkontakte/vkui"
+import {
+  Icon24Add,
+  Icon24AddOutline,
+  Icon24DownloadOutline,
+  Icon56FragmentsOutline,
+} from "@vkontakte/icons"
+import {
+  Button,
+  IconButton,
+  Placeholder,
+  SegmentedControl,
+} from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -120,41 +133,55 @@ export default function Editor() {
         />
 
         <div className="overflow-scroll overscroll-contain flex-1">
-          <div
-            className={
-              "px-4 grid gap-1 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 pb-[76px]"
-            }
-          >
-            {currentProject.covers?.map((cover, i) => (
-              <motion.button
-                key={cover.uuid}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                type="button"
-                id={`cover-${i}`}
-                className="rounded-lg overflow-hidden cursor-pointer"
-                onClick={() => {
-                  setCurrentCoverIndex(i)
-                  setTrans(Trans.TO_EDITOR)
-                }}
-                style={{
-                  visibility:
-                    i === currentCoverIndex && trans !== Trans.GRID
-                      ? "hidden"
-                      : undefined,
-                }}
-              >
-                <CoverRenderer {...cover} />
-              </motion.button>
-            ))}
-          </div>
+          {cloudProject.isSuccess && currentProject.covers.length === 0 ? (
+            <Placeholder
+              stretched
+              icon={<Icon56FragmentsOutline />}
+              header={t("no-covers-placeholder")}
+              children={t("no-covers-placeholder.caption")}
+              action={
+                <Button
+                  size="m"
+                  onClick={() => addCover()}
+                  before={<Icon24AddOutline />}
+                >
+                  {t("add-cover-button")}
+                </Button>
+              }
+            />
+          ) : (
+            <div
+              className={
+                "px-4 grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 pb-[132px]"
+              }
+            >
+              {currentProject.covers?.map((cover, i) => (
+                <CoverCard
+                  {...cover}
+                  index={i}
+                  key={cover.uuid}
+                  isHidden={i === currentCoverIndex && trans !== Trans.GRID}
+                  onClick={() => {
+                    setCurrentCoverIndex(i)
+                    setTrans(Trans.TO_EDITOR)
+                  }}
+                  onDownload={() => downloadCover(cover)}
+                  onDuplicate={() => addCover(cover, i + 1)}
+                  onDelete={() => deleteCover(i)}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className={"fixed bottom-0 w-full p-4 bg-primary"}
+          className={cn(
+            "fixed bottom-0 w-full p-4 bg-primary flex-col gap-3 hidden",
+            cloudProject.isSuccess && currentProject.covers.length > 0 && "flex"
+          )}
         >
           <Button
             stretched
@@ -164,6 +191,18 @@ export default function Editor() {
           >
             {t("download-all-button")}
           </Button>
+          <SegmentedControl
+            options={[
+              {
+                label: "PNG",
+                value: "png",
+              },
+              {
+                label: "JPEG",
+                value: "jpg",
+              },
+            ]}
+          />
         </motion.div>
       </div>
 

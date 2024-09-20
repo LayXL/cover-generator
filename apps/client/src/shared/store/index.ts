@@ -16,7 +16,7 @@ type ProjectState = {
   redo: () => void
   project: Project
   updateProject: (project: Project) => void
-  addCover: (cover?: Omit<Cover, "uuid">) => void
+  addCover: (cover?: Omit<Cover, "uuid">, index?: number) => void
   updateCover: (index: number, cover: DeepPartial<Cover>) => void
   deleteCover: (index: number) => void
   clearProject: () => void
@@ -67,17 +67,32 @@ export const useProjectStore = create<ProjectState>()((set, get) => ({
         // projectSnapshotsForward: [],
       }
     }),
-  addCover(cover) {
+  addCover(cover, index) {
     set((state) => ({
       project: {
         ...state.project,
-        covers: [
-          ...state.project.covers,
-          coverSchema.parse({
-            ...cover,
-            uuid: uuidv4(),
-          }),
-        ],
+        covers:
+          typeof index === "number"
+            ? [
+                ...state.project.covers.slice(
+                  0,
+                  index ?? state.project.covers.length
+                ),
+                coverSchema.parse({
+                  ...cover,
+                  uuid: uuidv4(),
+                }),
+                ...state.project.covers.slice(
+                  index ?? state.project.covers.length
+                ),
+              ]
+            : [
+                ...state.project.covers,
+                coverSchema.parse({
+                  ...cover,
+                  uuid: uuidv4(),
+                }),
+              ],
       },
     }))
   },
