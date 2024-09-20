@@ -59,6 +59,9 @@ linear-gradient-angle-slider-caption = Угол
 radial-gradient-size-slider-caption = Радиус
 icon-size-slider-caption = Размер иконки
 
+font-family-tab-title = Шрифт
+font-size-tab-title = Размер
+
 color-input-label = Шестнадцатеричный код
 pick-color-button = Выбрать цвет
 
