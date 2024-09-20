@@ -39,6 +39,9 @@ emoji-icons-tab-title = Эмодзи
 fill-icons-tab-title = С заливкой
 stroke-icons-tab-title = С обводкой
 
+icons-tab-title = Иконки
+color-tab-title = Цвет
+
 cover-text-input-placeholder = Начните вводить текст
 clear-text-button = Очистить текст
 

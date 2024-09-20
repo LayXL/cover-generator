@@ -17,6 +17,7 @@ import {
   Icon28ArrowRightSquareOutline,
   Icon28BracketsSquareOutline,
   Icon28CheckCircleOff,
+  Icon28FavoriteOutline,
   Icon28FullscreenOutline,
   Icon28LogoVkOutline,
   Icon28PaintRollerOutline,
@@ -59,6 +60,7 @@ export const EditorToolBar = () => {
   })
 
   const fillSolidColorModal = useModalState()
+  const iconColorModal = useModalState()
 
   const tabs = useMemo(
     () =>
@@ -231,23 +233,40 @@ export const EditorToolBar = () => {
           items: [
             {
               name: "font",
-              title: "Font",
+              title: t("font-family-tab-title"),
               icon: <Icon28TextOutline />,
             },
             {
               name: "size",
-              title: "Size",
+              title: t("font-size-tab-title"),
               icon: <Icon28FullscreenOutline />,
             },
             {
               name: "color",
-              title: "Color",
+              title: t("color-tab-title"),
               icon: <Icon28PaletteOutline />,
             },
           ],
         },
         {
           name: "icon",
+          items: [
+            {
+              name: "icons",
+              title: t("icons-tab-title"),
+              icon: <Icon28FavoriteOutline />,
+              onSelect: (toolbar) => toolbar.pushAndMark("icons"),
+            },
+            {
+              name: "color",
+              title: t("color-tab-title"),
+              icon: <Icon28PaletteOutline />,
+              onSelect: (toolbar) => toolbar.pushAndMark("iconColor"),
+            },
+          ],
+        },
+        {
+          name: "icons",
           items: [
             {
               name: "emoji",
@@ -266,8 +285,33 @@ export const EditorToolBar = () => {
             },
           ],
         },
+        {
+          name: "iconColor",
+          items: [
+            {
+              name: "defaultBackgroundFills",
+              title: t("default-backgrounds-fills-tab-title"),
+              icon: <Icon28ArchiveCheckOutline />,
+              onSelect: () => {
+                setSelectedItems((prev) => ({
+                  ...prev,
+                  iconColor:
+                    prev.iconColor === "defaultBackgroundFills"
+                      ? null
+                      : "defaultBackgroundFills",
+                }))
+              },
+            },
+            {
+              name: "colorPicker",
+              title: t("color-picker-tab-title"),
+              icon: <Icon28PaletteOutline />,
+              onSelect: () => iconColorModal.open(),
+            },
+          ],
+        },
       ] as ToolbarTabData[],
-    [t, fillSolidColorModal, updateCurrentCover, currentCover]
+    [t, fillSolidColorModal, updateCurrentCover, currentCover, iconColorModal]
   )
 
   const isGradientTabOpened =
@@ -428,23 +472,24 @@ export const EditorToolBar = () => {
               />
             )}
 
-            {selectedItems.root === "icon" && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <IconPicker
-                  name={currentCover?.icon?.name}
-                  onSelect={(icon) => {
-                    updateCurrentCover({
-                      icon: icon
-                        ? {
-                            category: "fill",
-                            name: icon,
-                          }
-                        : null,
-                    })
-                  }}
-                />
-              </motion.div>
-            )}
+            {selectedItems.root === "icon" &&
+              selectedItems.icon === "icons" && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  <IconPicker
+                    name={currentCover?.icon?.name}
+                    onSelect={(icon) => {
+                      updateCurrentCover({
+                        icon: icon
+                          ? {
+                              category: "fill",
+                              name: icon,
+                            }
+                          : null,
+                      })
+                    }}
+                  />
+                </motion.div>
+              )}
           </>
         }
       />

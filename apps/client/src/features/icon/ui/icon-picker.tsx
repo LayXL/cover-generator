@@ -7,7 +7,7 @@ type IconPickerProps = {
 
 export const IconPicker = (props: IconPickerProps) => {
   return (
-    <div className="px-3 overflow-scroll grid grid-rows-3 grid-flow-col gap-2 justify-start">
+    <div className="px-3 overflow-scroll grid grid-rows-1 grid-flow-col gap-2 justify-start [@media(min-height:711px)]:grid-rows-2">
       <IconCard
         name={"minus"}
         isSelected={!props.name}
