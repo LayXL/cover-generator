@@ -9,7 +9,7 @@ export const convertCoverToImage = async (
   canvas.width = 376
   canvas.height = 256
 
-  buildCover(canvas, cover)
+  await buildCover(canvas, cover)
 
   return canvas.toDataURL("image/png")
 }
