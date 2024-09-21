@@ -1,6 +1,7 @@
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer.tsx"
 import { useModalState } from "@/shared/hooks/useModalState"
 import { Subhead } from "@/shared/ui/typography"
+import { FloatingPortal } from "@floating-ui/react"
 import {
   Icon20More,
   Icon28AddSquareOutline,
@@ -8,7 +9,6 @@ import {
   Icon28DeleteOutline,
 } from "@vkontakte/icons"
 import { ActionSheet, ActionSheetItem } from "@vkontakte/vkui"
-import { motion } from "framer-motion"
 import { useRef } from "react"
 import { useTranslation } from "react-i18next"
 import type { Cover, DeepPartial } from "shared/types"
@@ -30,9 +30,7 @@ export const CoverCard = (props: CoverCardProps) => {
 
   return (
     <>
-      <motion.button
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
+      <button
         type="button"
         onClick={props.onClick}
         className="flex flex-col gap-1"
@@ -59,36 +57,38 @@ export const CoverCard = (props: CoverCardProps) => {
             />
           </div>
         </div>
-      </motion.button>
+      </button>
       {moreModal.isOpened && (
-        <ActionSheet
-          className="z-50"
-          onClose={() => moreModal.close()}
-          toggleRef={toggleRef}
-        >
-          {props.onDownload && (
-            <ActionSheetItem
-              before={<Icon28ArrowDownToSquareOutline />}
-              children={t("download-cover-button")}
-              onClick={props.onDownload}
-            />
-          )}
-          {props.onDuplicate && (
-            <ActionSheetItem
-              before={<Icon28AddSquareOutline />}
-              children={t("duplicate-cover-button")}
-              onClick={props.onDuplicate}
-            />
-          )}
-          {props.onDelete && (
-            <ActionSheetItem
-              mode="destructive"
-              before={<Icon28DeleteOutline />}
-              children={t("remove-cover-button")}
-              onClick={props.onDelete}
-            />
-          )}
-        </ActionSheet>
+        <FloatingPortal id={"editor"}>
+          <ActionSheet
+            className="z-50"
+            onClose={() => moreModal.close()}
+            toggleRef={toggleRef}
+          >
+            {props.onDownload && (
+              <ActionSheetItem
+                before={<Icon28ArrowDownToSquareOutline />}
+                children={t("download-cover-button")}
+                onClick={props.onDownload}
+              />
+            )}
+            {props.onDuplicate && (
+              <ActionSheetItem
+                before={<Icon28AddSquareOutline />}
+                children={t("duplicate-cover-button")}
+                onClick={props.onDuplicate}
+              />
+            )}
+            {props.onDelete && (
+              <ActionSheetItem
+                mode="destructive"
+                before={<Icon28DeleteOutline />}
+                children={t("remove-cover-button")}
+                onClick={props.onDelete}
+              />
+            )}
+          </ActionSheet>
+        </FloatingPortal>
       )}
     </>
   )

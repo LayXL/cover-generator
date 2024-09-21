@@ -10,6 +10,7 @@ import { BackButton } from "@/shared/ui/back-button"
 import { Header } from "@/shared/ui/header"
 import { cn } from "@/shared/utils/cn"
 import { trpc } from "@/shared/utils/trpc"
+import { useAutoAnimate } from "@formkit/auto-animate/react"
 import { skipToken } from "@tanstack/react-query"
 import {
   Icon24Add,
@@ -112,9 +113,11 @@ export default function Editor() {
 
   useScrollLock()
 
+  const [parent] = useAutoAnimate(/* optional config */)
+
   return (
     <>
-      <div className="h-screen flex flex-col pb-safe-area-bottom">
+      <div className="h-screen flex flex-col pb-safe-area-bottom" id="editor">
         <Header
           before={<BackButton />}
           title={t("editor-screen-title")}
@@ -149,6 +152,7 @@ export default function Editor() {
               className={
                 "px-4 grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 pb-[var(--safe-area-bottom)+calc(132px)]"
               }
+              ref={parent}
             >
               {currentProject.covers?.map((cover, i) => (
                 <CoverCard
@@ -194,18 +198,6 @@ export default function Editor() {
           >
             {t("download-all-button")}
           </Button>
-          {/* <SegmentedControl
-            options={[
-              {
-                label: "PNG",
-                value: "png",
-              },
-              {
-                label: "JPEG",
-                value: "jpg",
-              },
-            ]}
-          /> */}
         </motion.div>
       </div>
 
