@@ -32,17 +32,18 @@ export const downloadCovers = async (
     )
   }
 
-  const blob = await zip.generateAsync({ type: "blob" })
+  const base64 = await zip.generateAsync({ type: "base64" })
+  const url = `data:application/zip;base64,${base64}`
 
   await bridge
     .send("VKWebAppDownloadFile", {
-      url: URL.createObjectURL(blob),
+      url: url,
       filename: `${name}.zip`,
     })
     .catch(() => {
       const link = document.createElement("a")
 
-      link.href = URL.createObjectURL(blob)
+      link.href = url
       link.download = `${name}.zip`
       link.click()
     })

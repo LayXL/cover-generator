@@ -79,6 +79,9 @@ export const images = new Elysia().group("/images", (group) =>
         }),
       }
     )
+    .get("/blob/:blob", ({ params: { blob } }) => {
+      return
+    })
     .get("/:uuid", ({ params: { uuid } }) =>
       Bun.file(`./images/${escapePath(uuid)}.webp`)
     )
