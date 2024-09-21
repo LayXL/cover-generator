@@ -6,8 +6,6 @@ import { escapePath } from "./utils/escapePath"
 export const emojis = new Elysia().group("/emojis", (group) =>
   group
     .get("/", async () => {
-      console.log(true)
-
       const emojis = JSON.parse(
         await Bun.file("./src/emojis.json").text()
       ) as Emoji[]

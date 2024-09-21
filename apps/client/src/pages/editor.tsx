@@ -152,7 +152,7 @@ export default function Editor() {
           ) : (
             <div
               className={
-                "px-4 grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 pb-[132px]"
+                "px-4 grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 pb-[var(--safe-area-bottom)+calc(132px)]"
               }
             >
               {currentProject.covers?.map((cover, i) => (
@@ -179,7 +179,7 @@ export default function Editor() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
           className={cn(
-            "fixed bottom-0 w-full p-4 bg-primary flex-col gap-3 hidden",
+            "fixed bottom-0 w-full p-4 bg-primary flex-col gap-3 hidden pb-[calc(var(--safe-area-bottom)+16px)]",
             cloudProject.isSuccess && currentProject.covers.length > 0 && "flex"
           )}
         >
