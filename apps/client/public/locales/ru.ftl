@@ -71,6 +71,8 @@ color-defaults-tab-label = Готовые
 
 fill-solid-color-modal-title = Заливка цветом
 
+duplicate-suffix = копия
+
 background-image-stretch-title = Растянуть
 background-image-cover-title = Заполнить
 

@@ -166,7 +166,15 @@ export default function Editor() {
                     setTrans(Trans.TO_EDITOR)
                   }}
                   onDownload={() => downloadCover(cover)}
-                  onDuplicate={() => addCover(cover, i + 1)}
+                  onDuplicate={() =>
+                    addCover(
+                      {
+                        ...cover,
+                        title: `${cover.title ?? t("untitled-cover-placeholder")} (${t("duplicate-suffix")})`,
+                      },
+                      i + 1
+                    )
+                  }
                   onDelete={() => deleteCover(i)}
                 />
               ))}

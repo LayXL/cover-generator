@@ -58,7 +58,8 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
     const colors: Set<z.infer<typeof hexColor>> = new Set()
 
     for (const cover of project.covers) {
-      if (cover.icon?.color) colors.add(cover.icon.color)
+      if (cover.icon?.color && cover.icon.category !== "emoji")
+        colors.add(cover.icon.color)
       if (cover.text?.color) colors.add(cover.text.color)
       if (cover.background.type === "solid") colors.add(cover.background.color)
       if (cover.background.type === "gradient")
