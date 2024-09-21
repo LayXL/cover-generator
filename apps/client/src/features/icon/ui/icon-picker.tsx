@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import type { Emoji } from "../lib/emoji"
+import type { Emoji } from "shared/types"
 import { IconCard } from "./icon-card"
 
 type IconPickerProps = {
@@ -13,7 +13,7 @@ export const IconPicker = (props: IconPickerProps) => {
     queryKey: ["icons", props.category],
     queryFn: async () => {
       if (props.category === "emojis") {
-        const emojis = (await fetch("/emojis.json").then((res) =>
+        const emojis = (await fetch("/emojis").then((res) =>
           res.json()
         )) as Emoji[]
 

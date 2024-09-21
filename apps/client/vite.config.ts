@@ -15,7 +15,7 @@ export default defineConfig({
     proxy: {
       "/api": "http://localhost:3000",
       "/images": "http://localhost:3000",
-      "/emojis/": "http://localhost:3000",
+      "/emojis": "http://localhost:3000",
     },
   },
   resolve: {
