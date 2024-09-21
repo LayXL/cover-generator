@@ -23,13 +23,17 @@ export const downloadCovers = async (
 ) => {
   const zip = new JSZip()
 
+  let i = 1
+
   for (const cover of covers) {
     const image = await convertCoverToImage(cover)
 
     zip.file(
-      `${cover.title ?? getI18n().t("untitled-cover-placeholder")}.png`,
+      `${i}. ${cover.title ?? getI18n().t("untitled-cover-placeholder")}.png`,
       dataURLtoBlob(image)
     )
+
+    i++
   }
 
   const base64 = await zip.generateAsync({ type: "base64" })

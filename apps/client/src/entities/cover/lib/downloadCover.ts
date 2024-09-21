@@ -9,7 +9,7 @@ export const downloadCover = async (cover: Cover) => {
   await bridge
     .send("VKWebAppDownloadFile", {
       url: img,
-      filename: `${cover.uuid}.png`,
+      filename: `${cover.title ?? getI18n().t("untitled-cover-placeholder")}.png`,
     })
     .catch(() => {
       const link = document.createElement("a")
