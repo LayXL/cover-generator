@@ -9,6 +9,9 @@
     "lineWidth": 80,
     "attributePosition": "auto"
   },
+  "files": {
+    "ignore": ["emojis.json"]
+  },
   "organizeImports": { "enabled": true },
   "linter": {
     "enabled": true,
