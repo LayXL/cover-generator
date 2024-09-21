@@ -1,3 +1,0 @@
-[submodule "emojis"]
-	path = apps/client/public/emojis
-	url = https://github.com/iamcal/emoji-data
