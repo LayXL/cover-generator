@@ -207,7 +207,7 @@ export default function Editor() {
       </div>
 
       <motion.div
-        className="fixed inset-0 bg-primary flex flex-col overflow-hidden"
+        className="fixed inset-0 bg-primary flex flex-col overflow-hidden pb-[var(--safe-area-bottom)]"
         animate={{
           pointerEvents: trans !== Trans.GRID ? "auto" : "none",
           opacity: trans === Trans.TO_EDITOR || trans === Trans.EDITOR ? 1 : 0,
