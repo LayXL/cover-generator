@@ -4,7 +4,7 @@ import { fillGradientBackground } from "./fillGradientBackground"
 import { fillImageBackground } from "./fillImageBackground"
 import { fillSolidBackground } from "./fillSolidBackground"
 
-export const fillBackground = (
+export const fillBackground = async (
   canvas: HTMLCanvasElement,
   background: DeepPartial<z.infer<typeof coverBackgroundSchema>>
 ) => {
@@ -20,7 +20,7 @@ export const fillBackground = (
       fillGradientBackground(canvas, background)
       break
     case "image":
-      fillImageBackground(canvas, background)
+      await fillImageBackground(canvas, background)
       break
   }
 }

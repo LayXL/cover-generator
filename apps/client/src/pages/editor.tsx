@@ -17,12 +17,7 @@ import {
   Icon24DownloadOutline,
   Icon56FragmentsOutline,
 } from "@vkontakte/icons"
-import {
-  Button,
-  IconButton,
-  Placeholder,
-  SegmentedControl,
-} from "@vkontakte/vkui"
+import { Button, IconButton, Placeholder } from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -199,7 +194,7 @@ export default function Editor() {
           >
             {t("download-all-button")}
           </Button>
-          <SegmentedControl
+          {/* <SegmentedControl
             options={[
               {
                 label: "PNG",
@@ -210,7 +205,7 @@ export default function Editor() {
                 value: "jpg",
               },
             ]}
-          />
+          /> */}
         </motion.div>
       </div>
 

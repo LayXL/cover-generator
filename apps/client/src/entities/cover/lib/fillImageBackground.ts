@@ -1,9 +1,10 @@
 import type { DeepPartial, coverImageBackgroundSchema } from "shared/types"
 import type { z } from "zod"
+import { getImage } from "./getImage"
 
 const images: Record<string, HTMLImageElement> = {}
 
-export const fillImageBackground = (
+export const fillImageBackground = async (
   canvas: HTMLCanvasElement,
   background: DeepPartial<z.infer<typeof coverImageBackgroundSchema>>
 ) => {
@@ -17,22 +18,13 @@ export const fillImageBackground = (
     return
   }
 
-  const image = images[background.uuid]
+  if (!images[background.uuid]) {
+    const img = await getImage(`/images/${background.uuid}`)
 
-  if (!image) {
-    const img = new Image()
-
-    img.src = `/images/${background.uuid}`
-    img.onload = () => {
-      if (background.uuid) {
-        images[background.uuid] = img
-
-        drawImage(img, canvas, background.style ?? "cover")
-      }
-    }
-  } else {
-    drawImage(image, canvas, background.style ?? "cover")
+    images[background.uuid] = img
   }
+
+  drawImage(images[background.uuid], canvas, background.style ?? "cover")
 }
 
 function drawImage(

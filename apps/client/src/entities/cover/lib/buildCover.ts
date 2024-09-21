@@ -1,10 +1,11 @@
 import type { Cover, DeepPartial } from "shared/types"
 import { drawRecoloredImage } from "./drawRecoloredImage"
 import { fillBackground } from "./fillBackground"
+import { getImage } from "./getImage"
 
 const icons: Record<string, HTMLImageElement> = {}
 
-export const buildCover = (
+export const buildCover = async (
   canvas: HTMLCanvasElement,
   cover: DeepPartial<Cover>,
   options?: { pixelRatio?: number; iconCanvas?: HTMLCanvasElement | null }
@@ -20,7 +21,7 @@ export const buildCover = (
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  if (cover.background) fillBackground(canvas, cover.background)
+  if (cover.background) await fillBackground(canvas, cover.background)
 
   if (cover.text?.value && cover.text.value.length > 0) {
     ctx.fillStyle = cover.text.color ?? "#000"
@@ -48,15 +49,13 @@ export const buildCover = (
     const iconElement = icons[cover.icon.name]
     const isEmoji = cover.icon.category === "emoji"
 
-    if (!iconElement) {
-      const img = new Image()
-
-      img.src = isEmoji
-        ? `/emojis/${cover.icon.name}`
-        : `/icons/${cover.icon.name}.svg`
-
-      img.onload = () => {
-        if (!cover.icon?.name) return
+    if (cover.icon.name) {
+      if (!iconElement) {
+        const img = await getImage(
+          isEmoji
+            ? `/emojis/${cover.icon.name}`
+            : `/icons/${cover.icon.name}.svg`
+        )
 
         icons[cover.icon.name] = img
 
@@ -67,17 +66,17 @@ export const buildCover = (
           iconSize,
           iconSize
         )
+      } else {
+        ctx.drawImage(
+          isEmoji
+            ? iconElement
+            : drawRecoloredImage(iconElement, cover.icon.color),
+          left,
+          top,
+          iconSize,
+          iconSize
+        )
       }
-    } else {
-      ctx.drawImage(
-        isEmoji
-          ? iconElement
-          : drawRecoloredImage(iconElement, cover.icon.color),
-        left,
-        top,
-        iconSize,
-        iconSize
-      )
     }
   }
 }

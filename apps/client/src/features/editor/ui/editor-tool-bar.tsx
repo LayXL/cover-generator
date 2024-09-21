@@ -62,6 +62,7 @@ export const EditorToolBar = () => {
         background: {
           type: "image",
           uuid: data?.uuid,
+          style: "cover",
         },
       })
     },
@@ -365,6 +366,7 @@ export const EditorToolBar = () => {
                     updateCurrentCover({
                       background: {
                         type: "gradient",
+                        style: "linear",
                         colors: gradient,
                       },
                     })
@@ -450,6 +452,7 @@ export const EditorToolBar = () => {
                     onChange={({ target: { files } }) => {
                       imageUpload.mutate({ file: files?.[0] })
                     }}
+                    loading={imageUpload.isPending}
                   />
                 }
               />
