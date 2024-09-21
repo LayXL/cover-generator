@@ -1,5 +1,6 @@
 import { cn } from "@/shared/utils/cn"
 import { motion } from "framer-motion"
+import { useRef } from "react"
 import { Icon } from "./icon"
 
 type IconCardProps = {
@@ -10,8 +11,11 @@ type IconCardProps = {
 }
 
 export const IconCard = (props: IconCardProps) => {
+  const parentRef = useRef<HTMLDivElement>(null)
+
   return (
     <motion.div
+      ref={parentRef}
       className={cn(
         "size-12 grid place-items-center bg-inversed/5 rounded-xl cursor-pointer border-2 border-transparent",
         props.isSelected && "border-accent"
@@ -28,7 +32,12 @@ export const IconCard = (props: IconCardProps) => {
         />
       )}
       {props.category === "emoji" && (
-        <img className="size-7" src={`/emojis/${props.name}.png`} alt="" />
+        <img
+          loading="lazy"
+          className="size-7"
+          src={`/emojis/${props.name}`}
+          alt=""
+        />
       )}
     </motion.div>
   )

@@ -46,20 +46,22 @@ export const buildCover = (
     const left = canvas.width / 2 - iconSize / 2
 
     const iconElement = icons[cover.icon.name]
+    const isEmoji = cover.icon.category === "emoji"
 
     if (!iconElement) {
       const img = new Image()
-      img.src =
-        cover.icon.category !== "emoji"
-          ? `/icons/${cover.icon.name}.svg`
-          : `/emojis/${cover.icon.name}.png`
+
+      img.src = isEmoji
+        ? `/emojis/${cover.icon.name}`
+        : `/icons/${cover.icon.name}.svg`
 
       img.onload = () => {
         if (!cover.icon?.name) return
+
         icons[cover.icon.name] = img
 
         ctx.drawImage(
-          drawRecoloredImage(img, cover.icon.color),
+          isEmoji ? img : drawRecoloredImage(img, cover.icon.color),
           left,
           top,
           iconSize,
@@ -68,7 +70,9 @@ export const buildCover = (
       }
     } else {
       ctx.drawImage(
-        drawRecoloredImage(iconElement, cover.icon.color),
+        isEmoji
+          ? iconElement
+          : drawRecoloredImage(iconElement, cover.icon.color),
         left,
         top,
         iconSize,

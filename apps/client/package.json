@@ -26,7 +26,6 @@
     "@vkontakte/vkui-tokens": "^4.53.1",
     "@vkruglikov/react-telegram-web-app": "^2.1.9",
     "clsx": "^2.1.1",
-    "emoji-datasource-apple": "^15.1.2",
     "framer-motion": "^11.3.30",
     "i18next-fluent": "^2.0.0",
     "i18next-fluent-backend": "^1.0.0",

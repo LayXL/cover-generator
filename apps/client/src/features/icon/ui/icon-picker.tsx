@@ -1,6 +1,4 @@
 import { useQuery } from "@tanstack/react-query"
-import { useVirtualizer } from "@tanstack/react-virtual"
-import { useRef } from "react"
 import type { Emoji } from "../lib/emoji"
 import { IconCard } from "./icon-card"
 
@@ -26,19 +24,8 @@ export const IconPicker = (props: IconPickerProps) => {
     },
   })
 
-  const parentRef = useRef<HTMLDivElement>(null)
-
-  const virtualList = useVirtualizer({
-    count: icons.data?.length ?? 0 + 1,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 35,
-  })
-
   return (
-    <div
-      ref={parentRef}
-      className="px-3 overflow-scroll grid grid-rows-1 grid-flow-col gap-2 justify-start [@media(min-height:680px)]:grid-rows-2 [@media(min-height:720px)]:grid-rows-3 [@media(min-height:790px)]:grid-rows-4"
-    >
+    <div className="px-3 overflow-scroll grid grid-rows-1 grid-flow-col gap-2 justify-start [@media(min-height:680px)]:grid-rows-2 [@media(min-height:720px)]:grid-rows-3 [@media(min-height:790px)]:grid-rows-4">
       <IconCard
         category={"icon"}
         name={"minus"}
