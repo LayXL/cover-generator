@@ -160,6 +160,7 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
             <div className="flex-1">
               <FormItem top={t("color-input-label")} className="!p-0">
                 <ColorInput
+                  useVKUI
                   value={displayColor}
                   onChange={(color) => setDisplayColor(color)}
                 />

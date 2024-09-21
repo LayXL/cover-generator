@@ -3,7 +3,8 @@ import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
 import { cn } from "@/shared/utils/cn"
 import { Icon24Dismiss } from "@vkontakte/icons"
-import { useEffect, useState } from "react"
+import { Input } from "@vkontakte/vkui"
+import { useCallback, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { hexColor } from "../lib/checkIsValidHex"
 import { ColorPickerModal } from "./color-picker-modal"
@@ -12,6 +13,7 @@ type ColorInputProps = {
   value?: `#${string}`
   onChange?: (value: `#${string}`) => void
   isOpeningColorPicker?: boolean
+  useVKUI?: boolean
 }
 
 export const ColorInput = (props: ColorInputProps) => {
@@ -27,31 +29,40 @@ export const ColorInput = (props: ColorInputProps) => {
 
   const colorPickerModal = useModalState()
 
+  const onChange = useCallback(
+    ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(value.replaceAll("#", "").toLocaleUpperCase())
+
+      const parsed = hexColor.safeParse(value)
+      if (!parsed.success) return
+
+      props.onChange?.(parsed.data)
+    },
+    [props.onChange]
+  )
+
+  const onClick = useCallback(() => {
+    if (props.isOpeningColorPicker) return
+    colorPickerModal.open()
+  }, [props.isOpeningColorPicker, colorPickerModal])
+
   return (
     <>
-      <input
-        className={cn(
-          "flex-1 h-9 px-3 rounded-[10px] border border-inversed/10 outline-none w-full",
-          props.isOpeningColorPicker &&
-            "cursor-default caret-transparent select-none"
-        )}
-        value={`#${value}`}
-        onChange={
-          props.isOpeningColorPicker
-            ? undefined
-            : ({ target: { value } }) => {
-                setValue(value.replaceAll("#", "").toLocaleUpperCase())
-
-                const parsed = hexColor.safeParse(value)
-                if (!parsed.success) return
-
-                props.onChange?.(parsed.data)
-              }
-        }
-        onClick={
-          props.isOpeningColorPicker ? () => colorPickerModal.open() : undefined
-        }
-      />
+      {props.useVKUI && (
+        <Input value={`#${value}`} onChange={onChange} onClick={onClick} />
+      )}
+      {!props.useVKUI && (
+        <input
+          className={cn(
+            "flex-1 h-9 px-3 rounded-[10px] border border-inversed/10 outline-none w-full",
+            props.isOpeningColorPicker &&
+              "cursor-default caret-transparent select-none"
+          )}
+          value={`#${value}`}
+          onChange={onChange}
+          onClick={onClick}
+        />
+      )}
       {props.isOpeningColorPicker && (
         <Modal {...colorPickerModal}>
           <Header

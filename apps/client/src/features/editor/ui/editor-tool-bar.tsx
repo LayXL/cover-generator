@@ -5,6 +5,7 @@ import { ToolbarRoot } from "@/features/toolbar/ui/toolbar-root"
 import type { ToolbarTabData } from "@/features/toolbar/ui/toolbar-tab"
 import { useImageUpload } from "@/shared/hooks/useImageUpload"
 import { useModalState } from "@/shared/hooks/useModalState"
+import { Debounce } from "@/shared/ui/debounce"
 import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
 import { CUBIC_BEZIER } from "@/shared/utils/animations"
@@ -458,15 +459,23 @@ export const EditorToolBar = () => {
               selectedItems.icon === "icons" && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <FormItem top={t("icon-size-slider-caption")}>
-                    <Slider
-                      min={16}
-                      max={128}
-                      step={1}
+                    <Debounce
+                      delay={1}
                       value={currentCover?.icon?.size}
                       onChange={(size) => {
                         updateCurrentCover({ icon: { size } })
                       }}
-                    />
+                    >
+                      {({ current, set }) => (
+                        <Slider
+                          min={16}
+                          max={128}
+                          step={1}
+                          value={current}
+                          onChange={set}
+                        />
+                      )}
+                    </Debounce>
                   </FormItem>
                   <IconPicker
                     name={currentCover?.icon?.name}

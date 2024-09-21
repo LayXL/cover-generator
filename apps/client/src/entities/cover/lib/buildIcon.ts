@@ -1,8 +1,12 @@
 import { hexToRgb } from "@/shared/utils/hexToRgb"
 import { loadImage } from "@/shared/utils/loadImage"
-import type { DeepPartial, Icon } from "shared/types"
+import type { DeepPartial, coverIconSchema } from "shared/types"
+import type { z } from "zod"
 
-export const buildIcon = async (icon: DeepPartial<Icon>, pixelRatio = 1) => {
+export const buildIcon = async (
+  icon: DeepPartial<z.infer<typeof coverIconSchema>>,
+  pixelRatio = 1
+) => {
   const img = await loadImage(`/icons/${icon.name}.svg`)
 
   const size = (icon.size ?? 32) * pixelRatio
