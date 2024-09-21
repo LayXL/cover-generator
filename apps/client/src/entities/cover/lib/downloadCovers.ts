@@ -1,3 +1,4 @@
+import bridge from "@vkontakte/vk-bridge"
 import JSZip from "jszip"
 import { getI18n } from "react-i18next"
 import type { Cover, DeepPartial } from "shared/types"
@@ -33,9 +34,16 @@ export const downloadCovers = async (
 
   const blob = await zip.generateAsync({ type: "blob" })
 
-  const link = document.createElement("a")
+  await bridge
+    .send("VKWebAppDownloadFile", {
+      url: URL.createObjectURL(blob),
+      filename: `${name}.zip`,
+    })
+    .catch(() => {
+      const link = document.createElement("a")
 
-  link.href = URL.createObjectURL(blob)
-  link.download = `${name}.zip`
-  link.click()
+      link.href = URL.createObjectURL(blob)
+      link.download = `${name}.zip`
+      link.click()
+    })
 }

@@ -113,7 +113,7 @@ export default function Editor() {
 
   useScrollLock()
 
-  const [parent] = useAutoAnimate(/* optional config */)
+  const [parent] = useAutoAnimate()
 
   return (
     <>
