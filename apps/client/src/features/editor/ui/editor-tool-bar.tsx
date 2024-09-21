@@ -478,11 +478,12 @@ export const EditorToolBar = () => {
                     </Debounce>
                   </FormItem>
                   <IconPicker
+                    category="emojis"
                     name={currentCover?.icon?.name}
                     onSelect={(icon) => {
                       updateCurrentCover({
                         icon: {
-                          category: "fill",
+                          category: "emoji",
                           name: icon ?? undefined,
                         },
                       })
@@ -494,7 +495,7 @@ export const EditorToolBar = () => {
         }
       />
 
-      <Modal {...fillSolidColorModal}>
+      <Modal {...fillSolidColorModal} fullscreen>
         <Header
           title={t("fill-solid-color-modal-title")}
           after={
@@ -525,7 +526,7 @@ export const EditorToolBar = () => {
         />
       </Modal>
 
-      <Modal {...iconColorModal}>
+      <Modal {...iconColorModal} fullscreen>
         <Header
           title={t("icon-color-modal-title")}
           after={

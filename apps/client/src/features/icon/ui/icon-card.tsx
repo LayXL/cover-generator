@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { Icon } from "./icon"
 
 type IconCardProps = {
+  category: "emoji" | "icon"
   name: string
   isSelected?: boolean
   onClick?: () => void
@@ -19,11 +20,16 @@ export const IconCard = (props: IconCardProps) => {
       whileTap={{ scale: 0.9 }}
       onClick={props.onClick}
     >
-      <Icon
-        name={props.name}
-        size={28}
-        className={["text-inversed/30", props.isSelected && "text-accent"]}
-      />
+      {props.category === "icon" && (
+        <Icon
+          name={props.name}
+          size={28}
+          className={["text-inversed/30", props.isSelected && "text-accent"]}
+        />
+      )}
+      {props.category === "emoji" && (
+        <img className="size-7" src={`/emojis/${props.name}.png`} alt="" />
+      )}
     </motion.div>
   )
 }

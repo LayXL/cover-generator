@@ -89,7 +89,9 @@ export const Modal = (props: ModalProps) => {
                 onMouseUp={(e) => e.stopPropagation()}
               >
                 <div
-                  className={cn(props.fullscreen && "overflow-scroll h-full")}
+                  className={cn(
+                    props.fullscreen && "overflow-scroll h-full flex flex-col"
+                  )}
                 >
                   {props.children}
                 </div>

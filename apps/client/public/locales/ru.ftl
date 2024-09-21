@@ -65,7 +65,7 @@ font-size-tab-title = Размер
 color-input-label = Шестнадцатеричный код
 pick-color-button = Выбрать цвет
 
-color-picker-tab-label = Круг
+color-picker-tab-label = Палитра
 color-history-tab-label = История
 color-defaults-tab-label = Готовые
 

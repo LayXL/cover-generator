@@ -6,6 +6,8 @@ import {
 import { IconButton, Input } from "@vkontakte/vkui"
 import { useTranslation } from "react-i18next"
 
+const CAN_UNDO = false
+
 type CoverCarouselItemHeaderProps = {
   title?: string
   onRemove?: () => void
@@ -34,28 +36,30 @@ export const CoverCarouselItemHeader = (
         value={props.title}
         onChange={({ target: { value } }) => props.onChangeTitle?.(value)}
       />
-      <div className="flex gap-1.5">
-        <IconButton
-          className="[&>*]:!p-0"
-          onClick={props.onUndo}
-          disabled={!props.canUndo}
-        >
-          <Icon28ArrowUturnLeftOutline
-            color="currentColor"
-            className="text-inversed/30"
-          />
-        </IconButton>
-        <IconButton
-          className="[&>*]:!p-0"
-          onClick={props.onRedo}
-          disabled={!props.canRedo}
-        >
-          <Icon28ArrowUturnRightOutline
-            color="currentColor"
-            className="text-inversed/30"
-          />
-        </IconButton>
-      </div>
+      {CAN_UNDO && (
+        <div className="flex gap-1.5">
+          <IconButton
+            className="[&>*]:!p-0"
+            onClick={props.onUndo}
+            disabled={!props.canUndo}
+          >
+            <Icon28ArrowUturnLeftOutline
+              color="currentColor"
+              className="text-inversed/30"
+            />
+          </IconButton>
+          <IconButton
+            className="[&>*]:!p-0"
+            onClick={props.onRedo}
+            disabled={!props.canRedo}
+          >
+            <Icon28ArrowUturnRightOutline
+              color="currentColor"
+              className="text-inversed/30"
+            />
+          </IconButton>
+        </div>
+      )}
     </div>
   )
 }

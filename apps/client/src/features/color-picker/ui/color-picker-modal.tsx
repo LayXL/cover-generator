@@ -58,9 +58,11 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
     const colors: Set<z.infer<typeof hexColor>> = new Set()
 
     for (const cover of project.covers) {
-      if (cover.background.type === "solid") colors.add(cover.background.color)
       if (cover.icon?.color) colors.add(cover.icon.color)
       if (cover.text?.color) colors.add(cover.text.color)
+      if (cover.background.type === "solid") colors.add(cover.background.color)
+      if (cover.background.type === "gradient")
+        for (const color of cover.background.colors) colors.add(color)
     }
 
     return new Array(...colors)
@@ -71,8 +73,9 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
   }, [props.color])
 
   return (
-    <div className="p-3 flex flex-col gap-3 pt-0">
+    <div className="p-3 flex flex-col gap-3 pt-0 flex-1">
       <SegmentedControl
+        className="min-h-[44px]"
         value={tab}
         onChange={(value) => {
           if (value === ColorPickerTab.History && historyColors?.length === 0)
@@ -107,22 +110,17 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
         ]}
       />
 
-      <div className="relative">
-        <div
-          className={cn(
-            "flex flex-col gap-3",
-            tab !== ColorPickerTab.Picker && "invisible"
-          )}
-        >
-          <div className="p-1.5 bg-inversed/5 rounded-xl">
+      {tab === ColorPickerTab.Picker && (
+        <div className={"flex flex-col gap-3 flex-1"}>
+          <div className="p-1.5 bg-inversed/5 rounded-xl flex-1">
             <HexColorPicker
               color={displayColor}
               onChange={(color) =>
                 setDisplayColor(color as z.infer<typeof hexColor>)
               }
               className={cn(
-                "!w-full !h-auto",
-                "[&>div:first-child]:aspect-square [&>div:first-child]:rounded-md",
+                "!w-full !h-full",
+                "[&>div:first-child]:h-full [&>div:first-child]:rounded-md",
                 "[&>div:last-child]:rounded-md [&>div:last-child]:mt-1.5"
               )}
             />
@@ -180,37 +178,37 @@ export const ColorPickerModal = (props: ColorPickerModalProps) => {
             }}
           />
         </div>
+      )}
 
-        {tab === ColorPickerTab.History && (
-          <div className="absolute overflow-scroll inset-0 grid gap-4 content-start grid-cols-[repeat(auto-fill,minmax(96px,1fr))]">
-            {reversedHistoryColors.map((color) => (
-              <ColorCard
-                key={color}
-                color={color}
-                onClick={() => {
-                  setTab(ColorPickerTab.Picker)
-                  setDisplayColor(color)
-                }}
-              />
-            ))}
-          </div>
-        )}
+      {tab === ColorPickerTab.History && (
+        <div className="overflow-scroll grid gap-4 content-start grid-cols-[repeat(auto-fill,minmax(96px,1fr))]">
+          {reversedHistoryColors.map((color) => (
+            <ColorCard
+              key={color}
+              color={color}
+              onClick={() => {
+                setTab(ColorPickerTab.Picker)
+                setDisplayColor(color)
+              }}
+            />
+          ))}
+        </div>
+      )}
 
-        {tab === ColorPickerTab.Defaults && (
-          <div className="absolute overflow-scroll inset-0 grid gap-4 content-start grid-cols-[repeat(auto-fill,minmax(96px,1fr))]">
-            {defaultColors.map((color) => (
-              <ColorCard
-                key={color}
-                color={color}
-                onClick={() => {
-                  setDisplayColor(color)
-                  props.onChange(color)
-                }}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+      {tab === ColorPickerTab.Defaults && (
+        <div className="overflow-scroll grid gap-4 content-start grid-cols-[repeat(auto-fill,minmax(96px,1fr))]">
+          {defaultColors.map((color) => (
+            <ColorCard
+              key={color}
+              color={color}
+              onClick={() => {
+                setDisplayColor(color)
+                props.onChange(color)
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
