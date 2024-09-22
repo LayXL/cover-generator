@@ -1,6 +1,7 @@
 import { Text } from "@/shared/ui/typography"
 import { cn } from "@/shared/utils/cn"
 import { motion } from "framer-motion"
+import { useState } from "react"
 import { FontFamily } from "./font-family"
 
 type FontCardProps = {
@@ -11,6 +12,8 @@ type FontCardProps = {
 }
 
 export const FontCard = (props: FontCardProps) => {
+  const [loaded, setLoaded] = useState(false)
+
   return (
     <motion.button
       className={cn(
@@ -22,14 +25,21 @@ export const FontCard = (props: FontCardProps) => {
       onClick={props.onClick}
       style={{ fontFamily: props.font }}
     >
-      <Text
-        className={cn(
-          "text-primary/30 text-center overflow-hidden h-[1lh]",
-          props.isSelected && "text-primary"
-        )}
-        children={props.title}
-      />
-      <FontFamily name={props.font} />
+      {loaded ? (
+        <Text
+          className={cn(
+            "text-primary/30 text-center overflow-hidden h-[1lh]",
+            props.isSelected && "text-primary"
+          )}
+          children={props.title}
+        />
+      ) : (
+        <div
+          className="h-[1lh] rounded-full animate-pulse bg-inversed/5 overflow-hidden text-center text-transparent px-1"
+          children={props.title}
+        />
+      )}
+      <FontFamily name={props.font} onLoaded={() => setLoaded(true)} />
     </motion.button>
   )
 }
