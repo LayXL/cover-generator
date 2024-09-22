@@ -4,7 +4,7 @@
     "name": "Inter",
     "font": "Inter",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      "file": "Inter.ttf"
     }
   },
   {
@@ -12,7 +12,7 @@
     "name": "Soyuz",
     "font": "Soyuz",
     "install": {
-      "file": "Soyuz.otf"
+      "file": "Soyuz.ttf"
     }
   },
   {
@@ -20,7 +20,7 @@
     "name": "Bebas Neue",
     "font": "Bebas Neue",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+      "file": "BebasNeue.ttf"
     }
   },
   {
@@ -28,39 +28,39 @@
     "name": "Montserrat",
     "font": "Montserrat",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      "file": "Montserrat.ttf"
     }
   },
   {
     "type": "sans-serif",
-    "name": "NEUTRAL FACE",
+    "name": "Neutral Face",
     "font": "Neutral Face",
     "install": {
-      "file": "NeutralFace.otf"
+      "file": "NeutralFace.ttf"
     }
   },
   {
     "type": "sans-serif",
     "name": "Russo",
-    "font": "Russo One",
+    "font": "Russo",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Russo+One&display=swap"
+      "file": "Russo.ttf"
     }
   },
   {
     "type": "sans-serif",
     "name": "Poiret",
-    "font": "Poiret One",
+    "font": "Poiret",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Poiret+One&display=swap"
+      "file": "Poiret.ttf"
     }
   },
   {
     "type": "sans-serif",
-    "name": "Rubik Mono",
-    "font": "Rubik Mono One",
+    "name": "Rubik",
+    "font": "Rubik",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap"
+      "file": "Rubik.ttf"
     }
   },
   {
@@ -68,15 +68,15 @@
     "name": "Handjet",
     "font": "Handjet",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Handjet&display=swap"
+      "file": "Handjet.ttf"
     }
   },
   {
     "type": "sans-serif",
     "name": "Dela Gothic",
-    "font": "Dela Gothic One",
+    "font": "Dela Gothic",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
+      "file": "DelaGothic.ttf"
     }
   },
   {
@@ -84,15 +84,7 @@
     "name": "Unbounded",
     "font": "Unbounded",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Unbounded&display=swap"
-    }
-  },
-  {
-    "type": "sans-serif",
-    "name": "Press Start 2P",
-    "font": "Press Start 2P",
-    "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      "file": "Unbounded.ttf"
     }
   },
   {
@@ -100,7 +92,7 @@
     "name": "Sofia",
     "font": "Sofia Sans",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Sofia+Sans&display=swap"
+      "file": "SofiaSans.ttf"
     }
   },
   {
@@ -108,7 +100,7 @@
     "name": "Wremena",
     "font": "Wremena",
     "install": {
-      "file": "Wremena.otf"
+      "file": "Wremena.ttf"
     }
   },
   {
@@ -124,7 +116,7 @@
     "name": "Mak",
     "font": "Mak",
     "install": {
-      "file": "MAK.otf"
+      "file": "MAK.ttf"
     }
   },
   {
@@ -132,7 +124,7 @@
     "name": "Lobster",
     "font": "Lobster",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Lobster&display=swap"
+      "file": "Lobster.ttf"
     }
   },
   {
@@ -140,7 +132,7 @@
     "name": "Pacifico",
     "font": "Pacifico",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      "file": "Pacifico.ttf"
     }
   },
   {
@@ -148,7 +140,7 @@
     "name": "Caveat",
     "font": "Caveat",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Caveat&display=swap"
+      "file": "Caveat.ttf"
     }
   },
   {
@@ -156,7 +148,7 @@
     "name": "Bona Nova SC",
     "font": "Bona Nova SC",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Bona+Nova+SC&display=swap"
+      "file": "BonaNovaSC.ttf"
     }
   },
   {
@@ -164,7 +156,7 @@
     "name": "Bad Script",
     "font": "Bad Script",
     "install": {
-      "import": "https://fonts.googleapis.com/css2?family=Bad+Script&display=swap"
+      "file": "BadScript.ttf"
     }
   }
 ]

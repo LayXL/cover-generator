@@ -23,7 +23,11 @@ export const buildCover = async (
 
   if (cover.background) await fillBackground(canvas, cover.background)
 
-  if (cover.text?.value && cover.text.value.length > 0) {
+  if (
+    cover.text?.value &&
+    cover.text.value.length > 0
+    // document.fonts.check(`${fontSize}px ${cover.text.fontFamily}`)
+  ) {
     ctx.fillStyle = cover.text.color ?? "#000"
     ctx.font = `${fontSize}px ${cover.text.fontFamily}, sans-serif`
     ctx.textAlign = "center"

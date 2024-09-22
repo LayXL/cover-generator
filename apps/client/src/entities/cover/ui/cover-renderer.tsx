@@ -1,7 +1,7 @@
-import { FontFamily } from "@/features/font/ui/font-family"
+import { useFonts } from "@/features/font/lib/useFonts"
 import { cn } from "@/shared/utils/cn"
 import type { ClassValue } from "clsx"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { Cover, DeepPartial } from "shared/types"
 import { buildCover } from "../lib/buildCover"
 
@@ -14,6 +14,8 @@ type CoverRendererProps = {
 
 export const CoverRenderer = (props: CoverRendererProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const fonts = useFonts()
+  const [loadedFonts, setLoadedFonts] = useState<string[]>([])
 
   const pixelRatio = props.pixelRatio ?? window.devicePixelRatio
 
@@ -24,17 +26,35 @@ export const CoverRenderer = (props: CoverRendererProps) => {
   }, [props, pixelRatio])
 
   useEffect(() => {
-    const cb = () => {
-      if (!canvasRef.current) return
-      buildCover(canvasRef.current, props, { pixelRatio })
-    }
+    if (
+      props.text?.fontFamily &&
+      !loadedFonts.includes(props.text?.fontFamily)
+    ) {
+      const fontData = fonts.data?.find(
+        (font) => font.font === props.text?.fontFamily
+      )
 
-    document.fonts.addEventListener("loadingdone", cb)
+      if (fontData) {
+        const font = new FontFace(
+          props.text.fontFamily,
+          `url(/fonts/${fontData.install.file})`
+        )
 
-    return () => {
-      document.fonts.removeEventListener("loadingdone", cb)
+        font.load().then((font) => {
+          document.fonts.add(font)
+
+          if (props.text?.fontFamily)
+            setLoadedFonts([...loadedFonts, props.text?.fontFamily])
+
+          document.fonts.ready.then(() => {
+            if (canvasRef.current) {
+              buildCover(canvasRef.current, props, { pixelRatio })
+            }
+          })
+        })
+      }
     }
-  }, [props, pixelRatio])
+  }, [fonts.data, props, pixelRatio, loadedFonts])
 
   return (
     <>
@@ -48,7 +68,6 @@ export const CoverRenderer = (props: CoverRendererProps) => {
         )}
         id={props.id}
       />
-      {props.text?.fontFamily && <FontFamily name={props.text?.fontFamily} />}
     </>
   )
 }
