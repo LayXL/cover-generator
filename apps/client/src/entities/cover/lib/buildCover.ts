@@ -25,7 +25,7 @@ export const buildCover = async (
 
   if (cover.text?.value && cover.text.value.length > 0) {
     ctx.fillStyle = cover.text.color ?? "#000"
-    ctx.font = `${fontSize}px sans-serif`
+    ctx.font = `${fontSize}px ${cover.text.fontFamily ?? "sans-serif"}`
     ctx.textAlign = "center"
     ctx.textBaseline = "middle"
 

@@ -24,6 +24,9 @@ background-tab-title = Фон
 text-tab-title = Текст
 icon-tab-title = Иконка
 
+font-family-sans-serif-tab-title = Гротеск
+font-family-serif-tab-title = Антиква
+
 gradient-tab-title = Градиент
 fill-tab-title = Заливка
 image-tab-title = Картинка
@@ -43,6 +46,7 @@ icons-tab-title = Иконки
 color-tab-title = Цвет
 
 icon-color-modal-title = Цвет иконки
+text-color-modal-title = Цвет текста
 
 cover-text-input-placeholder = Начните вводить текст
 clear-text-button = Очистить текст

@@ -1,0 +1,170 @@
+[
+  {
+    "type": "sans-serif",
+    "name": "Inter",
+    "font": "Inter",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Soyuz",
+    "font": "Soyuz",
+    "install": {
+      "file": "Soyuz.otf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Bebas Neue",
+    "font": "Bebas Neue",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Montserrat",
+    "font": "Montserrat",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "NEUTRAL FACE",
+    "font": "Neutral Face",
+    "install": {
+      "file": "NeutralFace.otf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Russo",
+    "font": "Russo One",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Russo+One&display=swap"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Poiret",
+    "font": "Poiret One",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Poiret+One&display=swap"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Rubik Mono",
+    "font": "Rubik Mono One",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Handjet",
+    "font": "Handjet",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Handjet&display=swap"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Dela Gothic",
+    "font": "Dela Gothic One",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Unbounded",
+    "font": "Unbounded",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Unbounded&display=swap"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Press Start 2P",
+    "font": "Press Start 2P",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Sofia",
+    "font": "Sofia Sans",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Sofia+Sans&display=swap"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Wremena",
+    "font": "Wremena",
+    "install": {
+      "file": "Wremena.otf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "AA Lumos",
+    "font": "AA Lumos",
+    "install": {
+      "file": "AALumos.ttf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Mak",
+    "font": "Mak",
+    "install": {
+      "file": "MAK.otf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Lobster",
+    "font": "Lobster",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Lobster&display=swap"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Pacifico",
+    "font": "Pacifico",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Caveat",
+    "font": "Caveat",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Caveat&display=swap"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Bona Nova SC",
+    "font": "Bona Nova SC",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Bona+Nova+SC&display=swap"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Bad Script",
+    "font": "Bad Script",
+    "install": {
+      "import": "https://fonts.googleapis.com/css2?family=Bad+Script&display=swap"
+    }
+  }
+]

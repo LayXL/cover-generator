@@ -28,6 +28,8 @@ export const coverTextSchema = z.object({
   value: z.string().min(0).max(64).optional(),
   color: hexColor.default("#000"),
   fontSize: z.number().min(1).max(128).default(32),
+  fontFamily: z.string().optional(),
+  fontWeight: z.number().min(1).max(1000).default(400),
 })
 
 export const coverSolidBackgroundSchema = z.object({

@@ -1,4 +1,5 @@
 import { ColorPickerModal } from "@/features/color-picker/ui/color-picker-modal"
+import { FontPicker } from "@/features/font/ui/font-picker"
 import { IconPicker } from "@/features/icon/ui/icon-picker"
 import type { SelectedItems } from "@/features/toolbar/lib/useToolbar"
 import { ToolbarRoot } from "@/features/toolbar/ui/toolbar-root"
@@ -54,6 +55,7 @@ export const EditorToolBar = () => {
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({
     root: "background",
     icon: "emoji",
+    font: "sans-serif",
   })
 
   const imageUpload = useImageUpload({
@@ -70,6 +72,7 @@ export const EditorToolBar = () => {
 
   const fillSolidColorModal = useModalState()
   const iconColorModal = useModalState()
+  const textColorModal = useModalState()
 
   const tabs = useMemo(
     () =>
@@ -244,16 +247,36 @@ export const EditorToolBar = () => {
               name: "font",
               title: t("font-family-tab-title"),
               icon: <Icon28TextOutline />,
+              onSelect: (toolbar) => toolbar.pushAndMark("font"),
             },
             {
               name: "size",
               title: t("font-size-tab-title"),
               icon: <Icon28FullscreenOutline />,
+              onSelect: (toolbar) => toolbar.pushAndMark("textSize"),
             },
             {
               name: "color",
               title: t("color-tab-title"),
               icon: <Icon28PaletteOutline />,
+              onSelect: () => textColorModal.open(),
+            },
+          ],
+        },
+        {
+          name: "font",
+          items: [
+            {
+              name: "sans-serif",
+              title: t("font-family-sans-serif-tab-title"),
+              icon: <Icon28TextOutline />,
+              onSelect: (toolbar) => toolbar.markAsSelected(),
+            },
+            {
+              name: "serif",
+              title: t("font-family-serif-tab-title"),
+              icon: <Icon28TextOutline />,
+              onSelect: (toolbar) => toolbar.markAsSelected(),
             },
           ],
         },
@@ -295,7 +318,14 @@ export const EditorToolBar = () => {
           ],
         },
       ] as ToolbarTabData[],
-    [t, fillSolidColorModal, updateCurrentCover, currentCover, iconColorModal]
+    [
+      t,
+      fillSolidColorModal,
+      updateCurrentCover,
+      currentCover,
+      iconColorModal,
+      textColorModal,
+    ]
   )
 
   const isGradientTabOpened =
@@ -320,35 +350,49 @@ export const EditorToolBar = () => {
         before={
           <>
             {selectedItems.root === "text" && (
-              <motion.div
-                className="px-3"
-                initial={{ scale: 0, opacity: 50 }}
-                animate={{ scale: 1, opacity: 100 }}
-                transition={{ ease: CUBIC_BEZIER }}
-              >
-                <Input
-                  placeholder={t("cover-text-input-placeholder")}
-                  value={currentCover?.text?.value ?? ""}
-                  onChange={({ target: { value } }) => {
-                    updateCurrentCover({ text: { value } })
-                  }}
-                  after={
-                    currentCover?.text?.value?.length !== 0 && (
-                      <IconButton
-                        hoverMode="opacity"
-                        label={t("clear-text-button")}
-                        onClick={() =>
-                          updateCurrentCover({
-                            text: { value: "" },
-                          })
-                        }
-                      >
-                        <Icon16Clear />
-                      </IconButton>
-                    )
-                  }
-                />
-              </motion.div>
+              <>
+                <motion.div
+                  className="px-3"
+                  initial={{ scale: 0, opacity: 50 }}
+                  animate={{ scale: 1, opacity: 100 }}
+                  transition={{ ease: CUBIC_BEZIER }}
+                >
+                  <Input
+                    placeholder={t("cover-text-input-placeholder")}
+                    value={currentCover?.text?.value ?? ""}
+                    onChange={({ target: { value } }) => {
+                      updateCurrentCover({ text: { value } })
+                    }}
+                    after={
+                      currentCover?.text?.value?.length !== 0 && (
+                        <IconButton
+                          hoverMode="opacity"
+                          label={t("clear-text-button")}
+                          onClick={() =>
+                            updateCurrentCover({
+                              text: { value: "" },
+                            })
+                          }
+                        >
+                          <Icon16Clear />
+                        </IconButton>
+                      )
+                    }
+                  />
+                </motion.div>
+                {selectedItems.text === "font" && (
+                  <div className="pt-3">
+                    <FontPicker
+                      key={selectedItems.font}
+                      category={selectedItems.font ?? "sans-serif"}
+                      name={currentCover?.text?.fontFamily}
+                      onSelect={(font) => {
+                        updateCurrentCover({ text: { fontFamily: font } })
+                      }}
+                    />
+                  </div>
+                )}
+              </>
             )}
 
             {isGradientTabOpened &&
@@ -553,6 +597,34 @@ export const EditorToolBar = () => {
           onChange={(color) => {
             iconColorModal.close()
             updateCurrentCover({ ...currentCover, icon: { color } })
+          }}
+        />
+      </Modal>
+
+      <Modal {...textColorModal} fullscreen>
+        <Header
+          title={t("text-color-modal-title")}
+          after={
+            <div className="pr-4">
+              <Icon24Dismiss
+                className="cursor-pointer"
+                onClick={textColorModal.close}
+              />
+            </div>
+          }
+        />
+        <ColorPickerModal
+          withDefaults
+          color={
+            currentCover?.text &&
+            "color" in currentCover.text &&
+            currentCover.text.color
+              ? currentCover.text.color
+              : undefined
+          }
+          onChange={(color) => {
+            textColorModal.close()
+            updateCurrentCover({ ...currentCover, text: { color } })
           }}
         />
       </Modal>
