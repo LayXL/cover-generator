@@ -1,6 +1,5 @@
 import { FloatingPortal } from "@floating-ui/react"
-import FontFaceObserver from "fontfaceobserver"
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 import { useFonts } from "../lib/useFonts"
 
 type FontFamilyProps = {
@@ -22,19 +21,19 @@ export const FontFamily = (props: FontFamilyProps) => {
       return `@font-face {font-family: ${fontData?.font}; src: url(/fonts/${fontData?.install.file});}`
   }, [fontData])
 
-  useEffect(() => {
-    const font = [...document.fonts].find((font) => font.family === props.name)
+  // useEffect(() => {
+  //   const font = [...document.fonts].find((font) => font.family === props.name)
 
-    if (font?.status === "loaded" || font?.status === "unloaded") {
-      props.onLoaded?.()
-    } else if (fontData) {
-      const observer = new FontFaceObserver(fontData.font)
+  //   if (font?.status === "loaded" || font?.status === "unloaded") {
+  //     props.onLoaded?.()
+  //   } else if (fontData) {
+  //     const observer = new FontFaceObserver(fontData.font)
 
-      observer.load().then(() => {
-        props.onLoaded?.()
-      })
-    }
-  }, [props.onLoaded, props.name, fontData])
+  //     observer.load().then(() => {
+  //       props.onLoaded?.()
+  //     })
+  //   }
+  // }, [props.onLoaded, props.name, fontData])
 
   if (!style) return null
 
