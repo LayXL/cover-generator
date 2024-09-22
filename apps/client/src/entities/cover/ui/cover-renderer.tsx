@@ -29,10 +29,10 @@ export const CoverRenderer = (props: CoverRendererProps) => {
       buildCover(canvasRef.current, props, { pixelRatio })
     }
 
-    document.fonts.onloading = cb
+    document.fonts.addEventListener("loadingdone", cb)
 
     return () => {
-      document.fonts.onloading = null
+      document.fonts.removeEventListener("loadingdone", cb)
     }
   }, [props, pixelRatio])
 
