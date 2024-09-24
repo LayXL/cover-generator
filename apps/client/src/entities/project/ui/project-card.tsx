@@ -1,6 +1,7 @@
 import { useModalState } from "@/shared/hooks/useModalState"
 import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
+import { Pressable } from "@/shared/ui/pressable"
 import { Headline } from "@/shared/ui/typography"
 import {
   Icon20More,
@@ -47,7 +48,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
 
   return (
     <>
-      <button type="button" onClick={props.onClick}>
+      <Pressable onPress={props.onClick} onLongPress={moreModal.open}>
         <div className="flex flex-col gap-1">
           <div className="bg-surface rounded-lg aspect-[4/3]" />
           <div className="flex">
@@ -63,11 +64,10 @@ export const ProjectCard = (props: ProjectCardProps) => {
             </div>
             <span className="relative">
               <Icon20More className="text-inversed/30" />
-              {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
               <div
                 ref={moreButtonRef}
                 className="absolute right-0 -inset-2"
-                onClick={(e) => {
+                onMouseDown={(e) => {
                   e.stopPropagation()
                   moreModal.open()
                 }}
@@ -75,7 +75,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
             </span>
           </div>
         </div>
-      </button>
+      </Pressable>
 
       {moreModal.isOpened && (
         <ActionSheet

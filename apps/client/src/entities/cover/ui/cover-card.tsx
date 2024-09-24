@@ -1,15 +1,27 @@
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer.tsx"
 import { useModalState } from "@/shared/hooks/useModalState"
+import type { Style } from "@/shared/store"
+import { Header } from "@/shared/ui/header"
+import { Modal } from "@/shared/ui/modal"
+import { Pressable } from "@/shared/ui/pressable"
 import { Subhead } from "@/shared/ui/typography"
 import { FloatingPortal } from "@floating-ui/react"
 import {
   Icon20More,
   Icon28AddSquareOutline,
   Icon28ArrowDownToSquareOutline,
+  Icon28ArrowPopDownOutline,
+  Icon28ArrowPopUpOutline,
   Icon28DeleteOutline,
 } from "@vkontakte/icons"
-import { ActionSheet, ActionSheetItem } from "@vkontakte/vkui"
-import { useRef } from "react"
+import {
+  ActionSheet,
+  ActionSheetItem,
+  Button,
+  Checkbox,
+  Div,
+} from "@vkontakte/vkui"
+import { useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import type { Cover, DeepPartial } from "shared/types"
 
@@ -20,6 +32,8 @@ type CoverCardProps = {
   onDownload?: () => void
   onDuplicate?: () => void
   onDelete?: () => void
+  onCopyStyles?: (styles: Style[]) => void
+  onPasteStyles?: () => void
 } & DeepPartial<Cover>
 
 export const CoverCard = (props: CoverCardProps) => {
@@ -28,11 +42,18 @@ export const CoverCard = (props: CoverCardProps) => {
   const toggleRef = useRef<HTMLDivElement>(null)
   const moreModal = useModalState()
 
+  const copyStylesModal = useModalState()
+  const [copiedStyles, setCopiedStyles] = useState<(Style | (string & {}))[]>([
+    "background",
+    "icon",
+    "text",
+  ])
+
   return (
     <>
-      <button
-        type="button"
-        onClick={props.onClick}
+      <Pressable
+        onPress={props.onClick}
+        onLongPress={moreModal.open}
         className="flex flex-col gap-1"
       >
         <div
@@ -50,14 +71,42 @@ export const CoverCard = (props: CoverCardProps) => {
           <div ref={toggleRef}>
             <Icon20More
               className="cursor-pointer text-primary/30"
-              onClick={(e) => {
+              onMouseDown={(e) => {
                 e.stopPropagation()
                 moreModal.open()
               }}
             />
           </div>
         </div>
-      </button>
+      </Pressable>
+      <Modal {...copyStylesModal}>
+        <Header title={t("copy-cover-styles-title")} />
+        {["text", "background", "icon"].map((style) => (
+          <Checkbox
+            key={style}
+            children={t(`copy-cover-styles-${style}-label`)}
+            checked={copiedStyles.includes(style)}
+            onChange={() => {
+              setCopiedStyles(
+                copiedStyles.includes(style)
+                  ? copiedStyles.filter((s) => s !== style)
+                  : [...copiedStyles, style]
+              )
+            }}
+          />
+        ))}
+        <Div>
+          <Button
+            stretched
+            size="l"
+            children={t("copy-cover-styles-button")}
+            onClick={() => {
+              copyStylesModal.close()
+              props.onCopyStyles?.(copiedStyles as Style[])
+            }}
+          />
+        </Div>
+      </Modal>
       {moreModal.isOpened && (
         <FloatingPortal id={"editor"}>
           <ActionSheet
@@ -70,6 +119,20 @@ export const CoverCard = (props: CoverCardProps) => {
                 before={<Icon28ArrowDownToSquareOutline />}
                 children={t("download-cover-button")}
                 onClick={props.onDownload}
+              />
+            )}
+            {props.onCopyStyles && (
+              <ActionSheetItem
+                before={<Icon28ArrowPopUpOutline />}
+                children={t("copy-cover-styles-button")}
+                onClick={copyStylesModal.open}
+              />
+            )}
+            {props.onPasteStyles && (
+              <ActionSheetItem
+                before={<Icon28ArrowPopDownOutline />}
+                children={t("paste-cover-styles-button")}
+                onClick={props.onPasteStyles}
               />
             )}
             {props.onDuplicate && (

@@ -46,19 +46,25 @@ export default function Editor() {
     addCover,
     deleteCover,
     updateProject,
+    copy,
+    paste,
     undo,
     redo,
     canUndo,
     canRedo,
+    canPaste,
   } = useProjectStore((state) => ({
     currentProject: state.project,
     addCover: state.addCover,
     deleteCover: state.deleteCover,
     updateProject: state.updateProject,
+    copy: state.copy,
+    paste: state.paste,
     undo: state.undo,
     redo: state.redo,
     canUndo: state.projectSnapshotsBackward.length > 0,
     canRedo: state.projectSnapshotsForward.length > 0,
+    canPaste: state.copiedStyles.length > 0,
   }))
   const [debouncedCurrentProject] = useDebounceValue(currentProject, 500)
 
@@ -175,6 +181,8 @@ export default function Editor() {
                     )
                   }
                   onDelete={() => deleteCover(i)}
+                  onCopyStyles={(styles) => copy(cover, styles)}
+                  onPasteStyles={canPaste ? () => paste(i) : undefined}
                 />
               ))}
             </div>
