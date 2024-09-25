@@ -1,4 +1,5 @@
 import bridge from "@vkontakte/vk-bridge"
+import { isMobile } from "react-device-detect"
 
 type HapticStyle =
   | "impactHeavy"
@@ -11,6 +12,8 @@ type HapticStyle =
 
 export const useHaptic = () => {
   return (style: HapticStyle) => {
+    if (!isMobile) return
+
     switch (style) {
       case "impactHeavy":
         bridge.send("VKWebAppTapticImpactOccurred", { style: "heavy" })
