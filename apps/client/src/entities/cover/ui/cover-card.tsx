@@ -1,5 +1,5 @@
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer.tsx"
-import { useModalState } from "@/shared/hooks/useModalState"
+import { useModalState } from "@/shared/hooks/use-modal-state"
 import type { Style } from "@/shared/store"
 import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"

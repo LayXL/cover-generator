@@ -1,5 +1,5 @@
 import { defaultColors } from "@/features/editor/lib/defaultColors"
-import { useCloudStorage } from "@/shared/hooks/useCloudStorage"
+import { useCloudStorage } from "@/shared/hooks/use-cloud-storage"
 import { useProjectStore } from "@/shared/store"
 import { cn } from "@/shared/utils/cn"
 import {

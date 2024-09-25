@@ -1,4 +1,4 @@
-import { useModalState } from "@/shared/hooks/useModalState"
+import { useModalState } from "@/shared/hooks/use-modal-state"
 import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
 import { Pressable } from "@/shared/ui/pressable"
