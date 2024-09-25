@@ -1,4 +1,10 @@
-import { type HTMLAttributes, type ReactNode, useState } from "react"
+import {
+  type HTMLAttributes,
+  type ReactNode,
+  useCallback,
+  useState,
+} from "react"
+import { useHaptic } from "../hooks/use-haptic"
 
 type PressableProps = {
   onPress?: () => void
@@ -9,6 +15,13 @@ type PressableProps = {
 export const Pressable = (props: PressableProps) => {
   const [pressedAt, setPressedAt] = useState(0)
   const [timeoutId, setTimeoutId] = useState<Timer>()
+
+  const haptic = useHaptic()
+
+  const onLongPress = useCallback(() => {
+    haptic("selection")
+    props.onLongPress?.()
+  }, [haptic, props.onLongPress])
 
   return (
     <button
@@ -22,7 +35,7 @@ export const Pressable = (props: PressableProps) => {
         setPressedAt(Date.now())
         setTimeoutId(
           setTimeout(() => {
-            props.onLongPress?.()
+            onLongPress()
             setTimeoutId(undefined)
           }, 500)
         )
@@ -33,7 +46,7 @@ export const Pressable = (props: PressableProps) => {
         setPressedAt(0)
 
         if (Date.now() - pressedAt > 500) {
-          if (timeoutId) props.onLongPress?.()
+          if (timeoutId) onLongPress()
         } else props.onPress?.()
       }}
     >
