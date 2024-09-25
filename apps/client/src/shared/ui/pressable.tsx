@@ -31,7 +31,9 @@ export const Pressable = (props: PressableProps) => {
         e.preventDefault()
         props.onLongPress?.()
       }}
-      onPointerDown={() => {
+      onPointerDown={(e) => {
+        if (Math.max(e.movementX, e.movementY) > 10) return
+
         setPressedAt(Date.now())
         setTimeoutId(
           setTimeout(() => {
