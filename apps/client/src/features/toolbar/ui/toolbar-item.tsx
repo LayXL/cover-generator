@@ -1,3 +1,4 @@
+import { useHaptic } from "@/shared/hooks/use-haptic"
 import { Caption, Text } from "@/shared/ui/typography"
 import { cn } from "@/shared/utils/cn"
 import { motion } from "framer-motion"
@@ -23,9 +24,17 @@ type ToolbarItemProps = {
 
 export const ToolbarItem = (props: ToolbarItemProps) => {
   const mode = props.mode ?? "primary"
+  const haptic = useHaptic()
 
   return (
-    <button type="button" onClick={props.onClick} className="size-full flex-1">
+    <button
+      type="button"
+      onClick={() => {
+        haptic("selection")
+        props.onClick()
+      }}
+      className="size-full flex-1"
+    >
       <motion.div
         className={cn(
           "size-full flex flex-col gap-0.5 items-center justify-center rounded-[10px] border border-transparent transition-colors",

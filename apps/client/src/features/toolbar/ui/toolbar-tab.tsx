@@ -1,3 +1,4 @@
+import { useHaptic } from "@/shared/hooks/use-haptic"
 import { cn } from "@/shared/utils/cn"
 import { Icon28ChevronLeftOutline } from "@vkontakte/icons"
 import { useToolbar } from "../lib/useToolbar"
@@ -15,6 +16,7 @@ type ToolbarTabProps = ToolbarTabData & {
 
 export const ToolbarTab = (props: ToolbarTabProps) => {
   const toolbar = useToolbar()
+  const haptic = useHaptic()
 
   return (
     <div
@@ -29,6 +31,7 @@ export const ToolbarTab = (props: ToolbarTabProps) => {
             type="button"
             className="grid place-items-center bg-primary rounded-[10px] border border-inversed/10 px-1.5"
             onClick={() => {
+              haptic("selection")
               toolbar.back()
             }}
           >

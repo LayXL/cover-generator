@@ -1,7 +1,7 @@
 import { elysia } from "@/shared/utils/trpc"
 import { type UseMutationOptions, useMutation } from "@tanstack/react-query"
 import { useParams } from "react-router-dom"
-import { useAuth } from "./useAuth"
+import { useAuth } from "./use-auth"
 
 type UploadImageVariables = {
   file?: File
