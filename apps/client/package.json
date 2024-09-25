@@ -26,6 +26,7 @@
     "@vkontakte/vkui": "^6.5.1",
     "@vkontakte/vkui-tokens": "^4.53.1",
     "@vkruglikov/react-telegram-web-app": "^2.1.9",
+    "ahooks": "^3.8.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.30",
     "i18next-fluent": "^2.0.0",
