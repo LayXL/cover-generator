@@ -23,5 +23,5 @@ export const create = privateProcedure
       .returning()
       .then(returnFirst)
 
-    return project
+    return project as NonNullable<typeof project>
   })

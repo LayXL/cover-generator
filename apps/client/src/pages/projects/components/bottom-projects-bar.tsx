@@ -4,15 +4,19 @@ import { useCallback } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 
-export const BottomProjectsBar = () => {
+type BottomProjectsBarProps = {
+  createdProjectsCount?: number
+}
+
+export const BottomProjectsBar = (props: BottomProjectsBarProps) => {
   const { t } = useTranslation()
   const utils = trpc.useUtils()
   const navigate = useNavigate()
 
+  const premium = trpc.user.premium.useQuery()
+
   const createProject = trpc.project.create.useMutation({
     onSuccess: (data) => {
-      if (!data) return
-
       utils.project.getMany.invalidate()
       navigate(`/projects/${data.id}/editor`)
     },
@@ -22,6 +26,11 @@ export const BottomProjectsBar = () => {
     createProject.mutate()
   }, [createProject.mutate])
 
+  const isButtonDisabled =
+    !!premium.data?.maxCreatedProjects &&
+    !!props.createdProjectsCount &&
+    props.createdProjectsCount >= premium.data.maxCreatedProjects
+
   return (
     <div className="p-4">
       <Button
@@ -30,6 +39,7 @@ export const BottomProjectsBar = () => {
         children={t("create-project-button")}
         onClick={onCreateProject}
         loading={createProject.isPending}
+        disabled={isButtonDisabled}
       />
     </div>
   )

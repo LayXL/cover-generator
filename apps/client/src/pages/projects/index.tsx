@@ -25,7 +25,7 @@ export const Projects = () => {
       {projects.isSuccess && projects.data.length > 0 && (
         <>
           <ProjectsList data={projects.data} />
-          <BottomProjectsBar />
+          <BottomProjectsBar createdProjectsCount={projects.data.length} />
         </>
       )}
       {projects.data?.length === 0 && <NoProjectsPlaceholder />}
