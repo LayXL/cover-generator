@@ -18,7 +18,7 @@ export const Pressable = (props: PressableProps) => {
         e.preventDefault()
         props.onLongPress?.()
       }}
-      onMouseDown={() => {
+      onPointerDown={() => {
         setPressedAt(Date.now())
         setTimeoutId(
           setTimeout(() => {
@@ -27,7 +27,7 @@ export const Pressable = (props: PressableProps) => {
           }, 500)
         )
       }}
-      onMouseUp={() => {
+      onPointerUp={() => {
         clearTimeout(timeoutId)
         setTimeoutId(undefined)
         setPressedAt(0)
