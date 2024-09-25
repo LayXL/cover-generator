@@ -1,4 +1,4 @@
-import { AuthProvider } from "@/shared/hooks/useAuth"
+import { AuthProvider } from "@/shared/hooks/use-auth"
 import { trpc } from "@/shared/utils/trpc"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { httpBatchLink } from "@trpc/client"
