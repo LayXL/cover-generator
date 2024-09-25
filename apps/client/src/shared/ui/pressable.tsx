@@ -42,7 +42,7 @@ export const Pressable = (props: PressableProps) => {
         )
       }}
       onPointerMove={(e) => {
-        if (Math.max(e.movementX, e.movementY) > 10) {
+        if (Math.max(e.movementX, e.movementY) > 2) {
           clearTimeout(timeoutId)
           setTimeoutId(undefined)
           setPressedAt(0)
