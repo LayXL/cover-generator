@@ -28,7 +28,6 @@ export const Projects = () => {
           <BottomProjectsBar />
         </>
       )}
-
       {projects.data?.length === 0 && <NoProjectsPlaceholder />}
       {projects.isError && <LoadingProjectsErrorPlaceholder />}
       {projects.isLoading && <LoadingProjectsPlaceholder />}
