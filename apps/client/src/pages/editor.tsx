@@ -23,7 +23,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
-import { useDebounceValue, useScrollLock } from "usehooks-ts"
+import { useDebounceValue } from "usehooks-ts"
 
 enum Trans {
   GRID = 0,
@@ -116,8 +116,6 @@ export default function Editor() {
   }, [cloudProject.isSuccess])
 
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
-
-  useScrollLock()
 
   const [parent] = useAutoAnimate()
 

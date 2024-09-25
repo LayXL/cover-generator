@@ -9,7 +9,12 @@ type ScreenProps = {
 
 export const Screen = (props: ScreenProps) => {
   return (
-    <div className={cn("min-h-screen flex flex-col", props.className)}>
+    <div
+      className={cn(
+        "min-h-screen max-h-screen h-screen overflow-hidden flex flex-col",
+        props.className
+      )}
+    >
       {props.children}
     </div>
   )

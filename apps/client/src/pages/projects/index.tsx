@@ -1,7 +1,6 @@
 import { Header } from "@/shared/ui/header"
 import { Screen } from "@/shared/ui/screen"
 import { trpc } from "@/shared/utils/trpc"
-import { useScrollLock } from "@vkontakte/vkui"
 import { useTranslation } from "react-i18next"
 import { BottomProjectsBar } from "./components/bottom-projects-bar"
 import { LoadingProjectsErrorPlaceholder } from "./components/loading-projects-error-placeholder"
@@ -16,7 +15,6 @@ export const Projects = () => {
   const projects = trpc.project.getMany.useQuery()
 
   useClearProject()
-  useScrollLock()
 
   return (
     <Screen className="pb-safe-area-bottom max-h-screen">
