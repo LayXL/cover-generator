@@ -1,4 +1,5 @@
 import path from "node:path"
+import { sentryVitePlugin } from "@sentry/vite-plugin"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import mkcert from "vite-plugin-mkcert"
@@ -12,6 +13,10 @@ export default defineConfig({
       svgrOptions: {},
     }),
     mkcert(),
+    sentryVitePlugin({
+      org: "vlay",
+      project: "covers",
+    }),
   ],
   server: {
     proxy: {
