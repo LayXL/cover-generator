@@ -133,7 +133,7 @@ export default function Editor() {
   }, [cloudProject.isSuccess])
 
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
-  const [isPreview, setIsPreview] = useState(true)
+  const [isPreview, setIsPreview] = useState(false)
 
   const [parent] = useAutoAnimate()
 
