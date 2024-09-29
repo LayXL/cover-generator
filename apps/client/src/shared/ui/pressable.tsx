@@ -19,6 +19,7 @@ export const Pressable = (props: PressableProps) => {
     },
     ref,
     {
+      moveThreshold: { x: 10, y: 10 },
       onClick: props.onPress,
     }
   )
