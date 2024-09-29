@@ -83,8 +83,9 @@ export const Modal = (props: ModalProps) => {
                       }
                 }
                 className={cn(
-                  "relative pb-safe-area-bottom overflow-hidden",
-                  mode === "window" && "bg-modal rounded-t-3xl",
+                  "relative overflow-hidden",
+                  mode === "window" &&
+                    "bg-modal pb-safe-area-bottom rounded-t-3xl",
                   // "before:contents-[''] before:absolute before:h-[200%] before:top-16 before:w-full before:bg-modal before:z-[-1]",
                   props.fullscreen && "h-full",
                   props.className

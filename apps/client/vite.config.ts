@@ -5,6 +5,8 @@ import { defineConfig } from "vite"
 import mkcert from "vite-plugin-mkcert"
 import svgr from "vite-plugin-svgr"
 
+const serverAddress = `http://localhost:${process.env.SERVER_PORT}`
+
 export default defineConfig({
   build: { sourcemap: true },
   plugins: [
@@ -20,9 +22,9 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      "/api": "http://localhost:3000",
-      "/images": "http://localhost:3000",
-      "/emojis": "http://localhost:3000",
+      "/api": serverAddress,
+      "/images": serverAddress,
+      "/emojis": serverAddress,
     },
   },
   resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
