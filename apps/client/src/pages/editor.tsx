@@ -8,19 +8,34 @@ import { EditorToolBar } from "@/features/editor/ui/editor-tool-bar"
 import { useCoverStore, useProjectStore } from "@/shared/store"
 import { BackButton } from "@/shared/ui/back-button"
 import { Header } from "@/shared/ui/header"
+import { Title } from "@/shared/ui/typography"
 import { cn } from "@/shared/utils/cn"
 import { trpc } from "@/shared/utils/trpc"
 import { useAutoAnimate } from "@formkit/auto-animate/react"
 import { skipToken } from "@tanstack/react-query"
 import {
+  Icon20FollowersOutline,
+  Icon20GlobeOutline,
+  Icon20HelpOutline,
+  Icon20Info,
   Icon24Add,
   Icon24AddOutline,
   Icon24DownloadOutline,
   Icon24HideOutline,
+  Icon24LinkCircle,
+  Icon24MessageOutline,
   Icon24ViewOutline,
   Icon56FragmentsOutline,
 } from "@vkontakte/icons"
-import { Button, IconButton, Placeholder } from "@vkontakte/vkui"
+import {
+  Button,
+  ButtonGroup,
+  IconButton,
+  Link,
+  MiniInfoCell,
+  Placeholder,
+  UsersStack,
+} from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -118,7 +133,7 @@ export default function Editor() {
   }, [cloudProject.isSuccess])
 
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
-  const [isPreview, setIsPreview] = useState(false)
+  const [isPreview, setIsPreview] = useState(true)
 
   const [parent] = useAutoAnimate()
 
@@ -141,55 +156,135 @@ export default function Editor() {
         />
 
         <div className="overflow-scroll overscroll-contain flex-1">
-          {cloudProject.isSuccess && currentProject.covers.length === 0 ? (
-            <Placeholder
-              stretched
-              icon={<Icon56FragmentsOutline />}
-              header={t("no-covers-placeholder")}
-              children={t("no-covers-placeholder.caption")}
-              action={
-                <Button
-                  size="m"
-                  onClick={() => addCover()}
-                  before={<Icon24AddOutline />}
-                >
-                  {t("add-cover-button")}
-                </Button>
-              }
-            />
-          ) : (
-            <div
-              className={
-                "px-4 grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 pb-[var(--safe-area-bottom)+calc(132px)]"
-              }
-              ref={parent}
-            >
-              {currentProject.covers?.map((cover, i) => (
-                <CoverCard
-                  {...cover}
-                  index={i}
-                  key={cover.uuid}
-                  isHidden={i === currentCoverIndex && trans !== Trans.GRID}
-                  onClick={() => {
-                    setCurrentCoverIndex(i)
-                    setTrans(Trans.TO_EDITOR)
-                  }}
-                  onDownload={() => downloadCover(cover)}
-                  onDuplicate={() =>
-                    addCover(
-                      {
-                        ...cover,
-                        title: `${cover.title ?? t("untitled-cover-placeholder")} (${t("duplicate-suffix")})`,
-                      },
-                      i + 1
-                    )
-                  }
-                  onDelete={() => deleteCover(i)}
-                  onCopyStyles={(styles) => copy(cover, styles)}
-                  onPasteStyles={canPaste ? () => paste(i) : undefined}
+          {!isPreview &&
+            (cloudProject.isSuccess && currentProject.covers.length === 0 ? (
+              <Placeholder
+                stretched
+                icon={<Icon56FragmentsOutline />}
+                header={t("no-covers-placeholder")}
+                children={t("no-covers-placeholder.caption")}
+                action={
+                  <Button
+                    size="m"
+                    onClick={() => addCover()}
+                    before={<Icon24AddOutline />}
+                  >
+                    {t("add-cover-button")}
+                  </Button>
+                }
+              />
+            ) : (
+              <div
+                className={
+                  "px-4 grid gap-2 grid-cols-2 container mx-auto sm:grid-cols-3 lg:grid-cols-4 pb-[var(--safe-area-bottom)+calc(132px)]"
+                }
+                ref={parent}
+              >
+                {currentProject.covers?.map((cover, i) => (
+                  <CoverCard
+                    {...cover}
+                    index={i}
+                    key={cover.uuid}
+                    isHidden={i === currentCoverIndex && trans !== Trans.GRID}
+                    onClick={() => {
+                      setCurrentCoverIndex(i)
+                      setTrans(Trans.TO_EDITOR)
+                    }}
+                    onDownload={() => downloadCover(cover)}
+                    onDuplicate={() =>
+                      addCover(
+                        {
+                          ...cover,
+                          title: `${cover.title ?? t("untitled-cover-placeholder")} (${t("duplicate-suffix")})`,
+                        },
+                        i + 1
+                      )
+                    }
+                    onDelete={() => deleteCover(i)}
+                    onCopyStyles={(styles) => copy(cover, styles)}
+                    onPasteStyles={canPaste ? () => paste(i) : undefined}
+                  />
+                ))}
+              </div>
+            ))}
+
+          {isPreview && (
+            <>
+              <div className="bg-[#2688EB] h-32 rounded-t-xl" />
+              <div className="px-3 flex flex-col gap-2 pb-2">
+                <div className="size-20 rounded-full bg-[#2688EB] -mt-5 border-4 border-primary -mx-1" />
+                <Title
+                  level={2}
+                  className="font-semibold"
+                  i18nKey="preview-screen-community-title"
                 />
-              ))}
-            </div>
+              </div>
+              <MiniInfoCell
+                before={<Icon20FollowersOutline />}
+                after={<UsersStack photos={[]} />}
+                children={"514,7K подписчиков · 77 друзей"}
+              />
+              <MiniInfoCell
+                before={<Icon20GlobeOutline />}
+                children={<Link children="ducks.layxl.dev" />}
+              />
+              <MiniInfoCell
+                mode="add"
+                before={<Icon20HelpOutline />}
+                children={"Оплата, доставка, возврат"}
+              />
+              <MiniInfoCell
+                mode="more"
+                before={<Icon20Info />}
+                children={"Подробная информация"}
+              />
+              <div className="px-3">
+                <ButtonGroup stretched>
+                  <Button
+                    stretched
+                    size="m"
+                    mode="primary"
+                    before={<Icon24MessageOutline />}
+                    children={"Сообщение"}
+                  />
+                  <Button
+                    stretched
+                    size="m"
+                    mode="secondary"
+                    before={<Icon24LinkCircle />}
+                    children={"Подробнее"}
+                  />
+                </ButtonGroup>
+              </div>
+              <div ref={parent} className="flex overflow-scroll p-3 gap-2">
+                {currentProject.covers?.map((cover, i) => (
+                  <CoverCard
+                    {...cover}
+                    mode="preview"
+                    index={i}
+                    key={cover.uuid}
+                    isHidden={i === currentCoverIndex && trans !== Trans.GRID}
+                    onClick={() => {
+                      setCurrentCoverIndex(i)
+                      setTrans(Trans.TO_EDITOR)
+                    }}
+                    onDownload={() => downloadCover(cover)}
+                    onDuplicate={() =>
+                      addCover(
+                        {
+                          ...cover,
+                          title: `${cover.title ?? t("untitled-cover-placeholder")} (${t("duplicate-suffix")})`,
+                        },
+                        i + 1
+                      )
+                    }
+                    onDelete={() => deleteCover(i)}
+                    onCopyStyles={(styles) => copy(cover, styles)}
+                    onPasteStyles={canPaste ? () => paste(i) : undefined}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </div>
 

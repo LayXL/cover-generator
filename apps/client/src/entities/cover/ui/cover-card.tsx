@@ -4,7 +4,8 @@ import type { Style } from "@/shared/store"
 import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
 import { Pressable } from "@/shared/ui/pressable"
-import { Subhead } from "@/shared/ui/typography"
+import { Caption, Subhead } from "@/shared/ui/typography"
+import { cn } from "@/shared/utils/cn"
 import { FloatingPortal } from "@floating-ui/react"
 import {
   Icon20More,
@@ -26,6 +27,7 @@ import { useTranslation } from "react-i18next"
 import type { Cover, DeepPartial } from "shared/types"
 
 type CoverCardProps = {
+  mode?: "default" | "preview"
   index: number
   onClick?: () => void
   isHidden?: boolean
@@ -37,6 +39,7 @@ type CoverCardProps = {
 } & DeepPartial<Cover>
 
 export const CoverCard = (props: CoverCardProps) => {
+  const mode = props.mode ?? "default"
   const { t } = useTranslation()
 
   const toggleRef = useRef<HTMLDivElement>(null)
@@ -58,25 +61,47 @@ export const CoverCard = (props: CoverCardProps) => {
       >
         <div
           id={`cover-${props.index}`}
-          className="rounded-lg overflow-hidden cursor-pointer"
+          className={cn(
+            "rounded-lg overflow-hidden cursor-pointer",
+            mode === "preview" && "w-32"
+          )}
           style={{ visibility: props.isHidden ? "hidden" : undefined }}
         >
           <CoverRenderer {...props} />
         </div>
         <div className="flex items-center w-full">
-          <Subhead
-            className={"text-primary/30 flex-1 line-clamp-1"}
-            children={props.title ?? t("untitled-cover-placeholder")}
-          />
-          <div ref={toggleRef}>
-            <Icon20More
-              className="cursor-pointer text-primary/30"
-              onMouseDown={(e) => {
-                e.stopPropagation()
-                moreModal.open()
-              }}
+          {mode === "default" && (
+            <>
+              <Subhead
+                className={"text-primary/30 flex-1 line-clamp-1"}
+                children={
+                  props.title && props.title?.length !== 0
+                    ? props.title
+                    : t("untitled-cover-placeholder")
+                }
+              />
+              <div ref={toggleRef}>
+                <Icon20More
+                  className="cursor-pointer text-primary/30"
+                  onMouseDown={(e) => {
+                    e.stopPropagation()
+                    moreModal.open()
+                  }}
+                />
+              </div>
+            </>
+          )}
+          {mode === "preview" && (
+            <Caption
+              level={1}
+              className={"font-medium flex-1 line-clamp-1 text-center pt-1.5"}
+              children={
+                props.title && props.title?.length !== 0
+                  ? props.title
+                  : t("untitled-cover-placeholder")
+              }
             />
-          </div>
+          )}
         </div>
       </Pressable>
       <Modal {...copyStylesModal}>
