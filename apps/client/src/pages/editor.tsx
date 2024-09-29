@@ -79,8 +79,8 @@ export default function Editor() {
     paste: state.paste,
     undo: state.undo,
     redo: state.redo,
-    canUndo: state.projectSnapshotsBackward.length > 0,
-    canRedo: state.projectSnapshotsForward.length > 0,
+    canUndo: state.backwardHistory.length > 1,
+    canRedo: state.forwardHistory.length > 0,
     canPaste: state.copiedStyles.length > 0,
   }))
   const [debouncedCurrentProject] = useDebounceValue(currentProject, 500)

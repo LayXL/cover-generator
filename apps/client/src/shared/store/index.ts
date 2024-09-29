@@ -11,15 +11,29 @@ import { create } from "zustand"
 
 export type Style = "background" | "icon" | "text"
 
+type Snapshot =
+  | {
+      type: "projectUpdate"
+      data: Project
+    }
+  | {
+      type: "viewChange"
+      view: "editor" | "grid"
+    }
+  | {
+      type: "selectionChange"
+      coverUuid: string
+    }
+
 type ProjectState = {
-  projectSnapshotsBackward: Project[]
-  projectSnapshotsForward: Project[]
+  backwardHistory: Snapshot[]
+  forwardHistory: Snapshot[]
   copiedStyles: Style[]
   copiedCover?: Partial<Cover> | null
   copy: (cover: Partial<Cover>, styles: Style[]) => void
   paste: (coverIndex: number) => void
-  undo: () => void
-  redo: () => void
+  undo: () => Snapshot
+  redo: () => Snapshot
   project: Project
   updateProject: (project: Project) => void
   addCover: (cover?: Omit<Cover, "uuid">, index?: number) => void
@@ -29,8 +43,58 @@ type ProjectState = {
 }
 
 export const useProjectStore = create<ProjectState>()((set, get) => ({
-  projectSnapshotsBackward: [],
-  projectSnapshotsForward: [],
+  backwardHistory: [],
+  forwardHistory: [],
+  undo: () => {
+    set((state) => {
+      const backwardHistory = [...state.backwardHistory]
+
+      if (state.forwardHistory.length === 0) backwardHistory.pop()
+      const entry = backwardHistory.pop()
+
+      if (!entry) return {}
+
+      if (entry?.type === "projectUpdate") {
+        return {
+          project: entry.data,
+          backwardHistory,
+          forwardHistory: [...state.forwardHistory, entry],
+        }
+      }
+
+      return {
+        backwardHistory,
+        forwardHistory: [...state.forwardHistory, entry],
+      }
+    })
+
+    return get().forwardHistory.reverse()?.[0]
+  },
+  redo: () => {
+    set((state) => {
+      const forwardHistory = [...state.forwardHistory]
+
+      if (state.backwardHistory.length === 0) forwardHistory.pop()
+      const entry = forwardHistory.pop()
+
+      if (!entry) return {}
+
+      if (entry?.type === "projectUpdate") {
+        return {
+          project: entry.data,
+          backwardHistory: [...state.backwardHistory, entry],
+          forwardHistory,
+        }
+      }
+
+      return {
+        backwardHistory: [...state.backwardHistory, entry],
+        forwardHistory,
+      }
+    })
+
+    return get().backwardHistory.reverse()?.[0]
+  },
   copiedStyles: [],
   copiedCover: null,
   copy: (cover, styles) => {
@@ -81,46 +145,19 @@ export const useProjectStore = create<ProjectState>()((set, get) => ({
       }
     })
   },
-  undo: () => {
-    if (!get().projectSnapshotsBackward.length) return
-
-    set((state) => ({
-      project:
-        state.projectSnapshotsBackward[
-          state.projectSnapshotsBackward.length - 1
-        ] ?? state.project,
-      projectSnapshotsForward: [
-        ...state.projectSnapshotsForward,
-        state.project,
-      ],
-      projectSnapshotsBackward: state.projectSnapshotsBackward.slice(0, -1),
-    }))
-  },
-  redo: () => {
-    if (!get().projectSnapshotsForward.length) return
-
-    set((state) => ({
-      project:
-        state.projectSnapshotsForward[
-          state.projectSnapshotsForward.length - 1
-        ] ?? state.project,
-      projectSnapshotsForward: state.projectSnapshotsForward.slice(0, -1),
-      projectSnapshotsBackward: [
-        ...state.projectSnapshotsBackward,
-        state.project,
-      ],
-    }))
-  },
   project: { covers: [] },
   updateProject: (project) =>
     set((state) => {
       return {
+        backwardHistory: [
+          ...state.backwardHistory,
+          {
+            type: "projectUpdate",
+            data: projectSchema.parse(deepMerge(state.project, project)),
+          },
+        ],
+        forwardHistory: [],
         project: projectSchema.parse(deepMerge(state.project, project)),
-        // projectSnapshotsBackward: [
-        //   ...state.projectSnapshotsForward,
-        //   state.project,
-        // ],
-        // projectSnapshotsForward: [],
       }
     }),
   addCover(cover, index) {
@@ -175,11 +212,11 @@ export const useProjectStore = create<ProjectState>()((set, get) => ({
 
       return {
         project,
-        projectSnapshotsBackward: [
-          ...state.projectSnapshotsForward,
-          state.project,
+        backwardHistory: [
+          ...state.backwardHistory,
+          { type: "projectUpdate", data: project },
         ],
-        projectSnapshotsForward: [],
+        forwardHistory: [],
       }
     })
   },
