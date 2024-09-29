@@ -221,7 +221,7 @@ export default function Editor() {
               </div>
               <MiniInfoCell
                 before={<Icon20FollowersOutline />}
-                after={<UsersStack photos={[]} />}
+                after={<UsersStack photos={["", "", ""]} />}
                 children={"514,7K подписчиков · 77 друзей"}
               />
               <MiniInfoCell
