@@ -5,6 +5,7 @@ import mkcert from "vite-plugin-mkcert"
 import svgr from "vite-plugin-svgr"
 
 export default defineConfig({
+  build: { sourcemap: true },
   plugins: [
     react(),
     svgr({
@@ -19,9 +20,5 @@ export default defineConfig({
       "/emojis": "http://localhost:3000",
     },
   },
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
+  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
 })
