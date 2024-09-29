@@ -36,17 +36,17 @@ export const images = new Elysia().group("/images", (group) =>
 
         const uuid = uuidv4()
 
-        const convertedImage = await sharp(await image.arrayBuffer())
+        const sharpImage = await sharp(await image.arrayBuffer())
+
+        const metadata = await sharpImage.metadata()
+
+        if ((metadata.width ?? 0) > 376 || (metadata.height ?? 0) > 256) {
+          sharpImage.resize({ width: 376, height: 256, fit: "outside" })
+        }
+
+        const convertedImage = await sharpImage
           .webp({ quality: 80 })
           .toFile(`./images/${uuid}.webp`)
-
-        // const blurhash = encode(
-        //   await fileToUint8ClampedArray(image),
-        //   convertedImage.width,
-        //   convertedImage.height,
-        //   4,
-        //   4
-        // )
 
         await db.insert(media).values({
           uuid,
@@ -54,7 +54,6 @@ export const images = new Elysia().group("/images", (group) =>
           projectId: parsedProjectId,
           width: convertedImage.width,
           height: convertedImage.height,
-          // blurhash,
         })
 
         return {
@@ -62,7 +61,6 @@ export const images = new Elysia().group("/images", (group) =>
           url: `/images/${uuid}`,
           width: convertedImage.width,
           height: convertedImage.height,
-          // blurhash,
         }
       },
       {
