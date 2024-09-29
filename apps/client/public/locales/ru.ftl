@@ -62,6 +62,7 @@ untitled-cover-placeholder = Без названия
 untitled-project-placeholder = Без названия
 
 editor-screen-title = Редактор
+preview-screen-title = Предпросмотр
 download-all-button = Скачать все
 
 done-button = Готово
@@ -110,3 +111,9 @@ new-project-name-label = Название проекта
 save-action = Сохранить
 
 rename-project-title = Изменить название проекта
+
+premium-modal-title = Приобретите премиум
+premium-modal-more-projects-subtitle = Для добавления большего количества проектов, требуется премиум
+premium-modal-button = Приобрести
+
+premium-page-title = Премиум

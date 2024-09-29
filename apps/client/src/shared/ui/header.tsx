@@ -16,8 +16,10 @@ export const Header = (props: HeaderProps) => {
     <>
       <div
         className={cn(
-          "relative min-h-14 flex items-center justify-center sm:justify-start px-4 gap-4",
-          fixed && "fixed left-0 top-0 right-0 bg-primary"
+          "relative min-h-14 flex items-center justify-center sm:justify-start px-4 gap-4 sm:px-0 sm:gap-1",
+          fixed && "fixed left-0 top-0 right-0 bg-primary",
+          !props.before && "sm:pl-4",
+          !props.after && "sm:pr-4"
         )}
       >
         {props.before && (

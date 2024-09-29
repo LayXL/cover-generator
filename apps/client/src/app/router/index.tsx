@@ -22,6 +22,12 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: "/premium",
+        lazy: async () => ({
+          Component: (await import("@/pages/premium")).Premium,
+        }),
+      },
     ],
   },
 ])

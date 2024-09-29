@@ -25,7 +25,6 @@ export const Pressable = (props: PressableProps) => {
 
   return (
     <button
-      {...props}
       ref={ref}
       type="button"
       onContextMenu={(e) => {

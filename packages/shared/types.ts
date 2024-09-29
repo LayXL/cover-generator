@@ -4,6 +4,8 @@ export const hexColor = z.custom<`#${string}`>((value) =>
   /^#([0-9a-f]{3}){1,2}$/i.test(value)
 )
 
+export type HexColor = z.infer<typeof hexColor>
+
 export type DeepPartial<T> = T extends object
   ? {
       [P in keyof T]?: DeepPartial<T[P]>

@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { type ReactNode, createContext, useContext, useState } from "react"
 
 type ModalProps = {
+  mode?: "window" | "card"
   isOpened: boolean
   onClose: () => void
   children?: ReactNode
@@ -25,6 +26,7 @@ export const useModal = () => useContext(ModalContext)
 
 export const Modal = (props: ModalProps) => {
   const [isClicked, setIsClicked] = useState(false)
+  const mode = props.mode ?? "window"
 
   return (
     <ModalContext.Provider
@@ -50,7 +52,8 @@ export const Modal = (props: ModalProps) => {
               }}
               className={cn(
                 "fixed inset-0 h-[var(--ma-viewport-height)] flex flex-col justify-end z-50",
-                props.fullscreen && "h-screen justify-stretch"
+                props.fullscreen && "h-screen justify-stretch",
+                mode === "card" && "p-2"
               )}
               onMouseDown={() => {
                 setIsClicked(true)
@@ -80,7 +83,8 @@ export const Modal = (props: ModalProps) => {
                       }
                 }
                 className={cn(
-                  "relative bg-modal rounded-t-3xl pb-safe-area-bottom overflow-hidden",
+                  "relative pb-safe-area-bottom overflow-hidden",
+                  mode === "window" && "bg-modal rounded-t-3xl",
                   // "before:contents-[''] before:absolute before:h-[200%] before:top-16 before:w-full before:bg-modal before:z-[-1]",
                   props.fullscreen && "h-full",
                   props.className

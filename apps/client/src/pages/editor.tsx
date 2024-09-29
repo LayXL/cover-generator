@@ -16,6 +16,8 @@ import {
   Icon24Add,
   Icon24AddOutline,
   Icon24DownloadOutline,
+  Icon24HideOutline,
+  Icon24ViewOutline,
   Icon56FragmentsOutline,
 } from "@vkontakte/icons"
 import { Button, IconButton, Placeholder } from "@vkontakte/vkui"
@@ -116,6 +118,7 @@ export default function Editor() {
   }, [cloudProject.isSuccess])
 
   const [trans, setTrans] = useState<Trans>(Trans.GRID)
+  const [isPreview, setIsPreview] = useState(false)
 
   const [parent] = useAutoAnimate()
 
@@ -124,9 +127,12 @@ export default function Editor() {
       <div className="h-screen flex flex-col pb-safe-area-bottom" id="editor">
         <Header
           before={<BackButton />}
-          title={t("editor-screen-title")}
+          title={t(isPreview ? "preview-screen-title" : "editor-screen-title")}
           after={
             <div className={"flex"}>
+              <IconButton onClick={() => setIsPreview(!isPreview)}>
+                {isPreview ? <Icon24HideOutline /> : <Icon24ViewOutline />}
+              </IconButton>
               <IconButton onClick={() => addCover()}>
                 <Icon24Add />
               </IconButton>
