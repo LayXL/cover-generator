@@ -11,6 +11,7 @@ export type ToolbarItemData = {
   onSelect?: (toolbar: {
     push: (tabName: string) => void
     markAsSelected: () => void
+    switch: () => void
     pushAndMark: (tabName: string) => void
   }) => void
   isSelected?: boolean

@@ -55,6 +55,16 @@ export const ToolbarRoot = (props: ToolbarRootProps) => {
     }
   }, [tabHistory, props.setSelectedItems])
 
+  const switchCb = useCallback(
+    (tabName: string, itemName: string) => {
+      props.setSelectedItems((prev) => ({
+        ...prev,
+        [tabName]: prev[tabName] === itemName ? null : itemName,
+      }))
+    },
+    [props.setSelectedItems]
+  )
+
   const currentTabData = props.tabs.find((tab) => tab.name === currentTab)
   const latestInHistoryTabData = props.tabs.find(
     (tab) => tab.name === tabHistory[tabHistory.length - 1]
@@ -69,6 +79,7 @@ export const ToolbarRoot = (props: ToolbarRootProps) => {
         push,
         back,
         markAsSelected,
+        switch: switchCb,
       }}
     >
       {props.before}

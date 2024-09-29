@@ -9,6 +9,7 @@ export type ToolbarContext = {
   push: (replace: boolean) => (tabName: string) => void
   back: () => void
   markAsSelected: (tabName: string, itemName: string) => void
+  switch: (tabName: string, itemName: string) => void
 }
 
 const toolbarContext = createContext<ToolbarContext>({
@@ -18,6 +19,7 @@ const toolbarContext = createContext<ToolbarContext>({
   push: () => () => {},
   back: () => {},
   markAsSelected: () => {},
+  switch: () => {},
 })
 
 export const useToolbar = () => useContext(toolbarContext)

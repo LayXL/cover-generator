@@ -130,25 +130,14 @@ export const EditorToolBar = () => {
               name: "defaultGradients",
               icon: <Icon28ArchiveCheckOutline />,
               title: t("default-gradients-tab-title"),
-              onSelect: () => {
-                setSelectedItems((prev) => ({
-                  ...prev,
-                  gradient:
-                    prev.gradient === "defaultGradients"
-                      ? null
-                      : "defaultGradients",
-                }))
-              },
+              onSelect: (toolbar) => toolbar.switch(),
             },
             {
               name: "linear",
               icon: <Icon28ArrowRightSquareOutline />,
               title: t("linear-gradient-tab-title"),
-              onSelect: () => {
-                setSelectedItems((prev) => ({
-                  ...prev,
-                  gradient: prev.gradient === "linear" ? null : "linear",
-                }))
+              onSelect: (toolbar) => {
+                toolbar.switch()
 
                 updateCurrentCover({
                   background: {
@@ -168,11 +157,8 @@ export const EditorToolBar = () => {
               name: "radial",
               icon: <Icon28CheckCircleOff />,
               title: t("radial-gradient-tab-title"),
-              onSelect: () => {
-                setSelectedItems((prev) => ({
-                  ...prev,
-                  gradient: prev.gradient === "radial" ? null : "radial",
-                }))
+              onSelect: (toolbar) => {
+                toolbar.switch()
 
                 updateCurrentCover({
                   background: {
@@ -197,15 +183,7 @@ export const EditorToolBar = () => {
               name: "defaultBackgroundFills",
               title: t("default-backgrounds-fills-tab-title"),
               icon: <Icon28ArchiveCheckOutline />,
-              onSelect: () => {
-                setSelectedItems((prev) => ({
-                  ...prev,
-                  backgroundFill:
-                    prev.backgroundFill === "defaultBackgroundFills"
-                      ? null
-                      : "defaultBackgroundFills",
-                }))
-              },
+              onSelect: (toolbar) => toolbar.switch(),
             },
             {
               name: "colorPicker",
@@ -253,7 +231,7 @@ export const EditorToolBar = () => {
               name: "size",
               title: t("font-size-tab-title"),
               icon: <Icon28FullscreenOutline />,
-              onSelect: (toolbar) => toolbar.pushAndMark("textSize"),
+              onSelect: (toolbar) => toolbar.switch(),
             },
             {
               name: "color",
@@ -538,6 +516,28 @@ export const EditorToolBar = () => {
                   />
                 </motion.div>
               )}
+
+            {selectedItems.root === "text" && selectedItems.text === "size" && (
+              <FormItem top={t("icon-size-slider-caption")}>
+                <Debounce
+                  delay={1}
+                  value={currentCover?.text?.fontSize}
+                  onChange={(fontSize) => {
+                    updateCurrentCover({ text: { fontSize } })
+                  }}
+                >
+                  {({ current, set }) => (
+                    <Slider
+                      min={16}
+                      max={128}
+                      step={1}
+                      value={current}
+                      onChange={set}
+                    />
+                  )}
+                </Debounce>
+              </FormItem>
+            )}
           </>
         }
       />

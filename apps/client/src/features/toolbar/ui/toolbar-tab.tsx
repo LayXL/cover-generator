@@ -56,6 +56,9 @@ export const ToolbarTab = (props: ToolbarTabProps) => {
                 toolbar.push(props.mode === "secondary")(tabName)
                 toolbar.markAsSelected(props.name, item.name)
               },
+              switch: () => {
+                toolbar.switch(props.name, item.name)
+              },
             })
           }}
         />
