@@ -1,6 +1,6 @@
 import { db } from "drizzle"
 import { eq } from "drizzle-orm"
-import { users } from "drizzle/db/schema"
+import { userPurchases, users } from "drizzle/db/schema"
 import Elysia from "elysia"
 import { verifyVKSignature } from "./utils/calculateVkSignature"
 
@@ -48,8 +48,6 @@ export const vkPayments = new Elysia().post(
       case "order_status_change":
       case "order_status_change_test":
         {
-          console.log(data)
-
           const status = data.status as "chargeable" | "refund"
 
           const user = await db.query.users.findFirst({
@@ -57,6 +55,23 @@ export const vkPayments = new Elysia().post(
           })
 
           if (!user?.id) return error(500)
+
+          if (data.item_id === "item_id" && status === "chargeable") {
+            await db.insert(userPurchases).values({
+              userId: user.id,
+              purchaseId: 1,
+              price: Number(data.item_price),
+              purchaseData: data,
+              isTestPurchase: notification === "order_status_change_test",
+            })
+
+            return {
+              response: {
+                order_id: data.order_id,
+                app_order_id: data.order_id,
+              },
+            }
+          }
         }
         break
       default:

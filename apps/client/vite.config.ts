@@ -5,7 +5,7 @@ import { defineConfig } from "vite"
 import mkcert from "vite-plugin-mkcert"
 import svgr from "vite-plugin-svgr"
 
-const serverAddress = `http://localhost:${process.env.SERVER_PORT}`
+const serverAddress = `http://localhost:${process.env.SERVER_PORT ?? 3000}`
 
 export default defineConfig({
   build: { sourcemap: true },

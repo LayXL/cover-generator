@@ -1,4 +1,5 @@
 import {
+  boolean,
   integer,
   json,
   pgEnum,
@@ -29,7 +30,10 @@ export const userPurchases = pgTable("user_purchases", {
       onDelete: "cascade",
     })
     .notNull(),
-  purchasedAt: timestamp("purchasedAt", { withTimezone: true }).notNull(),
+  purchasedAt: timestamp("purchasedAt", { withTimezone: true }).defaultNow(),
+  purchaseData: json("purchaseData").notNull(),
+  isTestPurchase: boolean("isTestPurchase").notNull().default(false),
+  price: integer("price").notNull(),
 })
 
 export const purchases = pgTable("purchases", {
