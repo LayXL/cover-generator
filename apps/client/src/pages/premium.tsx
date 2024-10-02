@@ -1,6 +1,8 @@
 import { BackButton } from "@/shared/ui/back-button"
 import { Header } from "@/shared/ui/header"
 import { Screen } from "@/shared/ui/screen"
+import bridge from "@vkontakte/vk-bridge"
+import { Button } from "@vkontakte/vkui"
 import { useTranslation } from "react-i18next"
 
 export const Premium = () => {
@@ -9,6 +11,22 @@ export const Premium = () => {
   return (
     <Screen>
       <Header before={<BackButton />} title={t("premium-page-title")} />
+
+      <div className="flex flex-col flex-1">{/*  */}</div>
+
+      <div className="p-4">
+        <Button
+          size="l"
+          children={t("buy-premium-button")}
+          onClick={() => {
+            bridge
+              .send("VKWebAppShowOrderBox", { type: "item", item: "premium" })
+              .then((data) => {
+                console.log(data)
+              })
+          }}
+        />
+      </div>
     </Screen>
   )
 }
