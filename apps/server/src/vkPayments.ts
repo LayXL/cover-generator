@@ -1,7 +1,8 @@
 import { db } from "drizzle"
 import { eq } from "drizzle-orm"
-import { userPurchases, users } from "drizzle/db/schema"
+import { userPayments, userPurchases, users } from "drizzle/db/schema"
 import Elysia from "elysia"
+import { returnFirst } from "shared/returnFirst"
 import { verifyVKSignature } from "./utils/calculateVkSignature"
 
 type Response =
@@ -35,6 +36,8 @@ export const vkPayments = new Elysia().post(
 
     let response: Response | undefined = undefined
 
+    const isTestNotification = notification.includes("test")
+
     switch (notification) {
       case "get_item":
       case "get_item_test":
@@ -56,20 +59,41 @@ export const vkPayments = new Elysia().post(
 
           if (!user?.id) return error(500)
 
-          if (data.item_id === "item_id" && status === "chargeable") {
+          if (data.item_id === "1" && status === "chargeable") {
+            const payment = await db
+              .insert(userPayments)
+              .values({
+                userId: user.id,
+                paymentData: data,
+                isTestPayment: isTestNotification,
+              })
+              .returning()
+              .then(returnFirst)
+
+            if (!payment?.id) return error(500)
+
             await db.insert(userPurchases).values({
               userId: user.id,
               purchaseId: 1,
               price: Number(data.item_price),
               purchaseData: data,
-              isTestPurchase: notification === "order_status_change_test",
+              isTestPurchase: isTestNotification,
             })
 
-            return {
-              response: {
-                order_id: data.order_id,
-                app_order_id: data.order_id,
-              },
+            response = {
+              order_id: data.order_id,
+              app_order_id: payment?.id.toString(),
+            }
+          }
+
+          if (data.item_id === "1" && status === "refund") {
+            // TODO: rewrite
+            await db
+              .delete(userPurchases)
+              .where(eq(userPurchases.userId, user.id))
+
+            response = {
+              order_id: data.order_id,
             }
           }
         }

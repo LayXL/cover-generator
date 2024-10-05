@@ -36,6 +36,18 @@ export const userPurchases = pgTable("user_purchases", {
   price: integer("price").notNull(),
 })
 
+export const userPayments = pgTable("user_payments", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId")
+    .references(() => users.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow(),
+  paymentData: json("paymentData").notNull(),
+  isTestPayment: boolean("isTestPayment").notNull().default(false),
+})
+
 export const purchases = pgTable("purchases", {
   id: serial("id").primaryKey(),
   name: text("name"),
