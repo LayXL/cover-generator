@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm"
 import { userPayments, userPurchases, users } from "drizzle/db/schema"
 import Elysia from "elysia"
 import { returnFirst } from "shared/returnFirst"
+import { checkIsUserPremium } from "./routes/user/lib/checkIsUserPremium"
 import { verifyVKSignature } from "./utils/calculateVkSignature"
 
 type Response =
@@ -60,6 +61,10 @@ export const vkPayments = new Elysia().post(
           if (!user?.id) return error(500)
 
           if (data.item_id === "premium" && status === "chargeable") {
+            const isPremium = await checkIsUserPremium(user.id)
+
+            if (isPremium) return error(500)
+
             const payment = await db
               .insert(userPayments)
               .values({
