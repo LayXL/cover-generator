@@ -53,11 +53,17 @@ export const vkPayments = new Elysia().post(
         {
           const status = data.status as "chargeable" | "refund"
 
+          console.log(1)
+
           const user = await db.query.users.findFirst({
             where: eq(users.vkId, Number(data.user_id)),
           })
 
+          console.log(2)
+
           if (!user?.id) return error(500)
+
+          console.log(3)
 
           if (data.item_id === "1" && status === "chargeable") {
             const payment = await db
@@ -70,7 +76,11 @@ export const vkPayments = new Elysia().post(
               .returning()
               .then(returnFirst)
 
+            console.log(4)
+
             if (!payment?.id) return error(500)
+
+            console.log(5)
 
             await db.insert(userPurchases).values({
               userId: user.id,
@@ -80,11 +90,17 @@ export const vkPayments = new Elysia().post(
               isTestPurchase: isTestNotification,
             })
 
+            console.log(6)
+
             response = {
               order_id: data.order_id,
               app_order_id: payment?.id.toString(),
             }
+
+            console.log(7)
           }
+
+          console.log(8)
 
           if (data.item_id === "1" && status === "refund") {
             // TODO: rewrite
@@ -96,6 +112,8 @@ export const vkPayments = new Elysia().post(
               order_id: data.order_id,
             }
           }
+
+          console.log("end")
         }
         break
       default:
