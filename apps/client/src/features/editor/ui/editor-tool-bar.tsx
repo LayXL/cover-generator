@@ -279,19 +279,22 @@ export const EditorToolBar = () => {
           name: "icons",
           items: [
             {
-              name: "emoji",
+              name: "emojis",
               title: t("emoji-icons-tab-title"),
               icon: <Icon28SmileOutline />,
+              onSelect: (toolbar) => toolbar.switch(),
             },
             {
-              name: "fill",
+              name: "filled",
               title: t("fill-icons-tab-title"),
               icon: <Icon28PaintRollerOutline />,
+              onSelect: (toolbar) => toolbar.switch(),
             },
             {
-              name: "stroke",
+              name: "outline",
               title: t("stroke-icons-tab-title"),
               icon: <Icon28CheckCircleOff />,
+              onSelect: (toolbar) => toolbar.switch(),
             },
           ],
         },
@@ -503,12 +506,13 @@ export const EditorToolBar = () => {
                     </Debounce>
                   </FormItem>
                   <IconPicker
-                    category="emojis"
+                    category={selectedItems.icons ?? "emojis"}
                     name={currentCover?.icon?.name}
                     onSelect={(icon) => {
                       updateCurrentCover({
                         icon: {
-                          category: "emoji",
+                          category:
+                            selectedItems.icons === "emojis" ? "emoji" : "icon",
                           name: icon ?? undefined,
                         },
                       })

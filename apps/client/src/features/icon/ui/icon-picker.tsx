@@ -5,7 +5,7 @@ import { IconCard } from "./icon-card"
 type IconPickerProps = {
   name?: string
   onSelect: (name: string | null) => void
-  category: "emojis" | "fill" | "outline"
+  category: "emojis" | "filled" | "outline" | (string & {})
 }
 
 export const IconPicker = (props: IconPickerProps) => {
@@ -21,6 +21,14 @@ export const IconPicker = (props: IconPickerProps) => {
 
         return emojis.map((x) => x.image.replace(".png", ""))
       }
+
+      const icons = (await fetch("/icons.json").then((res) => res.json())) as {
+        file: string
+      }[]
+
+      return icons
+        .filter((x) => x.file.includes(props.category))
+        .map((x) => x.file.replace(".svg", ""))
     },
   })
 
