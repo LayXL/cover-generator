@@ -67,7 +67,7 @@ export const vkPayments = new Elysia().post(
 
           console.log(data)
 
-          if (data.item_id === "1" && status === "chargeable") {
+          if (data.item_id === "premium" && status === "chargeable") {
             const payment = await db
               .insert(userPayments)
               .values({
