@@ -16,7 +16,7 @@ export const Premium = () => {
 
       <div className="flex flex-col flex-1">{/*  */}</div>
 
-      <div className="p-4">
+      <div className="p-4 mb-safe-area-bottom">
         {!isIOS ? (
           <Button
             stretched
@@ -31,7 +31,10 @@ export const Premium = () => {
             }}
           />
         ) : (
-          <Text children={t("not-supported-platfrom-warning")} />
+          <Text
+            className="text-center"
+            children={t("not-supported-platfrom-warning")}
+          />
         )}
       </div>
     </Screen>

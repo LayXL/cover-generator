@@ -158,5 +158,173 @@
     "install": {
       "file": "BadScript.ttf"
     }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Manrope",
+    "font": "Manrope",
+    "install": {
+      "file": "Manrope.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "PT Sans",
+    "font": "PT Sans",
+    "install": {
+      "file": "PTSans.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Open Sans",
+    "font": "Open Sans",
+    "install": {
+      "file": "OpenSans.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Exo 2",
+    "font": "Exo 2",
+    "install": {
+      "file": "Exo2.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Noto Sans",
+    "font": "Noto Sans",
+    "install": {
+      "file": "NotoSans.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Fjalla One",
+    "font": "Fjalla One",
+    "install": {
+      "file": "FjallaOne.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Ubuntu",
+    "font": "Ubuntu",
+    "install": {
+      "file": "Ubuntu.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Nunito",
+    "font": "Nunito",
+    "install": {
+      "file": "Nunito.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Poppins",
+    "font": "Poppins",
+    "install": {
+      "file": "Poppins.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Raleway",
+    "font": "Raleway",
+    "install": {
+      "file": "Raleway.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Arimo",
+    "font": "Arimo",
+    "install": {
+      "file": "Arimo.ttf"
+    }
+  },
+  {
+    "type": "sans-serif",
+    "name": "Fira Sans",
+    "font": "Fira Sans",
+    "install": {
+      "file": "FiraSans.ttf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Yeseva One",
+    "font": "Yeseva One",
+    "install": {
+      "file": "YesevaOne.ttf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Vollkorn",
+    "font": "Vollkorn",
+    "install": {
+      "file": "Vollkorn.ttf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Marcellus",
+    "font": "Marcellus",
+    "install": {
+      "file": "Marcellus.ttf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Playfair Display",
+    "font": "Playfair Display",
+    "install": {
+      "file": "PlayfairDisplay.ttf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Literata",
+    "font": "Literata",
+    "install": {
+      "file": "Literata.ttf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Cardo",
+    "font": "Cardo",
+    "install": {
+      "file": "Cardo.ttf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Merriweather",
+    "font": "Merriweather",
+    "install": {
+      "file": "Merriweather.ttf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Cormorant Garamond",
+    "font": "Cormorant Garamond",
+    "install": {
+      "file": "CormorantGaramond.ttf"
+    }
+  },
+  {
+    "type": "serif",
+    "name": "Manrope",
+    "font": "Manrope",
+    "install": {
+      "file": "Lora.ttf"
+    }
   }
 ]

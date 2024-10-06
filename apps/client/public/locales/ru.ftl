@@ -119,3 +119,6 @@ premium-modal-button = Приобрести
 premium-page-title = Премиум
 
 preview-screen-community-title = Ваше сообщество
+
+buy-premium-button = Приобрести
+not-supported-platfrom-warning = Эта платформа не поддерживается для оплаты премиум
