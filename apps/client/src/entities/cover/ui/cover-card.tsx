@@ -3,7 +3,6 @@ import { useModalState } from "@/shared/hooks/use-modal-state"
 import type { Style } from "@/shared/store"
 import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
-import { Pressable } from "@/shared/ui/pressable"
 import { Caption, Subhead } from "@/shared/ui/typography"
 import { cn } from "@/shared/utils/cn"
 import { FloatingPortal } from "@floating-ui/react"
@@ -54,9 +53,10 @@ export const CoverCard = (props: CoverCardProps) => {
 
   return (
     <>
-      <Pressable
-        onPress={props.onClick}
-        onLongPress={moreModal.open}
+      <button
+        type="button"
+        onClick={props.onClick}
+        // onLongPress={moreModal.open}
         className="flex flex-col gap-1"
       >
         <div
@@ -103,7 +103,7 @@ export const CoverCard = (props: CoverCardProps) => {
             />
           )}
         </div>
-      </Pressable>
+      </button>
       <Modal {...copyStylesModal}>
         <Header title={t("copy-cover-styles-title")} />
         {["text", "background", "icon"].map((style) => (

@@ -114,9 +114,22 @@ rename-project-title = Изменить название проекта
 
 premium-modal-title = Приобретите премиум
 premium-modal-more-projects-subtitle = Для добавления большего количества проектов, требуется премиум
+premium-modal-more-covers-subtitle = Для добавления большего количества обложек, требуется премиум
 premium-modal-button = Приобрести
 
 premium-page-title = Премиум
+
+premium-page-header = Приобретите премиум
+premium-page-text = И получите расширенный функционал редактора
+
+premium-page-header-bought = Вы приобрели премиум
+premium-page-text-bought = И получили расширенный функционал редактора
+
+premium-more-projects-feature-title = Создавайте больше проектов
+premium-more-projects-feature-subtitle = Создавайте новые проекты под каждое сообщество
+
+premium-more-covers-feature-title = Добавляйте больше обложек в проекты
+premium-more-covers-feature-subtitle = Насыщайте свои сообщества большим количеством пунктов в меню
 
 preview-screen-community-title = Ваше сообщество
 

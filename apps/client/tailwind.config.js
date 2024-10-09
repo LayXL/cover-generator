@@ -25,6 +25,7 @@ export default {
         surface: "rgb(var(--ma-theme-bg-surface), <alpha-value>)",
         inversed: "rgb(var(--ma-theme-bg-inversed), <alpha-value>)",
         accent: "rgb(var(--ma-theme-bg-accent), <alpha-value>)",
+        "accent-static": "rgb(0, 119, 255, <alpha-value>)",
         on: {
           accent: "rgb(var(--ma-theme-bg-on-accent), <alpha-value>)",
         },

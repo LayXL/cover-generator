@@ -5,9 +5,11 @@ import { CoverCarousel } from "@/entities/cover/ui/cover-carousel"
 import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
 import { useCurrentCover } from "@/features/editor/lib/useCurrentCover"
 import { EditorToolBar } from "@/features/editor/ui/editor-tool-bar"
+import { useModalState } from "@/shared/hooks/use-modal-state"
 import { useCoverStore, useProjectStore } from "@/shared/store"
 import { BackButton } from "@/shared/ui/back-button"
 import { Header } from "@/shared/ui/header"
+import { Modal } from "@/shared/ui/modal"
 import { Title } from "@/shared/ui/typography"
 import { cn } from "@/shared/utils/cn"
 import { trpc } from "@/shared/utils/trpc"
@@ -25,6 +27,7 @@ import {
   Icon24LinkCircle,
   Icon24MessageOutline,
   Icon24ViewOutline,
+  Icon56DiamondOutline,
   Icon56FragmentsOutline,
 } from "@vkontakte/icons"
 import {
@@ -33,13 +36,14 @@ import {
   IconButton,
   Link,
   MiniInfoCell,
+  ModalCardBase,
   Placeholder,
   UsersStack,
 } from "@vkontakte/vkui"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useDebounceValue } from "usehooks-ts"
 
 enum Trans {
@@ -52,6 +56,8 @@ enum Trans {
 export default function Editor() {
   const { t } = useTranslation()
   const utils = trpc.useUtils()
+  const premium = trpc.user.premium.useQuery()
+  const navigate = useNavigate()
 
   const { id: projectId } = useParams()
   const cloudProject = trpc.project.getOne.useQuery(
@@ -137,6 +143,8 @@ export default function Editor() {
 
   const [parent] = useAutoAnimate()
 
+  const premiumModal = useModalState()
+
   return (
     <>
       <div className="h-screen flex flex-col pb-safe-area-bottom" id="editor">
@@ -148,7 +156,13 @@ export default function Editor() {
               <IconButton onClick={() => setIsPreview(!isPreview)}>
                 {isPreview ? <Icon24HideOutline /> : <Icon24ViewOutline />}
               </IconButton>
-              <IconButton onClick={() => addCover()}>
+              <IconButton
+                onClick={() =>
+                  !premium.data?.isPremium && covers.length >= 4
+                    ? premiumModal.open()
+                    : addCover()
+                }
+              >
                 <Icon24Add />
               </IconButton>
             </div>
@@ -392,6 +406,23 @@ export default function Editor() {
           <CoverRenderer {...currentCover} />
         </motion.div>
       )}
+
+      <Modal {...premiumModal} mode="card">
+        <ModalCardBase
+          onClose={premiumModal.close}
+          icon={<Icon56DiamondOutline />}
+          header={t("premium-modal-title")}
+          subheader={t("premium-modal-more-covers-subtitle")}
+          actions={
+            <Button
+              size="l"
+              stretched
+              children={t("premium-modal-button")}
+              onClick={() => navigate("/premium")}
+            />
+          }
+        />
+      </Modal>
     </>
   )
 }
