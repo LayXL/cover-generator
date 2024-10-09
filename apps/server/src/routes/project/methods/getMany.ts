@@ -17,7 +17,7 @@ export const getMany = privateProcedure
       return {
         ...project,
         data: undefined,
-        preview: (project.data as Project | undefined)?.covers[0] as
+        preview: (project.data as Project | undefined)?.covers?.[0] as
           | Cover
           | undefined,
       }
