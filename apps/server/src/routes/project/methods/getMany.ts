@@ -1,6 +1,7 @@
 import { db } from "drizzle"
 import { desc, eq } from "drizzle-orm"
 import { projects } from "drizzle/db/schema"
+import type { Cover, Project } from "shared/types"
 import { z } from "zod"
 import { privateProcedure } from "../../../trpc"
 
@@ -9,11 +10,14 @@ export const getMany = privateProcedure
   .query(async ({ ctx }) => {
     const userProjects = await db.query.projects.findMany({
       where: eq(projects.authorId, ctx.user.id),
-      columns: {
-        data: false,
-      },
       orderBy: desc(projects.updatedAt),
     })
 
-    return userProjects
+    return userProjects.map((project) => {
+      return {
+        ...project,
+        data: undefined,
+        preview: (project.data as Project).covers[0] as Cover | undefined,
+      }
+    })
   })

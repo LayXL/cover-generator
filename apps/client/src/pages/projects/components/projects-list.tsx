@@ -36,6 +36,7 @@ export const ProjectsList = (props: ProjectsListProps) => {
       {props.data.map((project) => (
         <ProjectCard
           key={project.id}
+          preview={project.preview}
           title={project.title}
           updatedAt={project.updatedAt}
           onClick={openEditor(project.id)}

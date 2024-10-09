@@ -1,3 +1,4 @@
+import { CoverRenderer } from "@/entities/cover/ui/cover-renderer"
 import { useModalState } from "@/shared/hooks/use-modal-state"
 import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
@@ -21,8 +22,10 @@ import {
 import { DateTime } from "luxon"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
+import type { Cover } from "shared/types"
 
 type ProjectCardProps = {
+  preview?: Cover
   title?: string | null
   updatedAt: Date
   onClick?: () => void
@@ -50,7 +53,11 @@ export const ProjectCard = (props: ProjectCardProps) => {
     <>
       <Pressable onPress={props.onClick} onLongPress={moreModal.open}>
         <div className="flex flex-col gap-1">
-          <div className="bg-surface rounded-lg aspect-[4/3]" />
+          <div className="bg-surface rounded-lg aspect-[376/256] w-full p-0.5">
+            {props.preview && (
+              <CoverRenderer className="w-full rounded-md" {...props.preview} />
+            )}
+          </div>
           <div className="flex">
             <div className="flex-1 flex flex-col">
               <Headline
