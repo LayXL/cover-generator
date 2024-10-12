@@ -24,29 +24,34 @@ export const create = privateProcedure
   )
   .mutation(async ({ input, ctx }) => {
     const isPremium = await checkIsUserPremium(ctx.user.id)
-    const projcetsCount = await db
-      .select({ count: count() })
-      .from(projects)
-      .where(eq(projects.authorId, ctx.user.id))
-      .then(returnFirst)
-      .then((res) => res?.count ?? 0)
 
-    if (!isPremium && projcetsCount >= MAX_CREATED_PROJECTS) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "You have reached the maximum number of projects",
-      })
-    }
+    const project = await db.transaction(async (tx) => {
+      const project = await tx
+        .insert(projects)
+        .values({
+          authorId: ctx.user.id,
+          title: input?.title,
+          data: {},
+        })
+        .returning()
+        .then(returnFirst)
 
-    const project = await db
-      .insert(projects)
-      .values({
-        authorId: ctx.user.id,
-        title: input?.title,
-        data: {},
-      })
-      .returning()
-      .then(returnFirst)
+      const projectsCount = await db
+        .select({ count: count() })
+        .from(projects)
+        .where(eq(projects.authorId, ctx.user.id))
+        .then(returnFirst)
+        .then((res) => res?.count ?? 0)
 
-    return project as NonNullable<typeof project>
+      if (!isPremium && projectsCount > MAX_CREATED_PROJECTS) {
+        tx.rollback()
+        return false
+      }
+
+      return project
+    })
+
+    if (project) return project as NonNullable<typeof project>
+
+    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" })
   })
