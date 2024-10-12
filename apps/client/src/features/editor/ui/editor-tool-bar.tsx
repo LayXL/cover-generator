@@ -475,6 +475,8 @@ export const EditorToolBar = () => {
                     children={t("choose-image-button")}
                     size="m"
                     onChange={({ target: { files } }) => {
+                      if (files?.[0].type.includes("video")) return
+
                       imageUpload.mutate({ file: files?.[0] })
                     }}
                     loading={imageUpload.isPending}
