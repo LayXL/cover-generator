@@ -484,7 +484,8 @@ export const EditorToolBar = () => {
             )}
 
             {selectedItems.root === "icon" &&
-              selectedItems.icon === "icons" && (
+              selectedItems.icon === "icons" &&
+              selectedItems.icons && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <FormItem top={t("icon-size-slider-caption")}>
                     <Debounce
@@ -496,6 +497,7 @@ export const EditorToolBar = () => {
                     >
                       {({ current, set }) => (
                         <Slider
+                          key={currentCover?.icon?.category}
                           min={16}
                           max={128}
                           step={1}
