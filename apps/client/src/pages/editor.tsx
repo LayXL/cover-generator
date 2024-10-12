@@ -205,7 +205,10 @@ export default function Editor() {
                       setTrans(Trans.TO_EDITOR)
                     }}
                     onDownload={() => downloadCover(cover)}
-                    onDuplicate={() =>
+                    onDuplicate={() => {
+                      if (!premium.data?.isPremium && covers.length >= 4)
+                        return premiumModal.open()
+
                       addCover(
                         {
                           ...cover,
@@ -213,7 +216,7 @@ export default function Editor() {
                         },
                         i + 1
                       )
-                    }
+                    }}
                     onDelete={() => deleteCover(i)}
                     onCopyStyles={(styles) => copy(cover, styles)}
                     onPasteStyles={canPaste ? () => paste(i) : undefined}
@@ -240,7 +243,13 @@ export default function Editor() {
               />
               <MiniInfoCell
                 before={<Icon20GlobeOutline />}
-                children={<Link children="ducks.layxl.dev" />}
+                children={
+                  <Link
+                    children="ducks.layxl.dev"
+                    href="https://ducks.layxl.dev"
+                    target="_blank"
+                  />
+                }
               />
               <MiniInfoCell
                 mode="add"
@@ -253,7 +262,7 @@ export default function Editor() {
                 children={"Подробная информация"}
               />
               <div className="px-3">
-                <ButtonGroup stretched>
+                <ButtonGroup stretched className="pointer-events-none">
                   <Button
                     stretched
                     size="m"

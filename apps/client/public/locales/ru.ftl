@@ -115,8 +115,8 @@ save-action = Сохранить
 rename-project-title = Изменить название проекта
 
 premium-modal-title = Приобретите премиум
-premium-modal-more-projects-subtitle = Для добавления большего количества проектов, требуется премиум
-premium-modal-more-covers-subtitle = Для добавления большего количества обложек, требуется премиум
+premium-modal-more-projects-subtitle = Для добавления большего количества проектов требуется премиум
+premium-modal-more-covers-subtitle = Для добавления большего количества обложек требуется премиум
 premium-modal-button = Приобрести
 
 premium-page-title = Премиум
