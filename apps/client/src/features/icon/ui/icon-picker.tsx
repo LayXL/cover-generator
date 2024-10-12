@@ -33,7 +33,7 @@ export const IconPicker = (props: IconPickerProps) => {
   })
 
   return (
-    <div className="px-3 overflow-scroll grid grid-rows-1 grid-flow-col gap-2 justify-start [@media(min-height:680px)]:grid-rows-2 [@media(min-height:720px)]:grid-rows-3 [@media(min-height:790px)]:grid-rows-4">
+    <div className="px-3 overflow-scroll grid grid-rows-1 grid-flow-col gap-2 justify-start [@media(min-height:680px)]:grid-rows-2 [@media(min-height:760px)]:grid-rows-3 [@media(min-height:800px)]:grid-rows-4">
       <IconCard
         category={"icon"}
         name={"minus"}
