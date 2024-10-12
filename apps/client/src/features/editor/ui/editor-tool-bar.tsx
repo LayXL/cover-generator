@@ -470,7 +470,7 @@ export const EditorToolBar = () => {
                 children={t("background-image-placeholder.caption")}
                 action={
                   <File
-                    accept="image/jpeg,image/png,image/webp"
+                    accept="image/*"
                     before={<Icon28UploadOutline />}
                     children={t("choose-image-button")}
                     size="m"

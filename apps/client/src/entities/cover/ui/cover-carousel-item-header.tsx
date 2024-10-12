@@ -72,6 +72,7 @@ export const CoverCarouselItemHeader = (
       </div>
       {removeConfirmationModal.isOpened && (
         <Alert
+          className="z-50"
           header={t("confirm-delete-cover-title")}
           text={t("confirm-delete-cover-text")}
           onClose={removeConfirmationModal.close}

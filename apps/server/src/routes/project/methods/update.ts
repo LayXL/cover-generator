@@ -4,7 +4,7 @@ import { db } from "drizzle"
 import { and, eq, inArray } from "drizzle-orm"
 import { media, projects } from "drizzle/db/schema"
 import { returnFirst } from "shared/returnFirst"
-import { projectSchema } from "shared/types"
+import { type Project, projectSchema } from "shared/types"
 import { z } from "zod"
 import { privateProcedure } from "../../../trpc"
 import { escapePath } from "../../../utils/escapePath"
@@ -46,18 +46,20 @@ export const update = privateProcedure
       where: (table) => eq(table.projectId, project.id),
     })
 
-    const projectData = JSON.stringify(project.data)
+    if ((project.data as Project).covers.length > 0) {
+      const projectData = JSON.stringify(project.data)
 
-    const notUsedMedia = mediaInProject
-      .filter((media) => !projectData.includes(media.uuid))
-      .map((media) => media.uuid)
+      const notUsedMedia = mediaInProject
+        .filter((media) => !projectData.includes(media.uuid))
+        .map((media) => media.uuid)
 
-    for (const uuid of notUsedMedia) {
-      unlink(`./images/${escapePath(uuid)}.webp`, () => {})
+      for (const uuid of notUsedMedia) {
+        unlink(`./images/${escapePath(uuid)}.webp`, () => {})
+      }
+
+      if (notUsedMedia.length > 0)
+        await db.delete(media).where(inArray(media.uuid, notUsedMedia))
     }
-
-    if (notUsedMedia.length > 0)
-      await db.delete(media).where(inArray(media.uuid, notUsedMedia))
 
     return project
   })

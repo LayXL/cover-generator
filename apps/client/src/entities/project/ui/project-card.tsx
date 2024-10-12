@@ -123,6 +123,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
 
       {deleteConfirmModal.isOpened && (
         <Alert
+          className="z-50"
           header={t("confirm-delete-project-title")}
           text={t("confirm-delete-project-text")}
           onClose={deleteConfirmModal.close}
