@@ -34,7 +34,9 @@ export const CoverCarouselItemHeader = (
       <Input
         placeholder={t("untitled-cover-placeholder")}
         value={props.title}
-        onChange={({ target: { value } }) => props.onChangeTitle?.(value)}
+        onChange={({ target: { value } }) =>
+          props.onChangeTitle?.(value.slice(0, 32))
+        }
       />
       {CAN_UNDO && (
         <div className="flex gap-1.5">

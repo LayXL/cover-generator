@@ -3,7 +3,8 @@ import { useModalState } from "@/shared/hooks/use-modal-state"
 import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
 import { Pressable } from "@/shared/ui/pressable"
-import { Headline } from "@/shared/ui/typography"
+import { Headline, Subhead } from "@/shared/ui/typography"
+import { createMaskGradient } from "@/shared/utils/createMaskGradient"
 import {
   Icon20More,
   Icon28DeleteOutline,
@@ -17,7 +18,6 @@ import {
   Div,
   FormItem,
   Input,
-  Subhead,
 } from "@vkontakte/vkui"
 import { DateTime } from "luxon"
 import { useEffect, useRef, useState } from "react"
@@ -59,7 +59,12 @@ export const ProjectCard = (props: ProjectCardProps) => {
             )}
           </div>
           <div className="flex">
-            <div className="flex-1 flex flex-col">
+            <div
+              className="flex-1 overflow-hidden flex flex-col relative"
+              style={{
+                maskImage: createMaskGradient(90, 0.9),
+              }}
+            >
               <Headline
                 className="line-clamp-1"
                 children={props.title ?? t("untitled-project-placeholder")}
@@ -69,7 +74,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
                 children={DateTime.fromJSDate(props.updatedAt).toRelative()}
               />
             </div>
-            <span className="relative">
+            <div className="relative">
               <Icon20More className="text-inversed/30" />
               <div
                 ref={moreButtonRef}
@@ -79,7 +84,7 @@ export const ProjectCard = (props: ProjectCardProps) => {
                   moreModal.open()
                 }}
               />
-            </span>
+            </div>
           </div>
         </div>
       </Pressable>

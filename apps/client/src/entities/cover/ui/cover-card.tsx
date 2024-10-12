@@ -5,6 +5,7 @@ import { Header } from "@/shared/ui/header"
 import { Modal } from "@/shared/ui/modal"
 import { Caption, Subhead } from "@/shared/ui/typography"
 import { cn } from "@/shared/utils/cn"
+import { createMaskGradient } from "@/shared/utils/createMaskGradient"
 import { FloatingPortal } from "@floating-ui/react"
 import {
   Icon20More,
@@ -73,6 +74,9 @@ export const CoverCard = (props: CoverCardProps) => {
           {mode === "default" && (
             <>
               <Subhead
+                style={{
+                  maskImage: createMaskGradient(90, 0.9),
+                }}
                 className={"text-primary/30 flex-1 line-clamp-1"}
                 children={
                   props.title && props.title?.length !== 0
@@ -93,8 +97,13 @@ export const CoverCard = (props: CoverCardProps) => {
           )}
           {mode === "preview" && (
             <Caption
+              style={{
+                maskImage: createMaskGradient(90, 0.9),
+              }}
               level={1}
-              className={"font-medium flex-1 line-clamp-1 text-center pt-1.5"}
+              className={
+                "font-medium flex-1 line-clamp-1 text-center pt-1.5 w-32"
+              }
               children={
                 props.title && props.title?.length !== 0
                   ? props.title

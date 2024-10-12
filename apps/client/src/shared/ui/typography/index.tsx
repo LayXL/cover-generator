@@ -1,9 +1,10 @@
 import { cn } from "@/shared/utils/cn"
-import { type ReactNode, memo } from "react"
+import { type CSSProperties, type ReactNode, memo } from "react"
 import { useTranslation } from "react-i18next"
 
 export type TypographyProps = {
   className?: string
+  style?: CSSProperties
 } & (
   | {
       i18nKey?: string
@@ -23,7 +24,11 @@ export const Typography = memo((props: TypographyProps) => {
         ? t(props.i18nKey, props.i18nOptions)
         : undefined
 
-  return <p className={cn(props.className)}>{children}</p>
+  return (
+    <p className={cn(props.className)} style={props.style}>
+      {children}
+    </p>
+  )
 })
 
 export { Caption } from "./caption"
