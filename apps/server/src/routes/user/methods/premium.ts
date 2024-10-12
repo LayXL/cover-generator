@@ -1,3 +1,4 @@
+import { MAX_CREATED_PROJECTS } from "../../.."
 import { privateProcedure } from "../../../trpc"
 import { checkIsUserPremium } from "../lib/checkIsUserPremium"
 
@@ -6,6 +7,8 @@ export const premium = privateProcedure.query(async ({ ctx }) => {
 
   return {
     isPremium,
-    maxCreatedProjects: isPremium ? Number.MAX_SAFE_INTEGER : 2,
+    maxCreatedProjects: isPremium
+      ? Number.MAX_SAFE_INTEGER
+      : MAX_CREATED_PROJECTS,
   }
 })

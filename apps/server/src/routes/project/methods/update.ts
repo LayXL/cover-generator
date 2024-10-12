@@ -8,6 +8,7 @@ import { projectSchema } from "shared/types"
 import { z } from "zod"
 import { privateProcedure } from "../../../trpc"
 import { escapePath } from "../../../utils/escapePath"
+import { checkIsUserPremium } from "../../user/lib/checkIsUserPremium"
 
 export const update = privateProcedure
   .input(
@@ -18,6 +19,16 @@ export const update = privateProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
+    const isPremium = await checkIsUserPremium(ctx.user.id)
+    const coversCount = input.data?.covers.length ?? 0
+
+    if (!isPremium && coversCount > 4) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "You can't add more covers",
+      })
+    }
+
     const project = await db
       .update(projects)
       .set({

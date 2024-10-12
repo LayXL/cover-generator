@@ -8,6 +8,8 @@ import { images } from "./images"
 import { router } from "./routes"
 import { vkPayments } from "./vkPayments"
 
+export const MAX_CREATED_PROJECTS = 2
+
 export const app = new Elysia()
   .use(cors())
   // TODO: workaround for https://github.com/elysiajs/eden/issues/18
