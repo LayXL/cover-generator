@@ -522,7 +522,7 @@ export const EditorToolBar = () => {
               )}
 
             {selectedItems.root === "text" && selectedItems.text === "size" && (
-              <FormItem top={t("icon-size-slider-caption")}>
+              <FormItem top={t("text-size-slider-caption")}>
                 <Debounce
                   delay={1}
                   value={currentCover?.text?.fontSize}

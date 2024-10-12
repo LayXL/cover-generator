@@ -57,6 +57,8 @@ color-tab-title = Цвет
 icon-color-modal-title = Цвет иконки
 text-color-modal-title = Цвет текста
 
+text-size-slider-caption = Размер текста
+
 cover-text-input-placeholder = Начните вводить текст
 clear-text-button = Очистить текст
 
