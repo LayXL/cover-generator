@@ -139,3 +139,7 @@ preview-screen-community-title = Ваше сообщество
 
 buy-premium-button = Приобрести
 not-supported-platfrom-warning = Эта платформа не поддерживается для оплаты премиум
+
+confirm-delete-cover-title = Вы уверены, что хотите удалить обложку?
+confirm-delete-cover-text = Это действие нельзя отменить
+confirm-delete-cover-action = Да, удалить
