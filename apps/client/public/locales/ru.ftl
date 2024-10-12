@@ -19,6 +19,8 @@ duplicate-cover-button = Дублировать обложку
 copy-cover-styles-button = Скопировать стили
 paste-cover-styles-button = Вставить стили
 
+copy-cover-styles-title = Копирование стилей
+
 copy-cover-styles-background-label = Фон
 copy-cover-styles-icon-label = Стиль иконки
 copy-cover-styles-text-label = Стиль текста

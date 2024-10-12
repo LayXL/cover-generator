@@ -5,6 +5,59 @@ import { getImage } from "./getImage"
 
 const icons: Record<string, HTMLImageElement> = {}
 
+function wrapText(
+  context: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+  lineHeight: number
+): number {
+  const words = text.split(" ")
+  let line = ""
+  let totalHeight = 0
+
+  const lines: string[] = []
+
+  for (let i = 0; i < words.length; i++) {
+    let testLine = `${line + words[i]} `
+    let testWidth = context.measureText(testLine).width
+
+    if (context.measureText(words[i]).width > maxWidth) {
+      for (let j = 0; j < words[i].length; j++) {
+        testLine = line + words[i][j]
+        testWidth = context.measureText(testLine).width
+
+        if (testWidth > maxWidth && line !== "") {
+          lines.push(line)
+          line = words[i][j]
+          totalHeight += lineHeight
+        } else {
+          line = testLine
+        }
+      }
+      line += " "
+    } else if (testWidth > maxWidth && i > 0) {
+      lines.push(line)
+      line = `${words[i]} `
+      totalHeight += lineHeight
+    } else {
+      line = testLine
+    }
+  }
+
+  lines.push(line)
+  totalHeight += lineHeight
+
+  const startY = y - totalHeight / 2 + lineHeight / 2
+
+  for (let i = 0; i < lines.length; i++) {
+    context.fillText(lines[i], x, startY + i * lineHeight)
+  }
+
+  return totalHeight
+}
+
 export const buildCover = async (
   canvas: HTMLCanvasElement,
   cover: DeepPartial<Cover>,
@@ -23,11 +76,9 @@ export const buildCover = async (
 
   if (cover.background) await fillBackground(canvas, cover.background)
 
-  if (
-    cover.text?.value &&
-    cover.text.value.length > 0
-    // document.fonts.check(`${fontSize}px ${cover.text.fontFamily}`)
-  ) {
+  let textHeight = 0
+
+  if (cover.text?.value && cover.text.value.length > 0) {
     ctx.fillStyle = cover.text.color ?? "#000"
     ctx.font = `${fontSize}px ${cover.text.fontFamily}, sans-serif`
     ctx.textAlign = "center"
@@ -35,16 +86,23 @@ export const buildCover = async (
 
     const offset = cover.icon?.name ? iconSize / 2 + toRelativePx(4) : 0
 
-    const top = canvas.height / 2 + offset
     const left = canvas.width / 2
+    const top = canvas.height / 2 + offset
 
-    ctx.fillText(cover.text.value, left, top)
+    textHeight = wrapText(
+      ctx,
+      cover.text.value,
+      left,
+      top,
+      canvas.width,
+      fontSize + toRelativePx(4)
+    )
   }
 
   if (cover.icon?.name) {
     const offset =
       cover.text?.value && cover.text.value.length > 0
-        ? fontSize / 2 + toRelativePx(4)
+        ? textHeight / 2 + toRelativePx(4)
         : 0
 
     const top = canvas.height / 2 - iconSize / 2 - offset
