@@ -17,7 +17,7 @@ function wrapText(
   let line = ""
   let totalHeight = 0
 
-  const lines: string[] = []
+  let lines: string[] = []
 
   for (let i = 0; i < words.length; i++) {
     let testLine = `${line + words[i]} `
@@ -51,8 +51,10 @@ function wrapText(
 
   const startY = y - totalHeight / 2 + lineHeight / 2
 
+  lines = lines.join("\n").split("\n")
+
   for (let i = 0; i < lines.length; i++) {
-    context.fillText(lines[i], x, startY + i * lineHeight)
+    context.fillText(lines[i].trim(), x, startY + i * lineHeight)
   }
 
   return totalHeight

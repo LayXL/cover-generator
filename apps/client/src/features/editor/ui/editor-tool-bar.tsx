@@ -35,9 +35,9 @@ import {
   File,
   FormItem,
   IconButton,
-  Input,
   Placeholder,
   Slider,
+  Textarea,
 } from "@vkontakte/vkui"
 import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
@@ -338,7 +338,7 @@ export const EditorToolBar = () => {
                   animate={{ scale: 1, opacity: 100 }}
                   transition={{ ease: CUBIC_BEZIER }}
                 >
-                  <Input
+                  <Textarea
                     placeholder={t("cover-text-input-placeholder")}
                     value={currentCover?.text?.value ?? ""}
                     onChange={({ target: { value } }) => {

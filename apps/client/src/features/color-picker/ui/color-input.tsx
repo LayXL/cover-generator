@@ -41,15 +41,16 @@ export const ColorInput = (props: ColorInputProps) => {
     [props.onChange]
   )
 
-  const onClick = useCallback(() => {
-    if (props.isOpeningColorPicker) return
-    colorPickerModal.open()
-  }, [props.isOpeningColorPicker, colorPickerModal])
-
   return (
     <>
       {props.useVKUI && (
-        <Input value={`#${value}`} onChange={onChange} onClick={onClick} />
+        <Input
+          value={`#${value}`}
+          onChange={onChange}
+          onClick={
+            props.isOpeningColorPicker ? colorPickerModal.open : undefined
+          }
+        />
       )}
       {!props.useVKUI && (
         <input
@@ -60,11 +61,13 @@ export const ColorInput = (props: ColorInputProps) => {
           )}
           value={`#${value}`}
           onChange={onChange}
-          onClick={onClick}
+          onClick={
+            props.isOpeningColorPicker ? colorPickerModal.open : undefined
+          }
         />
       )}
       {props.isOpeningColorPicker && (
-        <Modal {...colorPickerModal}>
+        <Modal {...colorPickerModal} fullscreen>
           <Header
             title={t("pick-color-modal-title")}
             after={
@@ -78,9 +81,13 @@ export const ColorInput = (props: ColorInputProps) => {
           />
           <ColorPickerModal
             color={`#${value}`}
-            onChange={(color) => {
+            onChange={(value) => {
+              colorPickerModal.close()
+
               setValue(value.replaceAll("#", "").toLocaleUpperCase())
-              props.onChange?.(`#${color}`)
+              props.onChange?.(
+                `#${value.replaceAll("#", "").toLocaleUpperCase()}`
+              )
             }}
           />
         </Modal>

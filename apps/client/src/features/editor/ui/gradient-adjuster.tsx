@@ -14,7 +14,7 @@ export const GradientAdjuster = (props: GradientAdjusterProps) => {
         <motion.div
           className="size-full"
           animate={{
-            background: `linear-gradient(-90deg, ${props.colors.join(", ")})`,
+            background: `linear-gradient(90deg, ${props.colors.join(", ")})`,
           }}
         />
       </div>
