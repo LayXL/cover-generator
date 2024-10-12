@@ -201,6 +201,8 @@ export const EditorToolBar = () => {
               title: t("background-image-stretch-title"),
               icon: <Icon28BracketsSquareOutline />,
               onSelect: () => {
+                if (currentCover?.background.type !== "image") return
+
                 updateCurrentCover({
                   background: { type: "image", style: "stretch" },
                 })
@@ -211,6 +213,8 @@ export const EditorToolBar = () => {
               title: t("background-image-cover-title"),
               icon: <Icon28VideoFillOutline />,
               onSelect: () => {
+                if (currentCover?.background.type !== "image") return
+
                 updateCurrentCover({
                   background: { type: "image", style: "cover" },
                 })
