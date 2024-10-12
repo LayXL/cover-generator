@@ -12,7 +12,13 @@ export const create = privateProcedure
   .input(
     z
       .object({
-        title: z.string().optional(),
+        title: z
+          .string()
+          .min(3)
+          .max(100)
+          .transform((title) => (title.trim().length > 0 ? title : null))
+          .optional()
+          .nullable(),
       })
       .default({})
   )

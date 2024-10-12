@@ -10,7 +10,13 @@ export const rename = privateProcedure
   .input(
     z.object({
       id: z.number(),
-      title: z.string().optional().nullable(),
+      title: z
+        .string()
+        .min(3)
+        .max(100)
+        .transform((title) => (title.trim().length > 0 ? title : null))
+        .optional()
+        .nullable(),
     })
   )
   .mutation(async ({ ctx, input }) => {
