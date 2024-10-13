@@ -36,7 +36,7 @@ export const create = privateProcedure
         .returning()
         .then(returnFirst)
 
-      const projectsCount = await db
+      const projectsCount = await tx
         .select({ count: count() })
         .from(projects)
         .where(eq(projects.authorId, ctx.user.id))
