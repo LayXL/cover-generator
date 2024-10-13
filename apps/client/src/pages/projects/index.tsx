@@ -1,6 +1,8 @@
 import { Header } from "@/shared/ui/header"
 import { Screen } from "@/shared/ui/screen"
 import { trpc } from "@/shared/utils/trpc"
+import bridge, { BannerAdLocation } from "@vkontakte/vk-bridge"
+import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { BottomProjectsBar } from "./components/bottom-projects-bar"
 import { LoadingProjectsErrorPlaceholder } from "./components/loading-projects-error-placeholder"
@@ -15,6 +17,17 @@ export const Projects = () => {
   const projects = trpc.project.getMany.useQuery()
 
   useClearProject()
+
+  useEffect(() => {
+    bridge.send("VKWebAppShowBannerAd", {
+      banner_location: BannerAdLocation.BOTTOM,
+      can_close: true,
+    })
+
+    return () => {
+      bridge.send("VKWebAppHideBannerAd")
+    }
+  }, [])
 
   return (
     <Screen className="pb-safe-area-bottom max-h-screen">
