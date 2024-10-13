@@ -26,6 +26,18 @@ export const create = privateProcedure
     const isPremium = await checkIsUserPremium(ctx.user.id)
 
     const project = await db.transaction(async (tx) => {
+      const projectsCount = await tx
+        .select({ count: count() })
+        .from(projects)
+        .where(eq(projects.authorId, ctx.user.id))
+        .then(returnFirst)
+        .then((res) => res?.count ?? 0)
+
+      if (!isPremium && projectsCount >= MAX_CREATED_PROJECTS) {
+        tx.rollback()
+        return null
+      }
+
       const project = await tx
         .insert(projects)
         .values({
@@ -36,22 +48,22 @@ export const create = privateProcedure
         .returning()
         .then(returnFirst)
 
-      const projectsCount = await tx
-        .select({ count: count() })
-        .from(projects)
-        .where(eq(projects.authorId, ctx.user.id))
-        .then(returnFirst)
-        .then((res) => res?.count ?? 0)
-
-      if (!isPremium && projectsCount > MAX_CREATED_PROJECTS) {
-        tx.rollback()
-        return false
-      }
-
       return project
     })
 
-    if (project) return project as NonNullable<typeof project>
+    if (!project) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" })
 
-    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" })
+    const projectsCount = await db
+      .select({ count: count() })
+      .from(projects)
+      .where(eq(projects.authorId, ctx.user.id))
+      .then(returnFirst)
+      .then((res) => res?.count ?? 0)
+
+    if (!isPremium && projectsCount > MAX_CREATED_PROJECTS) {
+      await db.delete(projects).where(eq(projects.id, project?.id))
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" })
+    }
+
+    return project as NonNullable<typeof project>
   })

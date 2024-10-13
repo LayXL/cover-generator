@@ -3,7 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run --env-file=../../.env --watch src/index.ts"
+    "dev": "bun run --env-file=../../.env --watch src/index.ts",
+    "test": "bun run --env-file=../../.env src/test.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",

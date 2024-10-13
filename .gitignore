@@ -176,3 +176,5 @@ dist
 
 .VSCodeCounter
 .env.sentry-build-plugin
+
+.turbo
