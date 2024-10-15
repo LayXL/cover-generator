@@ -17,7 +17,6 @@ import { useAutoAnimate } from "@formkit/auto-animate/react"
 import { skipToken } from "@tanstack/react-query"
 import {
   Icon20FollowersOutline,
-  Icon20GlobeOutline,
   Icon20HelpOutline,
   Icon20Info,
   Icon24Add,
@@ -34,7 +33,6 @@ import {
   Button,
   ButtonGroup,
   IconButton,
-  Link,
   MiniInfoCell,
   ModalCardBase,
   Placeholder,
@@ -241,7 +239,7 @@ export default function Editor() {
                 after={<UsersStack photos={["", "", ""]} />}
                 children={"514,7K подписчиков · 77 друзей"}
               />
-              <MiniInfoCell
+              {/* <MiniInfoCell
                 before={<Icon20GlobeOutline />}
                 children={
                   <Link
@@ -250,7 +248,7 @@ export default function Editor() {
                     target="_blank"
                   />
                 }
-              />
+              /> */}
               <MiniInfoCell
                 mode="add"
                 before={<Icon20HelpOutline />}
