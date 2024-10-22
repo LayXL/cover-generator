@@ -15,7 +15,7 @@ import type { ReactNode } from "react"
 import { isIOS } from "react-device-detect"
 import { useTranslation } from "react-i18next"
 
-const Feature = (props: {
+export const Feature = (props: {
   icon: ReactNode
   title: string
   subtitle: string
