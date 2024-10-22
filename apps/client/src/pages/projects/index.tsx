@@ -21,24 +21,17 @@ export const Projects = () => {
   useClearProject()
 
   useEffect(() => {
-    if (!premium.data?.isPremium) {
-      bridge
-        .send("VKWebAppShowBannerAd", {
-          banner_location: BannerAdLocation.TOP,
-          can_close: true,
-        })
-        .catch(() => {
-          bridge.send("VKWebAppShowBannerAd", {
-            banner_location: BannerAdLocation.BOTTOM,
-            can_close: true,
-          })
-        })
+    if (!premium.data?.isPremium && premium.isSuccess) {
+      bridge.send("VKWebAppShowBannerAd", {
+        banner_location: BannerAdLocation.BOTTOM,
+        can_close: true,
+      })
     } else bridge.send("VKWebAppHideBannerAd")
 
     return () => {
       bridge.send("VKWebAppHideBannerAd")
     }
-  }, [premium.data?.isPremium])
+  }, [premium.data?.isPremium, premium.isSuccess])
 
   return (
     <Screen className="pb-safe-area-bottom max-h-screen">
