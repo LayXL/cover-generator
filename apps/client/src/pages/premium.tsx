@@ -4,6 +4,7 @@ import { Screen } from "@/shared/ui/screen"
 import { Text } from "@/shared/ui/typography"
 import { trpc } from "@/shared/utils/trpc"
 import {
+  Icon28BlockOutline,
   Icon28DocumentOutline,
   Icon28PictureStackOutline,
   Icon56DiamondOutline,
@@ -67,6 +68,14 @@ export const Premium = () => {
             icon={<Icon28PictureStackOutline />}
             title={t("premium-more-covers-feature-title")}
             subtitle={t("premium-more-covers-feature-subtitle")}
+          />
+        </Group>
+
+        <Group>
+          <Feature
+            icon={<Icon28BlockOutline />}
+            title={t("premium-no-ads-feature-title")}
+            subtitle={t("premium-no-ads-feature-subtitle")}
           />
         </Group>
       </div>

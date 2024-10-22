@@ -135,6 +135,9 @@ premium-more-projects-feature-subtitle = Создавайте новые про�
 premium-more-covers-feature-title = Добавляйте больше обложек в проекты
 premium-more-covers-feature-subtitle = Насыщайте свои сообщества большим количеством пунктов в меню
 
+premium-no-ads-feature-title = Без рекламы
+premium-no-ads-feature-subtitle = Реклама будет отключена в приложении
+
 preview-screen-community-title = Ваше сообщество
 
 buy-premium-button = Приобрести

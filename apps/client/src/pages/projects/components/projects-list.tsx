@@ -28,7 +28,7 @@ export const ProjectsList = (props: ProjectsListProps) => {
   return (
     <div
       className={cn(
-        "grid gap-2 w-full max-w-screen-md mx-auto px-4 content-start flex-1 overflow-scroll",
+        "grid gap-2 w-full max-w-screen-md mx-auto px-4 content-start flex-1 overflow-scroll overscroll-contain",
         "grid-cols-1 xs:grid-cols-2",
         props.data.length > 3 && "grid-cols-2 sm:grid-cols-3"
       )}
