@@ -44,7 +44,7 @@ export const vkPayments = new Elysia().post(
       case "get_item_test":
         response = {
           title: "Premium",
-          price: 100,
+          price: 20,
           item_id: "premium",
           expiration: 0,
         }
